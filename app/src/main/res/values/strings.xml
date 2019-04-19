@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name" translatable="false">BookVibez</string>
+    <string name="title_welcome">Welcome! this will only appear at lunching</string>
+    <string name="title_list">List View</string>
+    <string name="title_map_view">Map View</string>
+    <string name="title_profile">Profile</string>
+</resources>
