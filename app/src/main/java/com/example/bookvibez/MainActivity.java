@@ -23,9 +23,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /*
-     * implementation of the listener to the bottom navigation menu.
-     */
+
+    /* implementation of the listener to the bottom navigation menu */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
