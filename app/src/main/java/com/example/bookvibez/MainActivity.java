@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new MapFragment();
                     break;
                 case R.id.navigation_list:
-                    fragment = new ListFragment();
+                    fragment = new ListOfBooks();
                     break;
                 case R.id.navigation_profile:
                     fragment = new ProfileFragment();
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         if (fragment != null) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.fragment_container, fragment)
+                    .replace(R.id.main_fragment_container, fragment)
                     .commit();
             return true;
         }

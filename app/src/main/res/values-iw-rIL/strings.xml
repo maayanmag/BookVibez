@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">BookVibez</string>
-    <string name="title_welcome">ברוכים הבאים! השורה הזו מופיעה רק בכניסה לאפליקציה</string>
-    <string name="title_list">רשימה</string>
-    <string name="title_map_view">מפה</string>
-    <string name="title_profile">פרופיל</string>
-</resources>
