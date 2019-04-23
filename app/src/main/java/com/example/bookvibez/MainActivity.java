@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         //getting bottom navigation view and attaching the listener
-        BottomNavigationView navView = findViewById(R.id.navigation);
+        navView = findViewById(R.id.navigation);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
      * @param fragment - a Fragment typed object
      * @return true if switched successfully.
      */
-    private boolean loadFragment(Fragment fragment) {
+    public boolean loadFragment(Fragment fragment) {
         //switching fragment
         if (fragment != null) {
             getSupportFragmentManager()
@@ -67,6 +67,14 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         return false;
+    }
+
+    public static void SetNavigationVisibiltity (boolean b) {
+        if (b) {
+            navView.setVisibility(BottomNavigationView.VISIBLE);
+        } else {
+            navView.setVisibility(BottomNavigationView.GONE);
+        }
     }
 
 
