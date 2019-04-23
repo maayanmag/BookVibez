@@ -1,8 +1,10 @@
 package com.example.bookvibez;
 
 import android.os.Bundle;
+import android.support.annotation.NavigationRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
@@ -19,11 +21,8 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(new WelcomeFragment());
 
 
-
-
-
         //getting bottom navigation view and attaching the listener
-        navView = findViewById(R.id.navigation);
+        BottomNavigationView navView = findViewById(R.id.navigation);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
@@ -69,13 +68,6 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    public static void SetNavigationVisibiltity (boolean b) {
-        if (b) {
-            navView.setVisibility(BottomNavigationView.VISIBLE);
-        } else {
-            navView.setVisibility(BottomNavigationView.GONE);
-        }
-    }
 
 
 }
