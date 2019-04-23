@@ -3,7 +3,7 @@
     <string name="title_welcome">Welcome! this will only appear at lunching</string>
     <string name="title_list">List View</string>
     <string name="title_map_view">Map View</string>
-    <string name="title_profile">Profile</string>
+    <string name="title_profile">My Profile</string>
 
     <string name="facebook_app_id">2563452213668183</string>
     <string name="fb_login_protocol_scheme">fb2563452213668183</string>
@@ -19,6 +19,18 @@
     <string name="login_failed">"Login failed"</string>
     <string name="book_name">Book Name</string>
     <string name="author">book_author</string>
+    <string name="profile_name">My Name:</string>
+    <string name="profile_vibez">My Vibez:</string>
+    <string name="profile_rank">Rank</string>
+    <string name="user_rank">135 VibePoints</string>
+    <string name="profile_current_books">My Books</string>
+    <string name="profile_history">Books I Read</string>
+    <string name="log_out">Log Out</string>
+    <string name="not_you">Not you?</string>
+
+    <string name="example_name">Steve Jobs</string>
+    <string name="example_vibez">Chillin is feelin</string>
+
     <string name="title_activity_splash">splashActivity</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="large_text">

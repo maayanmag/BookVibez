@@ -9,7 +9,6 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static BottomNavigationView navView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +17,10 @@ public class MainActivity extends AppCompatActivity {
 
         //loading the default fragment
         loadFragment(new WelcomeFragment());
+
+
+
+
 
         //getting bottom navigation view and attaching the listener
         navView = findViewById(R.id.navigation);

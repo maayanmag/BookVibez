@@ -31,7 +31,7 @@ public class splashActivity extends AppCompatActivity {
                 // todo: needs to be chanced to LoginActivity instead of MainActivity.
                 splashActivity.this.startActivity(intent);
             }
-        },3000); // the time delay for the splash screen
+        },2000); // the time delay for the splash screen
     }
 
 }
