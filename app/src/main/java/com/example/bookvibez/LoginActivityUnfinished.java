@@ -33,7 +33,7 @@ import java.util.Arrays;
 
 import static com.facebook.appevents.UserDataStore.EMAIL;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivityUnfinished extends AppCompatActivity implements View.OnClickListener {
 
     private CallbackManager callbackManager;
     private LoginButton fbloginButton;
