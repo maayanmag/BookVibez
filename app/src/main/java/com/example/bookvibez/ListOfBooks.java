@@ -47,9 +47,9 @@ public class ListOfBooks extends Fragment {
 
 
     /**
-     * the function handles the RecycleView object in fragment_list_layout.
+     * the function handles the RecycleView object in content_scrolling_list.
      * it defines the viewer and set a manager and an adapter to it.
-     * @param view - current view (fragment_list_layout)
+     * @param view - current view (content_scrolling_list)
      */
     private void handlingRecycleViewer(View view){
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
@@ -72,23 +72,21 @@ public class ListOfBooks extends Fragment {
      * this function replaces the layout to a book page layout in case some book was clicked in the list
      */
     private void loadBookPageFragment() {
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction frag_trans = null;
-        if (manager != null) {
-            frag_trans = manager.beginTransaction();
         BookPageFragment bookPage = new BookPageFragment();
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction frag_trans = getActivity().getSupportFragmentManager().beginTransaction();;
+        frag_trans = manager.beginTransaction();
         frag_trans.addToBackStack("ListView");  // enables to press "return" and go back to the list view
         frag_trans.hide(ListOfBooks.this);
-        frag_trans.add(android.R.id.content, bookPage);
+        frag_trans.replace(android.R.id.content, bookPage);
         frag_trans.commit();
-        }
     }
 
 
     /**
-     * the function handles the Add floating button object in fragment_list_layout.
+     * the function handles the Add floating button object in content_scrolling_list.
      * it defines a listener.
-     * @param view - current view (fragment_list_layout)
+     * @param view - current view (content_scrolling_list)
      */
     private void handlingAddBookButton(View view){
         FloatingActionButton fabAdd = (FloatingActionButton) view.findViewById(R.id.addBookFloatingBottom);
@@ -125,6 +123,10 @@ public class ListOfBooks extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
     }
+
+
+
+
 
 }
 
