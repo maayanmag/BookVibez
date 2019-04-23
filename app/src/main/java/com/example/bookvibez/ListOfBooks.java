@@ -6,15 +6,14 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -23,11 +22,11 @@ import java.util.List;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
-public class ListOfBooks extends Fragment implements OnItemClickListener {
+public class ListOfBooks extends Fragment {
 
     private List<BookItem> booksList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private BooksAdapter mAdapter;
+    private BooksRecyclerAdapter mAdapter;
 
     @Nullable
     @Override
@@ -35,18 +34,63 @@ public class ListOfBooks extends Fragment implements OnItemClickListener {
 
         View view = inflater.inflate(R.layout.fragment_list_layout, null);
 
-        //booksList = BookItem.getBooks();
-        booksList = random_books();
+        booksList = random_books(); //TODO - will be replaced when connecting to FireBase
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new BooksAdapter(booksList);
-        recyclerView.setAdapter(mAdapter);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-
+        /* handling RecyclerView object in layout */
+        handlingRecycleViewer(view);
 
         /* handling click on "addBook" button */
+        handlingAddBookButton(view);
+
+        return view;
+    }
+
+
+    /**
+     * the function handles the RecycleView object in fragment_list_layout.
+     * it defines the viewer and set a manager and an adapter to it.
+     * @param view - current view (fragment_list_layout)
+     */
+    private void handlingRecycleViewer(View view){
+        recyclerView = (RecyclerView) view.findViewById(R.id.list);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+
+        recyclerView.setAdapter(new BooksRecyclerAdapter(booksList, new BooksRecyclerAdapter.OnItemClickListener() {
+            @Override public void onItemClick(BookItem book) {
+                String toShow = "Item with id " + book.getId() + " clicked";
+                Toast.makeText(getContext(), toShow, Toast.LENGTH_LONG).show();
+                loadBookPageFragment();
+            }
+        }));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+    }
+
+
+    /**
+     * this function replaces the layout to a book page layout in case some book was clicked in the list
+     */
+    private void loadBookPageFragment() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction frag_trans = null;
+        if (manager != null) {
+            frag_trans = manager.beginTransaction();
+        BookPageFragment bookPage = new BookPageFragment();
+        frag_trans.addToBackStack("ListView");  // enables to press "return" and go back to the list view
+        frag_trans.hide(ListOfBooks.this);
+        frag_trans.add(android.R.id.content, bookPage);
+        frag_trans.commit();
+        }
+    }
+
+
+    /**
+     * the function handles the Add floating button object in fragment_list_layout.
+     * it defines a listener.
+     * @param view - current view (fragment_list_layout)
+     */
+    private void handlingAddBookButton(View view){
         FloatingActionButton fabAdd = (FloatingActionButton) view.findViewById(R.id.addBookFloatingBottom);
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,10 +99,10 @@ public class ListOfBooks extends Fragment implements OnItemClickListener {
                         .setAction("Action", null).show();
             }
         });
-
-        return view;
     }
 
+
+    /* temporary function to load data into booksList, will be deleted when we have a database */
     private List<BookItem> random_books() {
         List<BookItem> l = new ArrayList<>();
         BookItem b1 = new BookItem(1,"book1", "author1");
@@ -75,16 +119,13 @@ public class ListOfBooks extends Fragment implements OnItemClickListener {
     }
 
 
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Toast.makeText(getActivity(), "Item: " + position, Toast.LENGTH_SHORT).show();
-    }
 }
 
 

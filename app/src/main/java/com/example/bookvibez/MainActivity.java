@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
-    /*
+    /**
      * this method is switching fragments.
      * @param fragment - a Fragment typed object
      * @return true if switched successfully.
