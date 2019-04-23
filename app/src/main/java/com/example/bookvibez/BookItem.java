@@ -1,5 +1,7 @@
 package com.example.bookvibez;
 
+import android.widget.ImageView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,6 +12,7 @@ public class BookItem {
     private int id;
     private String title;
     private String author;
+    private ImageView image;
 
     public BookItem(int id, String title, String author) {
         this.id = id;
@@ -29,6 +32,10 @@ public class BookItem {
         return author;
     }
 
+    public ImageView getImage() {
+        return image;
+    }
+
     // Constructor to convert JSON object into a Java class instance
     public BookItem(JSONObject object){
         try {
@@ -42,7 +49,7 @@ public class BookItem {
     // Factory method to convert an array of JSON objects into a list of objects
     // User.fromJson(jsonArray);
     public static ArrayList<BookItem> fromJson(JSONArray jsonObjects) {
-        ArrayList<BookItem> users = new ArrayList<BookItem>();
+        ArrayList<BookItem> users = new ArrayList<>();
         for (int i = 0; i < jsonObjects.length(); i++) {
             try {
                 users.add(new BookItem(jsonObjects.getJSONObject(i)));
@@ -53,13 +60,5 @@ public class BookItem {
         return users;
     }
 
-
-    public static ArrayList<BookItem> getBooks() {
-        ArrayList<BookItem> users = new ArrayList<BookItem>();
-        users.add(new BookItem(1,"Harry", "San Diego"));
-        users.add(new BookItem(2,"Marla", "San Francisco"));
-        users.add(new BookItem(3,"Sarah", "San Marco"));
-        return users;
-    }
 
 }

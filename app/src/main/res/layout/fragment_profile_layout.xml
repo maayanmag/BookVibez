@@ -13,11 +13,18 @@
         android:text="@string/title_profile"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="180dp">
+
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="345dp"
+            android:background="@mipmap/edit_pngrepo_com"/>
 
         <TextView
             android:id="@+id/profile_name"
@@ -59,6 +66,15 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_marginTop="240dp">
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="345dp"
+            android:background="@mipmap/edit_pngrepo_com"/>
+
 
         <TextView
             android:id="@+id/profile_vibez"

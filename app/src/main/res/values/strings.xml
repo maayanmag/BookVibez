@@ -31,4 +31,5 @@
     <string name="example_name">Steve Jobs</string>
     <string name="example_vibez">Chillin is feelin</string>
 
+    <string name="title_activity_splash">splashActivity</string>
 </resources>

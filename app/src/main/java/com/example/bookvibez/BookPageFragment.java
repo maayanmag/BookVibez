@@ -7,22 +7,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-public class ProfileFragment extends Fragment {
+public class BookPageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_profile_layout, null);
+        View view = inflater.inflate(R.layout.fragment_book_page, null);
 
 
         return view;
     }
-
-    public void onClick(View view) {
-
-    }
-
 }
-
-
