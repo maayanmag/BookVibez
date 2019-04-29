@@ -1,4 +1,5 @@
 <resources>
+    <string name="google_maps_api_key">AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ</string>
     <string name="app_name" translatable="false">BookVibez</string>
     <string name="title_welcome">Welcome! this will only appear at lunching</string>
     <string name="title_list">List View</string>
@@ -30,6 +31,10 @@
 
     <string name="example_name">Steve Jobs</string>
     <string name="example_vibez">Chillin is feelin</string>
+
+    <string name="magnifying_image">magnifying glass</string>
+    <string name="search_hint">Enter Address or City</string>
+
 
     <string name="title_activity_splash">splashActivity</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>

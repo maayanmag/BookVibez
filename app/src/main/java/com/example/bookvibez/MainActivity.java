@@ -26,7 +26,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-
+import com.google.firebase.firestore.GeoPoint;
 
 
 import static com.example.bookvibez.Constants.ERROR_DIALOG_REQUEST;
@@ -67,10 +67,9 @@ public class MainActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<Location> task) {
                 if (task.isSuccessful()){
                     Location location = task.getResult();
-//                    GeoPoint getPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                    //todo: find a replacement for geo point!
-                    Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
-                    Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
+                    GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                    Log.d(TAG, "onComplete: latitude: " + geoPoint.getLatitude());
+                    Log.d(TAG, "onComplete: longitude: " + geoPoint.getLongitude());
                 }
             }
         });
@@ -136,6 +135,7 @@ public class MainActivity extends AppCompatActivity {
             mLocationPermissionGranted = true;
             // a function that symbolizes using the application as intended. below - holder for future function.
             assert true; // todo:need to create a function that retrieves the available books
+            getLastKnownLocation();
         } else {
             //asking for permission to access fine location
             ActivityCompat.requestPermissions(this,
@@ -200,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
             case PERMISSIONS_REQUEST_ENABLE_GPS: {
                 if(mLocationPermissionGranted){
                     assert true; // todo:need to create a function that retrieves the available books
+                    getLastKnownLocation();
                 }
                 else{
                     getLocationPermission(); // ask user for explicit location permission
@@ -255,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
         if(checkMapServices()){
             if(mLocationPermissionGranted){
                 assert true;/// the main launching function is missing here
+                getLastKnownLocation();
             } else {
                 // the boolean value is false, so we need to explicitly ask the user for permission
                 getLocationPermission();
