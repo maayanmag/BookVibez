@@ -1,10 +1,12 @@
 package com.example.bookvibez;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,11 +18,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+
 
 import static com.example.bookvibez.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.bookvibez.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
@@ -30,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
     private boolean mLocationPermissionGranted = false;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +47,33 @@ public class MainActivity extends AppCompatActivity {
         //loading the default fragment
         loadFragment(new WelcomeFragment());
 
-
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         //getting bottom navigation view and attaching the listener
         BottomNavigationView navView = findViewById(R.id.navigation);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    }
+
+    private void getLastKnownLocation() {
+        Log.d(TAG, "getLastKnownLocation: called");
+        // permission check for getting last known location
+        if (ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mFusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                if (task.isSuccessful()){
+                    Location location = task.getResult();
+//                    GeoPoint getPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                    //todo: find a replacement for geo point!
+                    Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
+                    Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
+                }
+            }
+        });
     }
 
     /**
@@ -143,7 +174,7 @@ public class MainActivity extends AppCompatActivity {
      * in the past.
      * @param requestCode
      * @param permissions
-     * @param grantResults
+     * @param grantResults an array that keeps all prier permission results
      */
     @Override
     public void onRequestPermissionsResult(int requestCode,
