@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <com.google.android.gms.maps.MapView
         class="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
@@ -41,4 +42,43 @@
         app:maxImageSize="36dp"
         app:srcCompat="@mipmap/baseline_add_white_36dp" />
 
+    <RelativeLayout
+        android:id="@+id/relLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/white_border"
+        android:elevation="10dp">
+
+        <ImageView
+            android:id="@+id/ic_magnify"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            android:contentDescription="@string/magnifying_image"
+            android:src="@drawable/ic_magnify" />
+        
+        <EditText
+            android:id="@+id/input_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/ic_magnify"
+            android:background="@null"
+            android:hint="@string/search_hint"
+            android:imeOptions="actionSearch"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:inputType="text"/>
+
+
+    </RelativeLayout>
+
+
+
 </RelativeLayout>
+
+

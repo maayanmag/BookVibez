@@ -3,6 +3,10 @@
     package="com.example.bookvibez">
     <!-- App's permission requests -->
     <uses-feature android:name="android.hardware.location.gps" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true"
+        />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -58,16 +62,16 @@
         <!-- App's Android maps-key-->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ"/>
+            android:value="@string/google_api_key"/>
 
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
 
 
 
     </application>
 
-    <uses-feature
-        android:glEsVersion="0x00020000"
-        android:required="true"
-        />
 
 </manifest>
