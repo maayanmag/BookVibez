@@ -84,7 +84,7 @@ public class BooksRecyclerAdapter extends RecyclerView.Adapter<BooksRecyclerAdap
         public void bind(final BookItem book, final OnItemClickListener listener) {
             title.setText(book.getTitle());
             author.setText(book.getAuthor());
-            img.setImageResource(book.getImageSrc());
+            img.setImageResource(book.getBookImg());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View view) {
                     listener.onItemClick(book);

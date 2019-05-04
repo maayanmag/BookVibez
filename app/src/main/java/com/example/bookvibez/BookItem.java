@@ -1,8 +1,6 @@
 package com.example.bookvibez;
 
 
-import android.graphics.drawable.Drawable;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,13 +11,19 @@ public class BookItem {
     private int id;
     private String title;
     private String author;
-    private int imageSrc;
+    private String genre;
+    private String ownerName;
+    private int ownerImg;
+    private int bookImg;
 
     public BookItem(int id, String title, String author, int src) {
         this.id = id;
         this.title = title;
         this.author = author;
-        this.imageSrc = src;
+        this.bookImg = src;
+        ownerName = "Tom Hanks";
+        genre = "no genre defined";
+        ownerImg = R.mipmap.man_icon;
     }
 
     public int getId() {
@@ -34,8 +38,20 @@ public class BookItem {
         return author;
     }
 
-    public int getImageSrc() {
-        return imageSrc;
+    public int getBookImg() {
+        return bookImg;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public int getOwnerImg() {
+        return ownerImg;
     }
 
     // Constructor to convert JSON object into a Java class instance
