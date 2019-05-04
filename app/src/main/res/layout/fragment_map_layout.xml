@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_frag"
+    android:theme="@style/AppTheme.NoActionBar"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -29,7 +30,6 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addBookFloatingBottom"
-        app:srcCompat="@mipmap/baseline_add_white_36dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -38,8 +38,9 @@
         android:layout_marginBottom="50dp"
         android:clickable="true"
         android:focusable="true"
-        app:backgroundTint="@color/colorAccent"
-        app:maxImageSize="36dp" />
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:maxImageSize="36dp"
+        app:srcCompat="@mipmap/baseline_add_white_36dp" />
 
     <RelativeLayout
         android:id="@+id/relLayout1"
