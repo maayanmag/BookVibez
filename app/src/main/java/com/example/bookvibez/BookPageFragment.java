@@ -1,22 +1,34 @@
 package com.example.bookvibez;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 public class BookPageFragment extends Fragment {
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_book_page, container, false);
 
-        handlingFloatingButton(view);
+        ImageView img = (ImageView) view.findViewById(R.id.current_owner_profile_pic);
+        img.setClipToOutline(true);
+
+       // handlingFloatingButton(view);
+
+        /* CollapsingToolbarLayout collapsingToolbar =
+                (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
+        collapsingToolbar.setTitle("Book Name"); */
+
         return view;
 
 
@@ -38,6 +50,7 @@ public class BookPageFragment extends Fragment {
             }
         });
     }
+
 
 
 

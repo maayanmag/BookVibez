@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //loading the default fragment
-        loadFragment(new WelcomeFragment());
+        loadFragment(new MapFragment());
 
 
         //getting bottom navigation view and attaching the listener

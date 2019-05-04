@@ -1,59 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true" >
+    android:layoutDirection="ltr"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimaryDark"
+    android:orientation="vertical">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <android.support.v7.widget.SearchView
+        android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content"
+        android:layout_margin="25dp"
+        android:gravity="center_vertical"
+        android:iconifiedByDefault="false"
+        android:background="@drawable/bg_white_rounded"
+        app:defaultQueryHint="@string/search_title"
+        app:queryHint="@string/search_title"
+        app:submitBackground="@drawable/bg_white_rounded"
+        app:searchIcon="@android:drawable/ic_menu_search"/>
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+    <android.support.v4.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+
+        <android.support.v7.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways"
-            app:toolbarId="@+id/toolbar" >
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layoutManager="LinearLayoutManager"
+            tools:listitem="@layout/fragment_singleitem" />
 
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:background="?attr/colorPrimary"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+    </android.support.v4.widget.NestedScrollView>
 
-            <android.support.v7.widget.SearchView
-                android:id="@+id/search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_margin="40dp"
-                android:background="@drawable/bg_white_rounded"
-                android:gravity="center_vertical"
-                app:defaultQueryHint="@string/search_title"
-                app:queryBackground="@drawable/bg_white_rounded"
-                app:queryHint="@string/search_title"
-                app:searchIcon="@android:drawable/ic_menu_search"
-                app:submitBackground="@drawable/bg_white_rounded">
-
-            </android.support.v7.widget.SearchView>
-
-
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
-
-    <include layout="@layout/content_scrolling_list" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/addBookFloatingBottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|start"
+        android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         android:focusable="true"
@@ -62,4 +53,5 @@
         app:srcCompat="@mipmap/baseline_add_white_36dp" />
 
 
-</android.support.design.widget.CoordinatorLayout>
+</LinearLayout>
+
