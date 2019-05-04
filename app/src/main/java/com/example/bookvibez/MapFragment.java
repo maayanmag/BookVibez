@@ -4,10 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,18 +18,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -42,31 +40,52 @@ import static com.example.bookvibez.Constants.DEFAULT_ZOOM;
 import static com.example.bookvibez.Constants.MAPVIEW_BUNDLE_KEY;
 
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     //widgets
-    private EditText mSearchText;
-
+    private TextView mSearchText;
     GoogleMap mGoogleMap;
     MapView mMapView;
+    private ImageView mRecenter;
     private static final String TAG = "MapFragment";
+    private SlidingUpPanelLayout mLayout;
+
 
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map_layout, container, false);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+            Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.map_fragment_sliding_up, container, false);
         mMapView = (MapView) view.findViewById(R.id.map);
-        mSearchText = (EditText) view.findViewById(R.id.input_search);
+        mSearchText = (AutoCompleteTextView) view.findViewById(R.id.input_search);
+        mRecenter = (ImageView) view.findViewById(R.id.myLocationFloatingBottom);
         initGoogleMap(savedInstanceState);
+        mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingLayout);
+        mLayout.setPanelHeight(0);
+        mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+            @Override
+            public void onPanelSlide(View panel, float slideOffset) {
+                Log.i(TAG, "onPanelSlide, offset " + slideOffset);
+            }
 
+            @Override
+            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState
+                    previousState, SlidingUpPanelLayout.PanelState newState) {
+                Log.i(TAG, "onPanelStateChanged " + newState);
+            }
+        });
+        mLayout.setFadeOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+            }
+        });
 
         /* handling click on "addBook" button */
         handlingAddBookButton(view);
-
         /* handling click on "centerMapToMyLocation" button */
         handlingRecenterFAB(view);
-
         return view;
     }
 
@@ -74,7 +93,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         Log.d(TAG, "init: initializing");
 
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            // overrides the return key, so it will execute the search
+             //overrides the return key, so it will execute the search
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
                 if(actionId == EditorInfo.IME_ACTION_SEARCH
@@ -87,7 +106,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return false;
             }
         });
+        mRecenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: clicked gps icon");
+                //((MainActivity)getActivity()).getDeviceLocation();
+                LatLng manaliCottage = new LatLng(32.195694, 77.201758);
+                moveCamera(manaliCottage, DEFAULT_ZOOM, "my location");            }
+        });
     }
+
 
     private void geoLocate(){
         Log.d(TAG, "geoLocate: geolocating");
@@ -105,19 +133,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-            //todo: change the title! now is set to adress line
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
-
+            //todo: change the title! now is set to address line
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
+                    address.getAddressLine(0));
         }
     }
 
-    private void moveCamera(LatLng latLng, float zoom, String title){
-        Log.d(TAG, "movecamera: moving camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
+    public void moveCamera(LatLng latLng, float zoom, String title){
+        Log.d(TAG, "move camera: moving camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
 
         MarkerOptions options = new MarkerOptions().position(latLng).title(title);
         mGoogleMap.addMarker(options);
+        mGoogleMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(getContext()));
     }
+
+
 
     private void initGoogleMap(Bundle savedInstanceState) {
         // *** IMPORTANT ***
@@ -130,6 +161,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMapView.onCreate(mapViewBundle);
 
         mMapView.getMapAsync(this);
+
     }
 
     @Override
@@ -146,9 +178,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mGoogleMap = googleMap; //map type - if want to change, read googleMaps API
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        // permissio check
+        mGoogleMap = googleMap;
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL); //map type - if want to change, read googleMaps API
+        // permission check
         if (ActivityCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(getActivity(),
@@ -156,13 +188,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
         init();
-        googleMap.setMyLocationEnabled(true);
-//        LatLng manali = new LatLng(32.2396, 77.1887);
-//        googleMap.addMarker(new MarkerOptions().position(manali).title("book1 in Manali").snippet("location- Flying Monkey Guesthouse"));
-//        CameraPosition Manali = CameraPosition.builder().target(manali).zoom(16).bearing(0).tilt(45).build();
-//        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Manali));
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(manali));    }
+        mGoogleMap.setOnMarkerClickListener(this);
+        tempBookMarkers();
+        //googleMap.setMyLocationEnabled(true); // todo: current location -if we want it, comment back.
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                if (marker.getTitle().equals("The Art of Hearing Heartbeats")){
+                    loadBookPageFragment();
+                    mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED); //to open
+                }
+            }
+        });
     }
+
+    /**
+     * this function replaces the layout to a book page layout in case some book was clicked in the list
+     */
+    private void loadBookPageFragment() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.addToBackStack("MapView");  // enables to press "return" and go back to the list view
+        transaction.replace(R.id.main_fragment_container, new BookPageFragment());
+        transaction.commit();
+    }
+
 
     /**
      * the function handles the Add floating button object in fragment_map_layout.
@@ -205,7 +255,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             mapViewBundle = new Bundle();
             outState.putBundle(MAPVIEW_BUNDLE_KEY, mapViewBundle);
         }
-
         mMapView.onSaveInstanceState(mapViewBundle);
     }
 
@@ -244,5 +293,42 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+    /// a temp function that will be replaced when connected to firebase
+    private void tempBookMarkers(){
+        //book 1
+        LatLng manaliHeightsLatLng = new LatLng(32.250504, 77.178156);
+        String snippetOne = "Location: Manali Heights Guesthouse" + "\n" + "Current Owner: Asaf Feldman";
+        mGoogleMap.addMarker(new MarkerOptions().position(manaliHeightsLatLng).snippet(snippetOne)
+                        .title("The Art of Hearing Heartbeats").icon(BitmapDescriptorFactory
+                        .fromResource(R.mipmap.ic_chill)));
+        //book 2
+        LatLng hamtaCottageLatLng = new LatLng(32.251735, 77.180873);
+        String snippetTwo = "Location: Hamta Cottage" + "\n" + "Current Owner: Lior Saadon";
+        mGoogleMap.addMarker(new MarkerOptions().position(hamtaCottageLatLng).snippet(snippetTwo)
+                .title("The Art of Hearing Heartbeats").icon(BitmapDescriptorFactory
+                        .fromResource(R.mipmap.ic_smoker)));
+        //book 3
+        LatLng shainaCottageLatLng = new LatLng(32.243710, 77.180214);
+        String snippetThree = "Location: Shaina Mareema Cottage" + "\n" + "Current Owner: Jehonathan Spigelman";
+        mGoogleMap.addMarker(new MarkerOptions().position(shainaCottageLatLng).snippet(snippetThree)
+                .title("The Art of Hearing Heartbeats").icon(BitmapDescriptorFactory
+                        .fromResource(R.mipmap.ic_thinker)));
+        //book 4
+        LatLng manuAllayaLatLng = new LatLng(32.254074, 77.191976);
+        String snippetFour = "Location: Manu Allaya Resort" + "\n" + "Current Owner: Michal Gordon";
+        mGoogleMap.addMarker(new MarkerOptions().position(manuAllayaLatLng).snippet(snippetFour)
+                .title("The Art of Hearing Heartbeats").icon(BitmapDescriptorFactory
+                        .fromResource(R.mipmap.ic_tropht)));
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+//        if (marker.getTitle().equals("The Art of Hearing Heartbeats")){
+//            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED); //to open
+//        }
+        return false;
+    }
+
+
 }
 
