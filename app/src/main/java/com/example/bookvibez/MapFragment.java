@@ -300,8 +300,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
+
+
     /// a temp function that will be replaced when connected to firebase
     private void tempBookMarkers(){
+
         //book 1
         LatLng manaliHeightsLatLng = new LatLng(32.250504, 77.178156);
         String snippetOne = "Location: Manali Heights Guesthouse" + "\n" + "Current Owner: Asaf Feldman";

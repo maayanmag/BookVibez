@@ -56,8 +56,6 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new BooksRecyclerAdapter(booksList, new BooksRecyclerAdapter.OnItemClickListener() {
             @Override public void onItemClick(BookItem book) {
-                String toShow = "Item with id " + book.getId() + " clicked";
-                Toast.makeText(getContext(), toShow, Toast.LENGTH_LONG).show();
                 BookPageFragment.bookToDisplay = book;
                 loadBookPageFragment();
             }
