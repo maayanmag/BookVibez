@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "103858324582",
+    "firebase_url": "https://bookvibez-6f22b.firebaseio.com",
+    "project_id": "bookvibez-6f22b",
+    "storage_bucket": "bookvibez-6f22b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:103858324582:android:20f9ce518baaf921",
+        "android_client_info": {
+          "package_name": "com.example.bookvibez"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "103858324582-4kgh2v4d8rtu63n8aeunjrm1d0va0kjg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103858324582-4kgh2v4d8rtu63n8aeunjrm1d0va0kjg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
