@@ -18,7 +18,6 @@ public class BookItem {
     private int ownerImg;
     private int bookImg;
     private String location;
-
     private LatLng latLng;
 
     public BookItem(int id, String title, String author, int src) {

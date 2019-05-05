@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -188,9 +189,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL); //map type - if want to change, read googleMaps API
         // permission check
-        if (ActivityCompat.checkSelfPermission(getActivity(),
+        if (ActivityCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(getActivity(),
+                && ActivityCompat.checkSelfPermission(getContext(),
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
@@ -251,8 +252,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+                if (prev != null) {
+                    ft.remove(prev);
+                }
+                ft.addToBackStack(null);
+                DialogFragment dialogFragment = new AddBookPopup();
+                dialogFragment.show(ft, "dialog");
             }
         });
     }
@@ -331,9 +338,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
 
-
+/*
     /// a temp function that will be replaced when connected to firebase
     private void tempBookMarkers(){
+
         //book 1
         LatLng manaliHeightsLatLng = new LatLng(32.250504, 77.178156);
         String snippetOne = "Location: Manali Heights Guesthouse" + "\n" + "Current Owner: Asaf Feldman";
@@ -359,6 +367,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 .title("The Art of Hearing Heartbeats").icon(BitmapDescriptorFactory
                         .fromResource(R.mipmap.ic_tropht)));
     }
+    */
 
     @Override
     public boolean onMarkerClick(Marker marker) {

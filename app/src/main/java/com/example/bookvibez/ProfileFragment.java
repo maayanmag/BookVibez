@@ -19,10 +19,4 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
-    public void onClick(View view) {
-
-    }
-
 }
-
-
