@@ -111,7 +111,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             public void onClick(View v) {
                 Log.d(TAG, "onClick: clicked gps icon");
                 //((MainActivity)getActivity()).getDeviceLocation();
-                LatLng manaliCottage = new LatLng(32.195694, 77.201758);
+                LatLng manaliCottage = new LatLng(32.249929, 77.183620);
                 moveCamera(manaliCottage, DEFAULT_ZOOM, "my location");            }
         });
     }
