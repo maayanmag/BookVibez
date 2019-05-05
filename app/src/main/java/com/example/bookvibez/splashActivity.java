@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -24,12 +25,9 @@ public class splashActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
-//                startActivity(new Intent(splashActivity.this, MainActivity.class));
+                startActivity(new Intent(splashActivity.this, LoginActivity.class));
                 finish();
-                Intent intent = new Intent(splashActivity.this, MainActivity.class);
-                // todo: needs to be chanced to LoginActivity instead of MainActivity.
-                splashActivity.this.startActivity(intent);
+
             }
         },1500); // the time delay for the splash screen
     }

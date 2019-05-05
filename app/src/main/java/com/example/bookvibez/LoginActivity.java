@@ -3,6 +3,7 @@ package com.example.bookvibez;
 import android.app.Activity;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -33,7 +34,7 @@ import java.util.Arrays;
 
 import static com.facebook.appevents.UserDataStore.EMAIL;
 
-public class LoginActivityUnfinished extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private CallbackManager callbackManager;
     private LoginButton fbloginButton;
@@ -45,14 +46,17 @@ public class LoginActivityUnfinished extends AppCompatActivity implements View.O
 
         /* loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class); */
-/*
 
+
+        final Button loginButton = findViewById(R.id.login_button);
+        loginButton.setOnClickListener(this);
+        /*
         final EditText usernameEditText = findViewById(R.id.username);
+
         final EditText passwordEditText = findViewById(R.id.password);
-        final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
-        /* facebook login related code *//*
+        facebook login related code *//*
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
@@ -203,6 +207,9 @@ public class LoginActivityUnfinished extends AppCompatActivity implements View.O
 
     @Override
     public void onClick(View v) {
+        Toast.makeText(this, "moving to main", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
 
     }
 
