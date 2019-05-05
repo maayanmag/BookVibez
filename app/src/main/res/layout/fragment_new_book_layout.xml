@@ -111,9 +111,10 @@
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/pictures_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@drawable/rectanglez"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                tools:layout_gravity="center">
 
                 <ImageView
                     android:id="@+id/imageView2"
@@ -196,7 +197,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/exchange_title"
-                android:textColor="#000000" />
+                android:textColor="#000000"
+                android:textColorLink="@color/colorPrimaryDark" />
 
             <RadioButton
                 android:id="@+id/leave_book_radio_btn"
@@ -204,6 +206,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/leave_title"
                 android:textColor="#000000"
+                android:textColorLink="@color/colorPrimaryDark"
                 tools:layout_editor_absoluteY="7dp" />
         </RadioGroup>
 

@@ -93,12 +93,12 @@ public class BookPageFragment extends Fragment implements View.OnClickListener {
         String text;
         if(isPressed) {
             text = "I don't own it";
-            gotBookButton.setBackgroundResource(R.drawable.got_the_book_button_pressed);
+            gotBookButton.setBackgroundResource(R.drawable.buttonshape);
             //TODO - change current owner to this user
         }
         else {
             text = "I Got This Book!";
-            gotBookButton.setBackgroundResource(R.drawable.got_the_book_button_unpressed);
+            gotBookButton.setBackgroundResource(R.drawable.button_filled_shape);
         }
         gotBookButton.setText(text);
     }

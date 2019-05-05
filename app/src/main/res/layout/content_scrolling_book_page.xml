@@ -143,12 +143,13 @@
 
         <Button
             android:id="@+id/got_the_book_button"
+            android:layout_width="180dp"
             android:layout_columnSpan="2"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="8dp"
             android:width="150dp"
-            android:background="@drawable/got_the_book_button_unpressed"
+            android:background="@drawable/button_filled_shape"
             android:fadingEdge="horizontal"
             android:text="I Got This Book!"
             android:textAlignment="center" />
