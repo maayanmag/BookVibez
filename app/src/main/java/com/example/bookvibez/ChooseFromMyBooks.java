@@ -57,5 +57,5 @@ public class ChooseFromMyBooks extends Fragment {
         transaction.replace(R.id.main_fragment_container, new MapFragment());
         transaction.commit();
     }
-    
+
 }

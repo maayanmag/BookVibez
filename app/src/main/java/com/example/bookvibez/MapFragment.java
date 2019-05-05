@@ -30,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -325,66 +326,39 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         bookItemList.get(2).setSLocation("Shaina Mareema Cottage");
         bookItemList.get(3).setSLocation("Manu Allaya Resort");
 
+        bookItemList.get(0).setGenre("chill");
+        bookItemList.get(1).setGenre("thinker");
+        bookItemList.get(2).setGenre("trophy");;
+        bookItemList.get(3).setSLocation("smoker");
+
+
         for (int i = 0; i <4; i++){
             BookItem b = bookItemList.get(i);
             String snip =  "Location: "+b.getSLocation()+ "\nCurrent Owner: "+b.getOwnerName();
             MarkerOptions m = new MarkerOptions().position(b.getLatLng()).snippet(snip)
-                    .title(b.getTitle()).icon(BitmapDescriptorFactory
-                            .fromResource(R.mipmap.ic_chill));
+                    .title(b.getTitle()).icon(addIconToMap(b));
             Marker marker = mGoogleMap.addMarker(m);
             marker.setTag(b.getId());
             markersList.add(marker);
         }
-
     }
 
 
-/*
-    /// a temp function that will be replaced when connected to firebase
-    private void tempBookMarkers(){
 
-        //book 1
-        LatLng manaliHeightsLatLng = new LatLng(32.250504, 77.178156);
-        String snippetOne = "Location: Manali Heights Guesthouse" + "\n" + "Current Owner: Asaf Feldman";
-        mGoogleMap.addMarker(new MarkerOptions().position(manaliHeightsLatLng).snippet(snippetOne)
-                        .title("The Art of Hearing Heartbeats").icon(BitmapDescriptorFactory
-                        .fromResource(R.mipmap.ic_chill)));
-        //book 2
-        LatLng hamtaCottageLatLng = new LatLng(32.251735, 77.180873);
-        String snippetTwo = "Location: Hamta Cottage" + "\n" + "Current Owner: Lior Saadon";
-        mGoogleMap.addMarker(new MarkerOptions().position(hamtaCottageLatLng).snippet(snippetTwo)
-                .title("The Art of Hearing Heartbeats").icon(BitmapDescriptorFactory
-                        .fromResource(R.mipmap.ic_smoker)));
-        //book 3
-        LatLng shainaCottageLatLng = new LatLng(32.243710, 77.180214);
-        String snippetThree = "Location: Shaina Mareema Cottage" + "\n" + "Current Owner: Jehonathan Spigelman";
-        mGoogleMap.addMarker(new MarkerOptions().position(shainaCottageLatLng).snippet(snippetThree)
-                .title("The Art of Hearing Heartbeats").icon(BitmapDescriptorFactory
-                        .fromResource(R.mipmap.ic_thinker)));
-        //book 4
-        LatLng manuAllayaLatLng = new LatLng(32.254074, 77.191976);
-        String snippetFour = "Location: Manu Allaya Resort" + "\n" + "Current Owner: Michal Gordon";
-        mGoogleMap.addMarker(new MarkerOptions().position(manuAllayaLatLng).snippet(snippetFour)
-                .title("The Art of Hearing Heartbeats").icon(BitmapDescriptorFactory
-                        .fromResource(R.mipmap.ic_tropht)));
+    private BitmapDescriptor addIconToMap(BookItem book){
+        if (book.getGenre().equals("chill")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_chill);
+        }
+        else if (book.getGenre().equals("thinker")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_thinker);
+        }
+        else if (book.getGenre().equals("trophy")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_tropht);
+        }
+        else { //todo: if going to add categories - add else if
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_smoker);
+        }
     }
-    */
-
-    public void addNewMarkerTemp(){
-        BookItem b = bookItemList.get(5);
-        b.setLatLng(new LatLng(32.254969, 77.189493));
-        b.setSLocation("Hotel Manali Coninental");
-        String snip =  "Location: "+b.getSLocation()+ "\nCurrent Owner: "+b.getOwnerName();
-        MarkerOptions m = new MarkerOptions().position(b.getLatLng()).snippet(snip)
-                .title(b.getTitle()).icon(BitmapDescriptorFactory
-                        .fromResource(R.mipmap.ic_chill));
-        Marker marker = mGoogleMap.addMarker(m);
-        marker.setTag(b.getId());
-        markersList.add(marker);
-
-    }
-
-
 
     @Override
     public boolean onMarkerClick(Marker marker) {
