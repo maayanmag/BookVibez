@@ -19,6 +19,7 @@
 
         <TextView
             android:id="@+id/book_name"
+            android:fontFamily="serif"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Title:"
@@ -29,14 +30,16 @@
             android:id="@+id/book_name_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="The Secret"
             android:layout_margin="8dp"
+            android:fontFamily="serif"
+            android:text="The Secret"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
             android:id="@+id/book_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="serif"
             android:text="Author:"
             android:layout_margin="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
@@ -44,22 +47,25 @@
         <TextView
             android:id="@+id/book_author_content"
             android:layout_width="wrap_content"
+            android:fontFamily="serif"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="Unknown"
+            android:text="Mike Zbale"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         <TextView
             android:id="@+id/book_gener"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vibez Genre:"
+            android:fontFamily="serif"
+            android:text="Vibe Genre:"
             android:layout_margin="8dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
         <TextView
             android:id="@+id/book_genre_content"
             android:layout_width="wrap_content"
+            android:fontFamily="serif"
             android:layout_height="wrap_content"
             android:text="Deep Meditation"
             android:layout_margin="8dp"
@@ -81,6 +87,7 @@
         <TextView
             android:id="@+id/current_owner_title"
             android:layout_width="wrap_content"
+            android:fontFamily="serif"
             android:layout_height="wrap_content"
             android:layout_columnSpan="2"
             android:layout_margin="8dp"
@@ -103,6 +110,8 @@
             android:id="@+id/current_owner_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="serif"
+            android:textSize="20sp"
             android:layout_margin="8dp"
             android:layout_marginStart="20dp"
             android:text="David Ben Gurion"
@@ -143,12 +152,13 @@
             android:id="@+id/got_the_book_button"
             android:layout_columnSpan="2"
             android:layout_gravity="end"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="0dp"
             android:layout_marginBottom="8dp"
             android:width="150dp"
             android:background="@drawable/got_the_book_button_unpressed"
             android:fadingEdge="horizontal"
+            android:fontFamily="serif"
             android:text="I Got This Book!"
             android:textAlignment="center" />
 
@@ -161,6 +171,14 @@
             android:layout_columnSpan="2"
             android:layout_margin="5dp"
             android:background="@color/divider_grey" />
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="353dp"
+            android:layout_columnSpan="2"
+            android:src="@drawable/static_timeline" />
+
 
         <!-- -->
 
