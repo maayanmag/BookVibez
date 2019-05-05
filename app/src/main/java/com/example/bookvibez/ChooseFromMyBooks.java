@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -23,10 +24,18 @@ public class ChooseFromMyBooks extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_choose_from_my_books, null);
         Button finishBtn = view.findViewById(R.id.finish_my_books_btn);
+        ImageView img = (ImageView) view.findViewById(R.id.choose_book_set);
+        final ImageView hiddenImg = (ImageView) view.findViewById(R.id.choose_book_set_checked);
+        img.setClickable(true);
+        img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hiddenImg.setVisibility(ImageView.VISIBLE);
+            }
+        });
 
-
-        RadioGroup radioGrp = view.findViewById(R.id.radio_grp);
-        RadioButton defaultBtn = view.findViewById(R.id.exchange_radio_btn);
+        RadioGroup radioGrp = view.findViewById(R.id.my_books_radio_grp);
+        RadioButton defaultBtn = view.findViewById(R.id.my_books_exchange_radio_btn);
         defaultBtn.setChecked(true);
 
 

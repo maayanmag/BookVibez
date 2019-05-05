@@ -17,8 +17,8 @@
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
-    <string name="book_name">Book Name</string>
-    <string name="author">book_author</string>
+    <string name="book_name">"Book Name"</string>
+    <string name="author">Author</string>
     <string name="profile_name">My Name:</string>
     <string name="profile_vibez">My Vibez:</string>
     <string name="profile_rank">Rank</string>
@@ -63,10 +63,28 @@
     <string name="current_owner">Contact Current Owner</string>
     <string name="books_i_read">Books I read</string>
     <string name="my_books">My Books</string>
+
+    <string name="add_image_title">Add Image From</string>
+    <string name="camera_title">Camera</string>
+    <string name="gallery_title">Gallery</string>
+    <string name="choose_from_my_books_title">Choose a Book</string>
+    <string name="curr_location_hint">My current location</string>
+    <string name="location_title">Location</string>
+    <string name="exchange_or_leave_title">I want to:</string>
+    <string name="exchange_title">Exchange books</string>
+    <string name="leave_title">Leave the book there</string>
+    <string name="add_book_btn">Add Book!</string>
+    <string name="new_book_title">Add a New Book</string>
+    <string name="book_category">Book Category</string>
+    <string name="description">Description</string>
+    <string name="book_pictures">Book Pictures</string>
+    <string name="plus_sign">+</string>
+
     <string name="change_your_story">ExChange your story</string>
     <string name="bookvibez">BookVibez</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
     <string name="or">OR</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
+
 </resources>

@@ -18,7 +18,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="36dp"
-            android:text="Add a New Book"
+            android:text="@string/new_book_title"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="@+id/book_name_input"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,9 +27,10 @@
         <EditText
             android:id="@+id/book_name_input"
             android:layout_width="307dp"
-            android:layout_height="wrap_content"
+            android:layout_height="42dp"
             android:layout_marginTop="32dp"
-            android:hint="Book Name"
+            android:hint="@string/book_name"
+            android:backgroundTint="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/add_new_book_title" />
@@ -37,8 +39,9 @@
             android:id="@+id/book_author_input"
             android:layout_width="307dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:hint="Author"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:hint="@string/author"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/book_name_input" />
@@ -49,11 +52,11 @@
             android:layout_width="195dp"
             android:layout_height="44dp"
             android:layout_marginStart="30dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="12dp"
             android:layout_marginEnd="40dp"
             android:spinnerMode="dropdown"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintHorizontal_bias="0.437"
             app:layout_constraintStart_toEndOf="@+id/book_genre_title"
             app:layout_constraintTop_toBottomOf="@+id/book_author_input" />
 
@@ -61,9 +64,10 @@
             android:id="@+id/book_genre_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Book Genre"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/book_category"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/book_description_input"
             app:layout_constraintStart_toStartOf="@+id/book_author_input"
             app:layout_constraintTop_toBottomOf="@+id/book_author_input" />
 
@@ -71,12 +75,14 @@
             android:id="@+id/book_description_input"
             android:layout_width="307dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/rectanglez"
             android:gravity="top"
-            android:hint=" Description"
+            android:hint="@string/description"
             android:inputType="textMultiLine"
             android:lines="5"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/book_type_spinner" />
@@ -85,8 +91,8 @@
             android:id="@+id/book_pictures_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:text="Book Pictures"
+            android:layout_marginTop="28dp"
+            android:text="@string/book_pictures"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/book_description_input"
             app:layout_constraintTop_toBottomOf="@+id/book_description_input" />
@@ -105,6 +111,7 @@
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/pictures_layout"
+                android:background="@drawable/rectanglez"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -112,6 +119,7 @@
                     android:id="@+id/imageView2"
                     android:layout_width="133dp"
                     android:layout_height="182dp"
+                    android:layout_marginStart="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -125,9 +133,10 @@
             style="@style/Widget.AppCompat.Button.Borderless"
             android:layout_width="71dp"
             android:layout_height="47dp"
-            android:layout_marginTop="36dp"
+            android:layout_marginTop="16dp"
             android:background="@android:color/transparent"
-            android:text="+"
+            android:fontFamily="monospace"
+            android:text="@string/plus_sign"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="@+id/book_description_input"
             app:layout_constraintTop_toBottomOf="@+id/book_description_input" />
@@ -138,14 +147,15 @@
             android:layout_width="217dp"
             android:layout_height="38dp"
             android:layout_marginStart="36dp"
-            android:layout_marginTop="22dp"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/colorPrimaryDark"
             android:ems="10"
-            android:hint="My current location"
+            android:hint="@string/curr_location_hint"
             android:inputType="textPersonName"
             android:textColor="#000000"
-            android:textSize="12sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.204"
+            app:layout_constraintHorizontal_bias="0.135"
             app:layout_constraintStart_toEndOf="@+id/location_title"
             app:layout_constraintTop_toBottomOf="@id/book_pictures_scroll"
             tools:layout_constraintTop_toBottomOf="@id/book_pictures_scroll" />
@@ -155,9 +165,10 @@
             android:id="@+id/location_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="Location"
+            android:layout_marginTop="29dp"
+            android:text="@string/location_title"
             android:textColor="#000000"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/book_pictures_title"
             app:layout_constraintTop_toBottomOf="@id/book_pictures_scroll" />
 
@@ -166,8 +177,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="I want to:"
+            android:text="@string/exchange_or_leave_title"
             android:textColor="#000000"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/book_pictures_title"
             app:layout_constraintTop_toBottomOf="@id/location_title" />
 
@@ -175,34 +187,34 @@
             android:id="@+id/radio_grp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="@+id/choose_location_edit_text"
-            app:layout_constraintTop_toBottomOf="@+id/radio_grp_title">
+            app:layout_constraintTop_toTopOf="@+id/radio_grp_title">
 
             <RadioButton
                 android:id="@+id/exchange_radio_btn"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Exchange books"
+                android:text="@string/exchange_title"
                 android:textColor="#000000" />
 
             <RadioButton
                 android:id="@+id/leave_book_radio_btn"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:text="Leave the book there"
+                android:text="@string/leave_title"
                 android:textColor="#000000"
                 tools:layout_editor_absoluteY="7dp" />
         </RadioGroup>
 
         <Button
             android:id="@+id/finish_adding_book_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="110dp"
+            android:layout_height="44dp"
             android:layout_marginTop="24dp"
             android:layout_marginBottom="24dp"
-            android:text="Add Book!"
+            android:background="@drawable/button_filled_shape"
+            android:text="@string/add_book_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/book_pictures_scroll"
             app:layout_constraintTop_toBottomOf="@+id/radio_grp" />
