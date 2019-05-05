@@ -47,7 +47,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
-            android:text="Choose a Book"
+            android:text="@string/choose_from_my_books_title"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -61,13 +61,13 @@
             android:layout_width="217dp"
             android:layout_height="38dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="140dp"
-            android:ems="10"
+            android:layout_marginTop="143dp"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:hint="My current location"
+            android:ems="10"
+            android:hint="@string/curr_location_hint"
             android:inputType="textPersonName"
             android:textColor="#000000"
-            android:textSize="12sp"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.187"
             app:layout_constraintStart_toEndOf="@+id/my_books_location_title"
@@ -81,9 +81,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="36dp"
             android:layout_marginTop="148dp"
-            android:text="Location"
+            android:text="@string/location_title"
             android:textColor="#000000"
-            android:textSize="15sp"
+            android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/choose_book_set" />
 
@@ -92,8 +92,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="I want to:"
-            android:textSize="15sp"
+            android:text="@string/exchange_or_leave_title"
+            android:textSize="18sp"
             android:textColor="#000000"
             app:layout_constraintStart_toStartOf="@+id/my_books_location_title"
             app:layout_constraintTop_toBottomOf="@id/my_books_location_title" />
@@ -102,26 +102,25 @@
             android:id="@+id/my_books_radio_grp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             app:layout_constraintStart_toStartOf="@+id/my_books_choose_location_edit_text"
-            app:layout_constraintTop_toBottomOf="@+id/my_books_radio_grp_title">
+            app:layout_constraintTop_toTopOf="@+id/my_books_radio_grp_title">
 
             <RadioButton
                 android:id="@+id/my_books_exchange_radio_btn"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textSize="14sp"
-                android:text="Exchange books"
-                android:textColor="#000000" />
+                android:text="@string/exchange_title"
+                android:textColor="#000000"
+                android:textSize="14sp" />
 
             <RadioButton
                 android:id="@+id/my_books_leave_book_radio_btn"
                 android:layout_width="180dp"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:text="Leave the book there"
+                android:text="@string/leave_title"
                 android:textColor="#000000"
+                android:textSize="14sp"
                 tools:layout_editor_absoluteY="7dp" />
         </RadioGroup>
 
@@ -133,7 +132,7 @@
             android:layout_marginEnd="36dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/button_filled_shape"
-            android:text="Add Book!"
+            android:text="@string/add_book_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/my_books_radio_grp"
