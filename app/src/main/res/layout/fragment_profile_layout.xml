@@ -119,7 +119,8 @@
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/my_books"
-                android:textSize="15sp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider2" />
@@ -136,12 +137,13 @@
 
             <TextView
                 android:id="@+id/title_booksIRead"
-                android:text="@string/books_i_read"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
-                android:textSize="15sp"
+                android:text="@string/books_i_read"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/books_set1" />
