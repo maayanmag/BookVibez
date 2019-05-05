@@ -1,6 +1,8 @@
 package com.example.bookvibez;
 
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,6 +17,8 @@ public class BookItem {
     private String ownerName;
     private int ownerImg;
     private int bookImg;
+    private String location;
+    private LatLng latLng;
 
     public BookItem(int id, String title, String author, int src) {
         this.id = id;
@@ -24,6 +28,34 @@ public class BookItem {
         ownerName = "Tom Hanks";
         genre = "no genre defined";
         ownerImg = R.mipmap.man_icon;
+    }
+
+    public BookItem(int id, String title, String author, int src, LatLng lng, String snp) {
+        this.id = id;
+        this.title = title;
+        this.author = author;
+        this.bookImg = src;
+        ownerName = "Tom Hanks";
+        genre = "no genre defined";
+        ownerImg = R.mipmap.man_icon;
+        latLng = lng;
+        location = snp;
+    }
+
+    public String getSLocation() {
+        return location;
+    }
+
+    public void setSLocation(String location) {
+        this.location = location;
+    }
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
     }
 
     public int getId() {

@@ -18,6 +18,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
@@ -50,6 +51,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private ImageView mRecenter;
     private static final String TAG = "MapFragment";
     private SlidingUpPanelLayout mLayout;
+    public static List<BookItem> bookItemList = ListOfBooks.random_books();
+    private List<Marker> markersList = new ArrayList<Marker>();
 
 
 
@@ -89,6 +92,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         handlingRecenterFAB(view);
         return view;
     }
+
+
+
+
 
     private void init(){
         Log.d(TAG, "init: initializing");
@@ -190,12 +197,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
         init();
         mGoogleMap.setOnMarkerClickListener(this);
-        tempBookMarkers();
+        initMarkers();
+//        tempBookMarkers();
         //googleMap.setMyLocationEnabled(true); // todo: current location -if we want it, comment back.
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                if (marker.getTitle().equals("The Art of Hearing Heartbeats")){
+                if (marker != null){
+                    int id = (int)marker.getTag();
+                    BookPageFragment.bookToDisplay = bookItemList.get(id);
+//                if (marker.getTitle().equals("The Art of Hearing Heartbeats")){
                     loadBookPageFragment();
                     mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED); //to open
                 }
@@ -300,8 +311,37 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         super.onLowMemory();
         mMapView.onLowMemory();
     }
+
+
+    private void initMarkers(){
+        bookItemList.get(0).setLatLng(new LatLng(32.250504, 77.178156));
+        bookItemList.get(1).setLatLng(new LatLng(32.251735, 77.180873));
+        bookItemList.get(2).setLatLng(new LatLng(32.243710, 77.180214));
+        bookItemList.get(3).setLatLng(new LatLng(32.254074, 77.191976));
+
+        bookItemList.get(0).setSLocation("Manali Heights Guesthouse");
+        bookItemList.get(1).setSLocation("Hamta Cottage");
+        bookItemList.get(2).setSLocation("Shaina Mareema Cottage");
+        bookItemList.get(3).setSLocation("Manu Allaya Resort");
+
+        for (int i = 0; i <4; i++){
+            BookItem b = bookItemList.get(i);
+            String snip =  "Location: "+b.getSLocation()+ "\nCurrent Owner: "+b.getOwnerName();
+            MarkerOptions m = new MarkerOptions().position(b.getLatLng()).snippet(snip)
+                    .title(b.getTitle()).icon(BitmapDescriptorFactory
+                            .fromResource(R.mipmap.ic_chill));
+            Marker marker = mGoogleMap.addMarker(m);
+            marker.setTag(b.getId());
+            markersList.add(marker);
+        }
+
+    }
+
+
+/*
     /// a temp function that will be replaced when connected to firebase
     private void tempBookMarkers(){
+
         //book 1
         LatLng manaliHeightsLatLng = new LatLng(32.250504, 77.178156);
         String snippetOne = "Location: Manali Heights Guesthouse" + "\n" + "Current Owner: Asaf Feldman";
@@ -327,6 +367,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 .title("The Art of Hearing Heartbeats").icon(BitmapDescriptorFactory
                         .fromResource(R.mipmap.ic_tropht)));
     }
+    */
 
     @Override
     public boolean onMarkerClick(Marker marker) {

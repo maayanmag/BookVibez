@@ -56,8 +56,6 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new BooksRecyclerAdapter(booksList, new BooksRecyclerAdapter.OnItemClickListener() {
             @Override public void onItemClick(BookItem book) {
-                String toShow = "Item with id " + book.getId() + " clicked";
-                Toast.makeText(getContext(), toShow, Toast.LENGTH_LONG).show();
                 BookPageFragment.bookToDisplay = book;
                 loadBookPageFragment();
             }
@@ -109,16 +107,16 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
 
 
     /* temporary function to load data into booksList, will be deleted when we have a database */
-    private List<BookItem> random_books() {
+    public static List<BookItem> random_books() {
         List<BookItem> l = new ArrayList<>();
-        BookItem b1 = new BookItem(1,"A Little Bit of Meditation", "Amy Leigh Mercree", R.drawable.book1);
-        BookItem b2 = new BookItem(2,"Transcendental Meditation", "Jack Forem",R.drawable.book2);
-        BookItem b3 = new BookItem(3,"Real Happiness", "Sharon Salzberg", R.drawable.book3);
-        BookItem b4 = new BookItem(4,"No Time Like The Present", "Jack Kornfield", R.drawable.book4);
+        BookItem b1 = new BookItem(0,"A Little Bit of Meditation", "Amy Leigh Mercree", R.drawable.book1);
+        BookItem b2 = new BookItem(1,"Transcendental Meditation", "Jack Forem",R.drawable.book2);
+        BookItem b3 = new BookItem(2,"Real Happiness", "Sharon Salzberg", R.drawable.book3);
+        BookItem b4 = new BookItem(3,"No Time Like The Present", "Jack Kornfield", R.drawable.book4);
+        BookItem b44 = new BookItem(4,"Yoga and Vipassana", "Amit Ray", R.drawable.book8);
         BookItem b11 = new BookItem(5,"A Path With Heart", "Jack Kornfield", R.drawable.book5);
         BookItem b22 = new BookItem(6,"Your Best Meditation", "P. M. Marrison", R.drawable.book6);
         BookItem b33 = new BookItem(7,"Peace, Love and You", "Nerissa Marie", R.drawable.book7);
-        BookItem b44 = new BookItem(8,"Yoga and Vipassana", "Amit Ray", R.drawable.book8);
         l.add(b1); l.add(b2); l.add(b3); l.add(b4);
         l.add(b11); l.add(b22); l.add(b33); l.add(b44);
         return l;
