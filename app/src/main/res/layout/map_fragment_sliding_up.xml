@@ -36,7 +36,7 @@
                 android:layout_marginBottom="50dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:backgroundTint="@color/colorAccent"
+                app:backgroundTint="@color/colorPrimaryDark"
                 app:maxImageSize="36dp"/>
 
             <android.support.design.widget.FloatingActionButton
