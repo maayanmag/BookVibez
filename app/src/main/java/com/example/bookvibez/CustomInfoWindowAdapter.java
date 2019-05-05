@@ -33,6 +33,11 @@ public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
         if (snippet!= null){
             tvSnippet.setText(snippet);
         }
+        ImageView img = (ImageView) view.findViewById(R.id.book_img_in_marker);
+        if (marker != null){
+            int id = (int) marker.getTag();
+            img.setImageResource(MapFragment.bookItemList.get(id).getBookImg());
+        }
 
     }
     @Override
