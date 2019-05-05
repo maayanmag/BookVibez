@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,31 +56,19 @@ public class NewBookFragment extends Fragment {
         addBookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment f = new MapFragment();
-                loadFragment(f);
+                loadMapFragment();
             }
         });
 
         return view;
     }
 
-
-    /**
-     * this method is switching fragments.
-     * @param fragment - a Fragment typed object
-     * @return true if switched successfully.
-     */
-    public boolean loadFragment(Fragment fragment) {
-        //switching fragment
-        if (fragment != null) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.main_fragment_container, fragment)
-                    .commit();
-            return true;
-        }
-        return false;
+    private void loadMapFragment() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.addToBackStack("MapView");  // enables to press "return" and go back to the list view
+        transaction.replace(R.id.main_fragment_container, new MapFragment());
+        transaction.commit();
     }
-
 
 }

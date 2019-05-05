@@ -312,7 +312,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mMapView.onLowMemory();
     }
 
-
     private void initMarkers(){
         bookItemList.get(0).setLatLng(new LatLng(32.250504, 77.178156));
         bookItemList.get(1).setLatLng(new LatLng(32.251735, 77.180873));
@@ -368,6 +367,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         .fromResource(R.mipmap.ic_tropht)));
     }
     */
+
+    public void addNewMarkerTemp(){
+        BookItem b = bookItemList.get(5);
+        b.setLatLng(new LatLng(32.254969, 77.189493));
+        b.setSLocation("Hotel Manali Coninental");
+        String snip =  "Location: "+b.getSLocation()+ "\nCurrent Owner: "+b.getOwnerName();
+        MarkerOptions m = new MarkerOptions().position(b.getLatLng()).snippet(snip)
+                .title(b.getTitle()).icon(BitmapDescriptorFactory
+                        .fromResource(R.mipmap.ic_chill));
+        Marker marker = mGoogleMap.addMarker(m);
+        marker.setTag(b.getId());
+        markersList.add(marker);
+
+    }
+
+
 
     @Override
     public boolean onMarkerClick(Marker marker) {
