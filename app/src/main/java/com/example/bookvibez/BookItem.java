@@ -30,13 +30,15 @@ public class BookItem {
         ownerImg = R.mipmap.man_icon;
     }
 
-    public BookItem(int id, String title, String author, int src, LatLng lng, String snp) {
+
+
+    public BookItem(int id, String title, String author, int src, LatLng lng, String snp, String bookGenre) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.bookImg = src;
         ownerName = "Tom Hanks";
-        genre = "no genre defined";
+        genre = bookGenre;
         ownerImg = R.mipmap.man_icon;
         latLng = lng;
         location = snp;
@@ -76,6 +78,10 @@ public class BookItem {
 
     public String getGenre() {
         return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
     }
 
     public String getOwnerName() {
