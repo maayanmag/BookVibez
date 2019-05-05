@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layoutDirection="ltr"
+    android:id="@+id/new_book_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:layout_editor_absoluteX="8dp"
+    tools:layout_editor_absoluteY="8dp">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/choose_book_set"
+            android:layout_width="wrap_content"
+            android:layout_height="120dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/temp2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/choose_from_my_books_title" />
+
+
+        <TextView
+            android:id="@+id/choose_from_my_books_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="8dp"
+            android:text="Choose a Book"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.123"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <EditText
+            android:id="@+id/my_books_choose_location_edit_text"
+            android:layout_width="217dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="140dp"
+            android:ems="10"
+            android:hint="My current location"
+            android:inputType="textPersonName"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.187"
+            app:layout_constraintStart_toEndOf="@+id/my_books_location_title"
+            app:layout_constraintTop_toTopOf="@+id/choose_book_set"
+            tools:layout_constraintTop_toBottomOf="@id/book_pictures_scroll" />
+
+
+        <TextView
+            android:id="@+id/my_books_location_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="32dp"
+            android:text="Location"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/choose_book_set" />
+
+        <TextView
+            android:id="@+id/my_books_radio_grp_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="I want to:"
+            android:textColor="#000000"
+            app:layout_constraintStart_toStartOf="@+id/my_books_location_title"
+            app:layout_constraintTop_toBottomOf="@id/my_books_location_title" />
+
+        <RadioGroup
+            android:id="@+id/my_books_radio_grp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="@+id/my_books_choose_location_edit_text"
+            app:layout_constraintTop_toBottomOf="@+id/my_books_radio_grp_title">
+
+            <RadioButton
+                android:id="@+id/exchange_radio_btn"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Exchange books"
+                android:textColor="#000000" />
+
+            <RadioButton
+                android:id="@+id/leave_book_radio_btn"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:text="Leave the book there"
+                android:textColor="#000000"
+                tools:layout_editor_absoluteY="7dp" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/finish_my_books_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="16dp"
+            android:text="Add Book!"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_books_radio_grp"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</ScrollView>
