@@ -64,10 +64,20 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.map_fragment_sliding_up, container, false);
+        setAttributes(view);
+        initGoogleMap(savedInstanceState);
+        /* handling click on "addBook" button */
+        handlingAddBookButton(view);
+        /* handling click on "centerMapToMyLocation" button */
+        handlingRecenterFAB(view);
+        return view;
+    }
+
+
+    private void setAttributes(View view){
         mMapView = (MapView) view.findViewById(R.id.map);
         mSearchText = (AutoCompleteTextView) view.findViewById(R.id.input_search);
         mRecenter = (ImageView) view.findViewById(R.id.myLocationFloatingBottom);
-        initGoogleMap(savedInstanceState);
         mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingLayout);
         mLayout.setPanelHeight(0);
         mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
@@ -88,15 +98,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
-
-        /* handling click on "addBook" button */
-        handlingAddBookButton(view);
-        /* handling click on "centerMapToMyLocation" button */
-        handlingRecenterFAB(view);
-        return view;
     }
-
-
 
 
 
@@ -134,6 +136,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         String searchString = mSearchText.getText().toString();
         Geocoder geocoder = new Geocoder(getActivity());
         List<Address> list = new ArrayList<>();
+
         try{
             list = geocoder.getFromLocationName(searchString,1);
         } catch (IOException e){
@@ -148,6 +151,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
                     address.getAddressLine(0));
         }
+
     }
 
     public void moveCamera(LatLng latLng, float zoom, String title){
@@ -157,6 +161,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         MarkerOptions options = new MarkerOptions().position(latLng).title(title);
         mGoogleMap.addMarker(options);
         mGoogleMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(getContext()));
+        //todo: when searching, destory marker after first search.
     }
 
 
@@ -170,8 +175,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             mapViewBundle = savedInstanceState.getBundle(MAPVIEW_BUNDLE_KEY);
         }
         mMapView.onCreate(mapViewBundle);
-
         mMapView.getMapAsync(this);
+
 
     }
 
@@ -199,6 +204,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             return;
         }
         init();
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(23.071181,
+                79.596163), 4)); // initial zoom and center for map
         mGoogleMap.setOnMarkerClickListener(this);
         initMarkers();
 //        tempBookMarkers();
