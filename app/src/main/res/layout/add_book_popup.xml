@@ -7,6 +7,7 @@
     android:layout_width="300dp"
     android:layout_height="200dp"
     android:layout_gravity="center"
+    android:layoutDirection="ltr"
     android:orientation="vertical"
     android:theme="@android:style/Theme.Holo.Dialog">
 
@@ -41,8 +42,9 @@
         android:id="@+id/add_new_book_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:text="@string/new_book_btn"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,11 +53,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/choose_book_location_text" />
 
+
     <Button
         android:id="@+id/add_existing_book_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:text="@string/existing_book_btn"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,4 +67,6 @@
         app:layout_constraintStart_toEndOf="@+id/add_new_book_btn"
         app:layout_constraintTop_toTopOf="@+id/add_new_book_btn"
         app:layout_constraintVertical_bias="0.0" />
+
+
 </android.support.constraint.ConstraintLayout>

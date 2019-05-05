@@ -36,17 +36,13 @@ public class AddBookPopup extends DialogFragment {
         existingBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-                ft.addToBackStack(null);
-                DialogFragment dialogFragment = new ChooseBookLocationPopup();
-                dialogFragment.show(ft, "dialog");
                 dismiss();
+                Fragment f = new ChooseFromMyBooks();
+                loadFragment(f);
             }
         });
+
+
         return v;
     }
 

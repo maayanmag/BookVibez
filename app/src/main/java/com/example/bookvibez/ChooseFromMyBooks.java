@@ -14,45 +14,22 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
-public class NewBookFragment extends Fragment {
+public class ChooseFromMyBooks extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_new_book_layout, null);
-        Spinner spinner = (Spinner) view.findViewById(R.id.book_type_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(inflater.getContext(),
-                R.array.book_types, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+        View view = inflater.inflate(R.layout.fragment_choose_from_my_books, null);
+        Button finishBtn = view.findViewById(R.id.finish_my_books_btn);
 
-        Button addImageBtn = view.findViewById(R.id.add_image_btn);
-        Button addBookBtn = view.findViewById(R.id.finish_adding_book_btn);
-
-        addImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-                ft.addToBackStack(null);
-                DialogFragment dialogFragment = new AddBookImagePopup();
-                dialogFragment.show(ft, "dialog");
-            }
-            });
 
         RadioGroup radioGrp = view.findViewById(R.id.radio_grp);
         RadioButton defaultBtn = view.findViewById(R.id.exchange_radio_btn);
         defaultBtn.setChecked(true);
 
 
-        addBookBtn.setOnClickListener(new View.OnClickListener() {
+        finishBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Fragment f = new MapFragment();
@@ -80,6 +57,4 @@ public class NewBookFragment extends Fragment {
         }
         return false;
     }
-
-
 }
