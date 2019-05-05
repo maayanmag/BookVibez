@@ -23,8 +23,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="345dp"
-            android:background="@mipmap/edit_pngrepo_com"/>
+            android:layout_marginStart="360dp"
+            android:background="@mipmap/edit_pngrepo_com" />
 
         <TextView
             android:id="@+id/profile_name"
@@ -72,8 +72,8 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:layout_marginStart="345dp"
-            android:background="@mipmap/edit_pngrepo_com"/>
+            android:layout_marginStart="360dp"
+            android:background="@mipmap/edit_pngrepo_com" />
 
 
         <TextView
@@ -111,6 +111,8 @@
                 android:layout_marginBottom="30dp"
                 android:hint="Vibez" />
         </android.support.design.widget.TextInputLayout>
+
+
     </RelativeLayout>
 
 
