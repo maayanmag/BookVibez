@@ -18,9 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:contentScrim="?attr/colorPrimary"
+            app:contentScrim="@color/colorPrimaryDark"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:title="@string/book_name" >
+            app:title="@string/book_name">
 
             <ImageView
                 android:id="@+id/toolbar_image"

@@ -33,7 +33,7 @@ public class BookPageFragment extends Fragment implements View.OnClickListener {
 
         View view = inflater.inflate(R.layout.fragment_book_page, container, false);
 
-        getAttrinutesIds(view);
+        getAttributesIds(view);
         handlingFloatingButton(view);
 
         if(bookToDisplay != null)
@@ -43,7 +43,7 @@ public class BookPageFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    private void getAttrinutesIds(View view) {
+    private void getAttributesIds(View view) {
         bookImg = (ImageView) view.findViewById(R.id.toolbar_image);
         ownerImg = (ImageView) view.findViewById(R.id.current_owner_profile_pic);
 

@@ -29,9 +29,10 @@
             android:id="@+id/book_name_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="The Secret"
             android:layout_margin="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:text="The Secret"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/book_author"
@@ -47,7 +48,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:text="Unknown"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/book_gener"
@@ -61,10 +63,11 @@
             android:id="@+id/book_genre_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Deep Meditation"
             android:layout_margin="8dp"
+            android:text="Deep Meditation"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/black"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            android:textSize="20sp" />
 
         <!-- -->
 

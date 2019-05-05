@@ -45,7 +45,7 @@ public class LoginActivityUnfinished extends AppCompatActivity implements View.O
 
         /* loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class); */
-
+/*
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
@@ -96,7 +96,7 @@ public class LoginActivityUnfinished extends AppCompatActivity implements View.O
 
         */
 
-
+/*
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -108,6 +108,8 @@ public class LoginActivityUnfinished extends AppCompatActivity implements View.O
         SignInButton signInButton = findViewById(R.id.google_sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         findViewById(R.id.google_sign_in_button).setOnClickListener(this);
+
+
 
         /* ALSO REGARDING GOOGLE: in onStart method to put this code:
         // Check for existing Google Sign In account, if the user is already signed in
