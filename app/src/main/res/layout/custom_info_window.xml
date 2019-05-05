@@ -27,7 +27,6 @@
             android:layout_alignParentTop="true"
             android:layout_margin="5dp"
             android:scaleType="fitCenter"
-            android:background="@drawable/buttonshape"
             android:src="@drawable/art_of_listening" />
 
         <TextView
