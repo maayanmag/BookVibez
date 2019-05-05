@@ -23,7 +23,6 @@ public class AddBookPopup extends DialogFragment {
         View v = inflater.inflate(R.layout.add_book_popup, container, false);
         Button newBookButton = (Button) v.findViewById(R.id.add_new_book_btn);
         Button existingBookButton = (Button) v.findViewById(R.id.add_existing_book_btn);
-
         newBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
