@@ -1,6 +1,5 @@
 package com.example.bookvibez;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -13,25 +12,19 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.GeoPoint;
-
-
-import static com.example.bookvibez.Constants.DEFAULT_ZOOM;
 import static com.example.bookvibez.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.bookvibez.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.example.bookvibez.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
@@ -47,13 +40,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //loading the default fragment
         loadFragment(new MapFragment());
-
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        //getting bottom navigation view and attaching the listener
-        BottomNavigationView navView = findViewById(R.id.navigation);
-        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        handlingBottomNavigationView();
     }
 
     public void getDeviceLocation() {
@@ -67,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             Location location = task.getResult();
                             //GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                            Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
-                            Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
+//                            Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
+//                            Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
 //                            FragmentManager fm = getSupportFragmentManager();
 //
 //                            //if you added fragment via layout xml
@@ -86,6 +74,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void handlingBottomNavigationView(){
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        BottomNavigationView navView = findViewById(R.id.navigation);
+        navView.setSelectedItemId(R.id.navigation_map_view);
+        navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+    }
 //------------------------------------------------
     /* implementation of the listener to the bottom navigation menu */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener

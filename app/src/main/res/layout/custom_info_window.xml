@@ -24,7 +24,7 @@
             android:layout_height="108dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/art_of_listening"
+            android:src="@drawable/book2"
             />
 
         <TextView
