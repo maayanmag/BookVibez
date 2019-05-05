@@ -49,4 +49,6 @@
     <string name="search_title">search books at...</string>
     <string name="app_slogen">this will be slogen</string>
     <string name="current_owner">Contact Current Owner</string>
+    <string name="books_i_read">Books I read</string>
+    <string name="my_books">My Books</string>
 </resources>
