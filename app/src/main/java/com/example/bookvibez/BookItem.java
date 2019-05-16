@@ -8,6 +8,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BookItem {
     private int id;
@@ -19,6 +20,7 @@ public class BookItem {
     private int bookImg;
     private String location;
     private LatLng latLng;
+    private HashMap<User, Comment> timeline;
 
     public BookItem(int id, String title, String author, int src) {
         this.id = id;
@@ -42,6 +44,7 @@ public class BookItem {
         ownerImg = R.mipmap.man_icon;
         latLng = lng;
         location = snp;
+        timeline = new HashMap<User, Comment>();
     }
 
     public String getSLocation() {
