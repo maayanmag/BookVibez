@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
                             Location location = task.getResult();
-                            GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-                            Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
-                            Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
+                           // GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                           // Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
+                            //Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
 
 
 //                            FragmentManager fm = getSupportFragmentManager();
