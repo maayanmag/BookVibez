@@ -1,20 +1,20 @@
-package com.example.bookvibez;
+package com.example.bookvibez.AddBook;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
+
+import com.example.bookvibez.MapFragment;
+import com.example.bookvibez.R;
 
 public class ChooseFromMyBooks extends Fragment {
 
