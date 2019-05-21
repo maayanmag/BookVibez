@@ -35,6 +35,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.IOException;
@@ -56,6 +61,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private SlidingUpPanelLayout mLayout;
     public static List<BookItem> bookItemList = ListOfBooks.random_books();
     private List<Marker> markersList = new ArrayList<Marker>();
+    private FirebaseFirestore mDb;
 
 
 
@@ -79,6 +85,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mSearchText = (AutoCompleteTextView) view.findViewById(R.id.input_search);
         mRecenter = (ImageView) view.findViewById(R.id.myLocationFloatingBottom);
         mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingLayout);
+        mDb = FirebaseFirestore.getInstance();
         mLayout.setPanelHeight(0);
         mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
             @Override
@@ -374,7 +381,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 //        }
         return false;
     }
-
-
 }
 

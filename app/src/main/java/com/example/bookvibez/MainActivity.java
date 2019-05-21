@@ -25,6 +25,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.GeoPoint;
+
 import static com.example.bookvibez.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.bookvibez.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.example.bookvibez.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
@@ -54,9 +56,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
                             Location location = task.getResult();
-                            //GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-//                            Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
-//                            Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
+                            GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                            Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
+                            Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
+
+
 //                            FragmentManager fm = getSupportFragmentManager();
 //
 //                            //if you added fragment via layout xml
