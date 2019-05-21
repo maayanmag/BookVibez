@@ -17,6 +17,7 @@ public class BookItem {
     private String ownerName;
     private int ownerImg;
     private int bookImg;
+    private int points;
     private String location;
     private LatLng latLng;
 
@@ -62,6 +63,14 @@ public class BookItem {
 
     public int getId() {
         return id;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
     }
 
     public String getTitle() {

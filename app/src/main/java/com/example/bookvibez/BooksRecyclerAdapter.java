@@ -69,7 +69,6 @@ public class BooksRecyclerAdapter extends RecyclerView.Adapter<BooksRecyclerAdap
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView title, author;
-        private BookItem book;
         private ImageView img;
         private View mView;
 

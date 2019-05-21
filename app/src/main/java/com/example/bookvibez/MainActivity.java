@@ -17,7 +17,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -97,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new ListOfBooks();
                     break;
                 case R.id.navigation_profile:
-                    fragment = new ProfileFragment();
+                    fragment = new Leaderboard();
                     break;
             }
             return loadFragment(fragment);
