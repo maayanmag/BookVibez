@@ -125,38 +125,50 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
-            <ImageView
-                android:id="@+id/books_set1"
-                android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:layout_marginTop="15dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/img1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_myBooks" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/my_books_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/title_myBooks"
+                app:layout_constraintTop_toBottomOf="@+id/title_myBooks">
+
+            </android.support.v7.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/title_booksIRead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
                 android:layout_marginTop="20dp"
                 android:text="@string/books_i_read"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="20dp"
                 android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/books_set1" />
+                app:layout_constraintStart_toStartOf="@+id/title_myBooks"
+                app:layout_constraintTop_toBottomOf="@+id/my_books_recycler_view" />
 
-            <ImageView
-                android:id="@+id/books_set2"
+            <!--<ImageView-->
+                <!--android:id="@+id/books_set2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="120dp"-->
+                <!--android:layout_marginTop="15dp"-->
+                <!--android:scaleType="fitXY"-->
+                <!--android:src="@mipmap/temp2"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintTop_toBottomOf="@+id/title_booksIRead" />-->
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/books_i_read_recycler_view"
                 android:layout_width="wrap_content"
-                android:layout_height="120dp"
-                android:layout_marginTop="15dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/temp2"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/title_booksIRead" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="@+id/title_booksIRead"
+                app:layout_constraintTop_toBottomOf="@+id/title_booksIRead">
+
+            </android.support.v7.widget.RecyclerView>
+
 
         </android.support.constraint.ConstraintLayout>
 </RelativeLayout>
