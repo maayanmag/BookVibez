@@ -2,50 +2,44 @@ package com.example.mybookvibez;
 
 
 import com.google.android.gms.maps.model.LatLng;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.HashMap;
+
 
 public class BookItem {
-    private int id;
-    private String title;
-    private String author;
-    private String genre;
-    private String ownerName;
-    private int ownerImg;
-    private int bookImg;
-    private int points;
-    private String location;
+    private String id, title, author, genre, ownerId, bookImg, location;
+    private int points, giveaway;
     private LatLng latLng;
-    private HashMap<User, Comment> timeline;
+    private ArrayList<Comment> comments;
 
-    public BookItem(int id, String title, String author, int src) {
-        this.id = id;
+    public enum GIVE_BOOK {EXCHANGE, LEAVE}
+
+    public BookItem(){
+
+    }
+
+    public BookItem(String title, String author, int src) {
+        this.id = "0";
         this.title = title;
         this.author = author;
-        this.bookImg = src;
-        ownerName = "Tom Hanks";
         genre = "no genre defined";
-        ownerImg = R.mipmap.man_icon;
+        comments = new ArrayList<>();
     }
 
 
 
-    public BookItem(int id, String title, String author, int src, LatLng lng, String snp, String bookGenre) {
-        this.id = id;
+    public BookItem(String title, String author, String bookGenre, int giveaway) {
+        this.id = "";
         this.title = title;
         this.author = author;
-        this.bookImg = src;
-        ownerName = "Tom Hanks";
+        this.giveaway = giveaway;
+        this.location = "";
         genre = bookGenre;
-        ownerImg = R.mipmap.man_icon;
-        latLng = lng;
-        location = snp;
-        timeline = new HashMap<User, Comment>();
+        latLng = null;
+        comments = new ArrayList<>();
+
     }
 
     public String getSLocation() {
@@ -64,7 +58,7 @@ public class BookItem {
         this.latLng = latLng;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -84,7 +78,7 @@ public class BookItem {
         return author;
     }
 
-    public int getBookImg() {
+    public String getBookImg() {
         return bookImg;
     }
 
@@ -96,13 +90,10 @@ public class BookItem {
         this.genre = genre;
     }
 
-    public String getOwnerName() {
-        return ownerName;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public int getOwnerImg() {
-        return ownerImg;
-    }
 
     // Constructor to convert JSON object into a Java class instance
     public BookItem(JSONObject object){

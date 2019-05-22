@@ -22,7 +22,7 @@ import com.google.firebase.storage.UploadTask;
 
 import static android.app.Activity.RESULT_OK;
 
-
+@SuppressWarnings("deprecation")
 public class AddBookImagePopup extends DialogFragment {
 
     private ImageView mImageView;
