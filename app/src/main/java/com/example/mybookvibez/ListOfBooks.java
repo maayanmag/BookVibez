@@ -25,7 +25,7 @@ import java.util.List;
 
 public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListener {
 
-    private List<BookItem> booksList = new ArrayList<>();
+    public ArrayList<BookItem> booksList = new ArrayList<>();
     private RecyclerView recyclerView;
     private BooksRecyclerAdapter adapter;
     private SearchView searchView;
@@ -36,11 +36,11 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
 
         View view = inflater.inflate(R.layout.fragment_list_layout, container, false);
 
-        booksList = random_books(); //TODO - will be replaced when connecting to FireBase
-
         handlingRecycleViewer(view);
         handlingAddBookButton(view);
         handlingSearchView(view);
+
+        ServerApi.getInstance().getBooksList(booksList, adapter);
 
         return view;
     }
@@ -108,7 +108,7 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
     }
 
 
-    /* temporary function to load data into booksList, will be deleted when we have a database */
+    /* temporary function to load data into booksList, will be deleted when we have a database
     public static List<BookItem> random_books() {
         List<BookItem> l = new ArrayList<>();
         BookItem b1 = new BookItem(0,"A Little Bit of Meditation", "Amy Leigh Mercree", R.drawable.book1);
@@ -123,7 +123,7 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         l.add(b11); l.add(b22); l.add(b33); l.add(b44);
         return l;
     }
-
+*/
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -136,6 +136,10 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         Toast.makeText(getContext(), "Query filtering", Toast.LENGTH_SHORT).show();
         adapter.filter(place);
         return true;
+    }
+
+    public List<BookItem> getBooksList() {
+        return booksList;
     }
 
 
