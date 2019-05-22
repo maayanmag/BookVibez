@@ -1,17 +1,20 @@
 package com.example.bookvibez;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+import com.google.firebase.firestore.ServerTimestamp;
+
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 
+@IgnoreExtraProperties
 public class Comment {
     private String comment;
-    private int rate;
-    private Date date;
+    private Timestamp time;
 
-    public Comment(String comment, int rate, Date date){
+    public Comment(String comment, Timestamp time){
         this.comment =comment;
-        this.rate = rate;
-        this.date = date;
+        this.time = time;
     }
 
     public String getComment() {
@@ -22,19 +25,11 @@ public class Comment {
         this.comment = comment;
     }
 
-    public int getRate() {
-        return rate;
+    public Timestamp getDate() {
+        return time;
     }
 
-    public void setRate(int rate) {
-        this.rate = rate;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(Timestamp time) {
+        this.time = time;
     }
 }
