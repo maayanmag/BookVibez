@@ -17,7 +17,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -25,6 +24,8 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.GeoPoint;
+
 import static com.example.bookvibez.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.bookvibez.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
 import static com.example.bookvibez.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
@@ -54,9 +55,11 @@ public class MainActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Location> task) {
                         if (task.isSuccessful()) {
                             Location location = task.getResult();
-                            //GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
-//                            Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
-//                            Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
+                            GeoPoint geoPoint = new GeoPoint(location.getLatitude(), location.getLongitude());
+                            Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
+                            Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
+
+
 //                            FragmentManager fm = getSupportFragmentManager();
 //
 //                            //if you added fragment via layout xml
@@ -97,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new ListOfBooks();
                     break;
                 case R.id.navigation_profile:
+//                    fragment = new Leaderboard();
                     fragment = new ProfileFragment();
                     break;
             }

@@ -10,13 +10,12 @@ public class User {
     private String vibeString;
     private int userImg;
 
-    public User(String name, ArrayList<BookItem> myBooks, ArrayList<BookItem> booksIRead,
-                String vibeString, int userImg){
+    public User(String name, int p, int userImg){
         this.name = name;
-        this.myBooks = myBooks;
-        this.booksIRead = booksIRead;
-        this.vibePoints = 0;
-        this.vibeString = "";
+        this.myBooks = new ArrayList<>();
+        this.booksIRead  = new ArrayList<>();
+        this.vibePoints = p;
+        this.vibeString = "hi";
         this.userImg = userImg;
     }
 
@@ -44,6 +43,10 @@ public class User {
         this.booksIRead = booksIRead;
     }
 
+    public String getVibePointsString() {
+        return "" + vibePoints;
+    }
+
     public int getVibePoints() {
         return vibePoints;
     }
@@ -60,4 +63,11 @@ public class User {
         this.vibeString = vibeString;
     }
 
+    public int getUserImg() {
+        return userImg;
+    }
+
+    public void setUserImg(int userImg) {
+        this.userImg = userImg;
+    }
 }

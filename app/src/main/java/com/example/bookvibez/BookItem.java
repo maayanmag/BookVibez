@@ -18,6 +18,8 @@ public class BookItem {
     private String ownerName;
     private int ownerImg;
     private int bookImg;
+    private int points;
+    private String bookImgUrl;
     private String location;
     private LatLng latLng;
     private HashMap<User, Comment> timeline;
@@ -34,11 +36,12 @@ public class BookItem {
 
 
 
-    public BookItem(int id, String title, String author, int src, LatLng lng, String snp, String bookGenre) {
+    public BookItem(int id, String title, String author, int src, LatLng lng, String snp, String bookGenre, String bookImgUrl) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.bookImg = src;
+        this.bookImgUrl = bookImgUrl;
         ownerName = "Tom Hanks";
         genre = bookGenre;
         ownerImg = R.mipmap.man_icon;
@@ -67,6 +70,14 @@ public class BookItem {
         return id;
     }
 
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -78,6 +89,11 @@ public class BookItem {
     public int getBookImg() {
         return bookImg;
     }
+
+    public String getBookImgUrl() {
+        return bookImgUrl;
+    }
+
 
     public String getGenre() {
         return genre;

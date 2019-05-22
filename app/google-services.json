@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "179429553849-mtnv7e1r16qmubdtfj0gg65hi37o10m5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bookvibez",
+            "certificate_hash": "40bcba20520ef6b78e292e7a655dd2975833fe88"
+          }
+        },
+        {
           "client_id": "179429553849-2hgtqnr259kod4rogaqt5iqfo3vvmb9l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

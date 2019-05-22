@@ -9,6 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +23,12 @@ import static com.example.bookvibez.ListOfBooks.random_books;
 
 
 public class ProfileFragment extends Fragment {
+
+//    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+//    FirebaseStorage storage = FirebaseStorage.getInstance();
+//    StorageReference storageRef = storage.getReference();
+//    private CollectionReference bookRef = db.collection("books");
+//    private BookFirestoreAdapter firestoreAdapter;
 
     private List<BookItem> myBooks = new ArrayList<>();
 
@@ -65,13 +78,33 @@ public class ProfileFragment extends Fragment {
         });
 
         booksIReadRecyclerView.setAdapter(booksIReadAdapter);
+//        setUpRecyclerView(view);
 
 
         return view;
     }
 
-    private void getImages() {
-
-    }
-
+//    private void setUpRecyclerView(View view) {
+//        Query query = bookRef.orderBy("dateAdded");
+//        FirestoreRecyclerOptions<BookItem> options = new FirestoreRecyclerOptions.Builder<BookItem>()
+//                .setQuery(query, BookItem.class).build();
+//
+//        firestoreAdapter = new BookFirestoreAdapter(options, getContext());
+//        RecyclerView recyclerView = view.findViewById(R.id.my_books_recycler_view);
+//        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//        recyclerView.setAdapter(firestoreAdapter);
+//    }
+//
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        firestoreAdapter.startListening();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        firestoreAdapter.stopListening();
+//    }
 }
