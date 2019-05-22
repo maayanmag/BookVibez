@@ -1,7 +1,6 @@
-package com.example.bookvibez;
+package com.example.mybookvibez;
 
 import java.sql.Date;
-import java.sql.Time;
 
 public class Comment {
     private String comment;

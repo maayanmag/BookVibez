@@ -1,4 +1,4 @@
-package com.example.bookvibez;
+package com.example.mybookvibez;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

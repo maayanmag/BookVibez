@@ -1,4 +1,4 @@
-package com.example.bookvibez;
+package com.example.mybookvibez;
 
 import android.os.Build;
 import android.os.Bundle;

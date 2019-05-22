@@ -1,4 +1,4 @@
-package com.example.bookvibez;
+package com.example.mybookvibez;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -23,7 +23,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.bookvibez.AddBook.AddBookPopup;
+import com.example.mybookvibez.AddBook.AddBookPopup;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -33,9 +33,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
@@ -44,8 +41,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.bookvibez.Constants.DEFAULT_ZOOM;
-import static com.example.bookvibez.Constants.MAPVIEW_BUNDLE_KEY;
+import static com.example.mybookvibez.Constants.DEFAULT_ZOOM;
+import static com.example.mybookvibez.Constants.MAPVIEW_BUNDLE_KEY;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {

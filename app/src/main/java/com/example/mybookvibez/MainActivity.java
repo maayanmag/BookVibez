@@ -1,4 +1,4 @@
-package com.example.bookvibez;
+package com.example.mybookvibez;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -24,11 +24,10 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.GeoPoint;
 
-import static com.example.bookvibez.Constants.ERROR_DIALOG_REQUEST;
-import static com.example.bookvibez.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
-import static com.example.bookvibez.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
+import static com.example.mybookvibez.Constants.ERROR_DIALOG_REQUEST;
+import static com.example.mybookvibez.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
+import static com.example.mybookvibez.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
 public class MainActivity extends AppCompatActivity {
 

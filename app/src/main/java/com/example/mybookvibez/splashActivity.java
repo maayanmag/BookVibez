@@ -1,14 +1,9 @@
-package com.example.bookvibez;
+package com.example.mybookvibez;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 
 /**
  * The splash screen that loads when pressing the app icon. connects to the MainActivity (needs to

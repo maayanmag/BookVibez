@@ -1,4 +1,4 @@
-package com.example.bookvibez;
+package com.example.mybookvibez;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,8 +8,6 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
-
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 

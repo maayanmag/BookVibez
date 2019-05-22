@@ -1,4 +1,4 @@
-package com.example.bookvibez.AddBook;
+package com.example.mybookvibez.AddBook;
 
 
 import android.app.ProgressDialog;
@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.bookvibez.R;
+import com.example.mybookvibez.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -42,7 +42,7 @@ public class AddBookImagePopup extends DialogFragment {
         View v = inflater.inflate(R.layout.add_book_image_popup, container, false);
         Button cameraBtn = (Button) v.findViewById(R.id.camera_btn);
         Button galleryBtn = (Button) v.findViewById(R.id.gallery_btn);
-        mImageView = (ImageView) v.findViewById(R.id.bookImage);
+        //mImageView = (ImageView) v.findViewById(R.id.bookImage);
         mStorage = FirebaseStorage.getInstance().getReference();
         mProgress = new ProgressDialog(getContext());
         cameraBtn.setOnClickListener(new View.OnClickListener() {

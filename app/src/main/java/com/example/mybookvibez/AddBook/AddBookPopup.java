@@ -1,4 +1,4 @@
-package com.example.bookvibez.AddBook;
+package com.example.mybookvibez.AddBook;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
-import com.example.bookvibez.R;
+import com.example.mybookvibez.R;
 
 
 public class AddBookPopup extends DialogFragment {

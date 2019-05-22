@@ -1,4 +1,4 @@
-package com.example.bookvibez.AddBook;
+package com.example.mybookvibez.AddBook;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,8 +15,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 
-import com.example.bookvibez.MapFragment;
-import com.example.bookvibez.R;
+import com.example.mybookvibez.MapFragment;
+import com.example.mybookvibez.R;
 
 public class NewBookFragment extends Fragment {
 
