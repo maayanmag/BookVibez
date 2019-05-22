@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
 //                            Log.d(TAG, "onComplete: latitude: " + location.getLatitude());
 //                            Log.d(TAG, "onComplete: longitude: " + location.getLongitude());
 
-
 //                            FragmentManager fm = getSupportFragmentManager();
 //
 //                            //if you added fragment via layout xml
