@@ -57,7 +57,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private ImageView mRecenter;
     private static final String TAG = "MapFragment";
     private SlidingUpPanelLayout mLayout;
-    public static List<BookItem> bookItemList = ListOfBooks.random_books();
+    public static List<BookItem> bookItemList = new ArrayList<>();
     private List<Marker> markersList = new ArrayList<Marker>();
     private FirebaseFirestore mDb;
 
@@ -212,7 +212,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(23.071181,
                 79.596163), 4)); // initial zoom and center for map
         mGoogleMap.setOnMarkerClickListener(this);
-        initMarkers();
+//        initMarkers();
 //        tempBookMarkers();
         //googleMap.setMyLocationEnabled(true); // todo: current location -if we want it, comment back.
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -346,7 +346,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
         for (int i = 0; i <4; i++){
             BookItem b = bookItemList.get(i);
-            String snip =  "Location: "+b.getSLocation()+ "\nCurrent Owner: "+b.getOwnerName();
+            String snip =  "Location: "+b.getSLocation()+ "\nCurrent Owner: "+"Lior Saadon";        //TODO
             MarkerOptions m = new MarkerOptions().position(b.getLatLng()).snippet(snip)
                     .title(b.getTitle()).icon(addIconToMap(b));
             Marker marker = mGoogleMap.addMarker(m);
