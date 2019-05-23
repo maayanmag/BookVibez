@@ -2,6 +2,7 @@ package com.example.bookvibez;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
@@ -18,6 +19,12 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.bookvibez.AddBook.AddBookPopup;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +32,9 @@ import java.util.List;
 
 public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListener {
 
-    private List<BookItem> booksList = new ArrayList<>();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference books = db.collection("books");
+    public ArrayList<BookItem> booksList = new ArrayList<>();
     private RecyclerView recyclerView;
     private BooksRecyclerAdapter adapter;
     private SearchView searchView;
@@ -36,11 +45,11 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
 
         View view = inflater.inflate(R.layout.fragment_list_layout, container, false);
 
-        booksList = random_books(); //TODO - will be replaced when connecting to FireBase
-
         handlingRecycleViewer(view);
         handlingAddBookButton(view);
         handlingSearchView(view);
+
+        booksList = getBooksList();
 
         return view;
     }
@@ -108,7 +117,7 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
     }
 
 
-    /* temporary function to load data into booksList, will be deleted when we have a database */
+    // temporary function to load data into booksList, will be deleted when we have a database
     public static List<BookItem> random_books() {
         List<BookItem> l = new ArrayList<>();
         BookItem b1 = new BookItem(0,"A Little Bit of Meditation", "Amy Leigh Mercree", R.drawable.book1);
@@ -136,6 +145,24 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         Toast.makeText(getContext(), "Query filtering", Toast.LENGTH_SHORT).show();
         adapter.filter(place);
         return true;
+    }
+
+    public ArrayList<BookItem> getBooksList() {
+        books.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                            }
+                        } else {
+                        }
+                    }
+                });
+
+
+        return booksList;
     }
 
 

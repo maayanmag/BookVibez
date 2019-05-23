@@ -34,10 +34,11 @@ public class NewBookFragment extends Fragment {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-        Button addImageBtn = view.findViewById(R.id.add_image_btn);
+        Button addFrontImageBtn = view.findViewById(R.id.addBookFrontImgBtn);
+        Button addBackImageBtn = view.findViewById(R.id.addBookBackImgBtn);
         Button addBookBtn = view.findViewById(R.id.finish_adding_book_btn);
 
-        addImageBtn.setOnClickListener(new View.OnClickListener() {
+        addFrontImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
@@ -49,7 +50,23 @@ public class NewBookFragment extends Fragment {
                 DialogFragment dialogFragment = new AddBookImagePopup();
                 dialogFragment.show(ft, "dialog");
             }
-            });
+        });
+
+        addBackImageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+                if (prev != null) {
+                    ft.remove(prev);
+                }
+                ft.addToBackStack(null);
+                DialogFragment dialogFragment = new AddBookImagePopup();
+                dialogFragment.show(ft, "dialog");
+            }
+        });
+
+
 
         RadioGroup radioGrp = view.findViewById(R.id.radio_grp);
         RadioButton defaultBtn = view.findViewById(R.id.exchange_radio_btn);

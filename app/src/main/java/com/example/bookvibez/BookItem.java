@@ -2,6 +2,7 @@ package com.example.bookvibez;
 
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -117,6 +118,19 @@ public class BookItem {
             this.title = object.getString("title");
             this.author = object.getString("author");
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public BookItem(QueryDocumentSnapshot document){
+        try {
+            this.title = document.getString("title");
+            this.author = document.getString("author");
+//            this.id = document.getId();
+//            this.bookImg = document.getString("bookImg");
+            this.bookImgUrl = bookImgUrl;
+            timeline = new HashMap<User, Comment>();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
