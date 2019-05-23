@@ -13,7 +13,7 @@
         android:background="@color/white">
 
         <TextView
-            android:id="@+id/userFirstName"
+            android:id="@+id/user_first_name"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/userLastName"
+            android:id="@+id/user_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -42,7 +42,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userFirstName" />
+            app:layout_constraintTop_toBottomOf="@+id/user_first_name" />
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image"
@@ -55,7 +55,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/userLastName" />
+            app:layout_constraintTop_toBottomOf="@+id/user_last_name" />
 
         <TextView
             android:id="@+id/myVibe"

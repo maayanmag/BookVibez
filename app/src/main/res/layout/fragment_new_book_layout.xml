@@ -97,7 +97,6 @@
             android:layout_height="182dp"
             android:layout_marginTop="24dp"
             android:background="@drawable/rectanglez"
-            android:backgroundTint="#00F9F9F9"
             android:gravity="center"
             android:text="Add \nFront Cover"
             android:textAllCaps="false"
@@ -186,6 +185,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/exchange_title"
+                android:tag="EXCHANGE"
                 android:textColor="#000000"
                 android:textColorLink="@color/colorPrimaryDark" />
 
@@ -195,6 +195,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/leave_title"
                 android:textColor="#000000"
+                android:tag="LEAVE"
                 android:textColorLink="@color/colorPrimaryDark"
                 tools:layout_editor_absoluteY="7dp" />
         </RadioGroup>
