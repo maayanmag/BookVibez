@@ -52,6 +52,7 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import static com.facebook.appevents.UserDataStore.EMAIL;
 
@@ -271,8 +272,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.d("AuthUI", "createUserWithEmail:success");
                             MainActivity.user = firebaseAuth.getCurrentUser();
                             MainActivity.userId = MainActivity.user.getUid();
-                            User user = new User("Maayan Yossef", 0, 0);
-//                            ServerApi.getInstance().addUser(user);
+                            HashMap<String, Object> user = new HashMap<>();
+                            user.put("name", "Maayan");
+                            ServerApi.getInstance().addUser(user, MainActivity.userId);
                             Intent main = new Intent(act.getApplicationContext(), MainActivity.class);
                             act.startActivity(main);
                             act.finish();

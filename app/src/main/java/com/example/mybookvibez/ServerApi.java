@@ -127,8 +127,19 @@ public class ServerApi {
         });
     }
 
-//    public void addUser(User user)
-//    {
+    public void addUser(HashMap<String, Object> user, String id)
+    {
+        db.collection(USERS_DB).document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                System.out.println("BOOK_ADDED_SUCCESSFULLY");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println("BOOK_ADDING_FAILED");
+            }
+        });
 //        db.collection(USERS_DB).add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
 //            @Override
 //            public void onSuccess(DocumentReference DocumentReference) {
@@ -141,8 +152,8 @@ public class ServerApi {
 //                        System.out.println("BOOK_ADDING_FAILED");
 //                    }
 //                });
-//    }
-//
+    }
+
 
 //
 //    public void updateBook(String id, String field, Object val)
