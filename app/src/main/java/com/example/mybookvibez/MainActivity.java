@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new ListOfBooks();
                     break;
                 case R.id.navigation_leaderboard:
-                    fragment = new ProfileFragment();
-//                    fragment = new Leaderboard();
+//                    fragment = new ProfileFragment();
+                    fragment = new Leaderboard();
                     break;
             }
             return loadFragment(fragment);

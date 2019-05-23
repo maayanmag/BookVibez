@@ -148,22 +148,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         // if everything OK:
         progressDialog.setMessage("Registering user...");
         progressDialog.show();
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this,
-                new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finish();
-                        }
-                        else {
-                            Toast.makeText(LoginActivity.this, "Could not register, please try " +
-                                            "again",
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-                    }
-                });
+        signUp(email, password, this);
+//        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this,
+//                new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()){
+//                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                            finish();
+//                        }
+//                        else {
+//                            Toast.makeText(LoginActivity.this, "Could not register, please try " +
+//                                            "again",
+//                                    Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                    }
+//                });
     }
 
     private void userLogin(){
@@ -273,7 +274,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             MainActivity.user = firebaseAuth.getCurrentUser();
                             MainActivity.userId = MainActivity.user.getUid();
                             HashMap<String, Object> user = new HashMap<>();
-                            user.put("name", "Maayan");
+                            user.put("name", "Maayan Yossef");
+                            user.put("booksIRead", null);
+                            user.put("myBooks", null);
+                            user.put("vibePoints", 0);
+                            user.put("vibeString", "");
                             ServerApi.getInstance().addUser(user, MainActivity.userId);
                             Intent main = new Intent(act.getApplicationContext(), MainActivity.class);
                             act.startActivity(main);
@@ -281,6 +286,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("AuthUI", "createUserWithEmail:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Could not register, please try " +
+                                            "again",
+                                    Toast.LENGTH_SHORT).show();
+
                         }
 
 
