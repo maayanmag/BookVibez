@@ -24,6 +24,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseUser;
 
 import static com.example.mybookvibez.Constants.ERROR_DIALOG_REQUEST;
 import static com.example.mybookvibez.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
@@ -34,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    public static FirebaseUser user;
+    public static String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
