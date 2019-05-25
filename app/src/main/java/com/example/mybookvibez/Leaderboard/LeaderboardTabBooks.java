@@ -1,7 +1,6 @@
-package com.example.mybookvibez;
+package com.example.mybookvibez.Leaderboard;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -15,7 +14,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.example.mybookvibez.BookItem;
+import com.example.mybookvibez.BookPageFragment;
+import com.example.mybookvibez.ListOfBooks;
+import com.example.mybookvibez.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,25 +26,25 @@ import java.util.Comparator;
 import java.util.List;
 
 
-public class LeaderboardTabUsers extends Fragment {
+public class LeaderboardTabBooks extends Fragment {
 
-    private List<User> userList;
+    private List<BookItem> booksList = ListOfBooks.getBooksList();
     private RecyclerView recyclerView;
-    public static UsersLeaderAdapter adapter;
+    public static BooksLeaderAdapter adapter;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.leaderboard_tab_users, container, false);
+        View view = inflater.inflate(R.layout.leaderboard_tab_books, container, false);
 
         /* sort */
-        Comparator<User> cmp = new Comparator<User>() {
+        Comparator<BookItem> cmp = new Comparator<BookItem>() {
             @Override
-            public int compare(User u1, User u2) {
-                return Integer.compare(u2.getVibePoints(), u1.getVibePoints());
+            public int compare(BookItem o1, BookItem o2) {
+                return 0;
             }
         };
-        Collections.sort(userList, cmp);
+        Collections.sort(booksList, cmp);
 
         handlingRecycleViewer(view);
         return view;
@@ -54,15 +57,14 @@ public class LeaderboardTabUsers extends Fragment {
      * @param view - current view (content_scrolling_list)
      */
     private void handlingRecycleViewer(View view){
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycle_users);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycle_books);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        adapter = new UsersLeaderAdapter(userList, new UsersLeaderAdapter.OnItemClickListener() {
-            @Override public void onItemClick(User user) {
-                //loadProfilePageFragment();
-                Toast.makeText(getContext(), user.getName() + " was chosen", Toast.LENGTH_SHORT).show();
-
+        adapter = new BooksLeaderAdapter(booksList, new BooksLeaderAdapter.OnItemClickListener() {
+            @Override public void onItemClick(BookItem book) {
+                BookPageFragment.bookToDisplay = book;
+                loadBookPageFragment();
             }
         });
 
@@ -70,96 +72,93 @@ public class LeaderboardTabUsers extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
+
     /**
      * this function replaces the layout to a book page layout in case some book was clicked in the list
      */
-    private void loadProfilePageFragment() {
+    private void loadBookPageFragment() {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view
-        transaction.replace(R.id.main_fragment_container, new ProfileFragment());
+        transaction.replace(R.id.main_fragment_container, new BookPageFragment());
         transaction.commit();
     }
-
-
 
 }
 
 
-class UsersLeaderAdapter extends RecyclerView.Adapter<UsersLeaderAdapter.UserViewHolder> {
+class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.BooksViewHolder> {
 
     public interface OnItemClickListener {
-        void onItemClick(User user);
+        void onItemClick(BookItem book);
     }
 
-    private final List<User> users;
+    private final List<BookItem> bookslist, copyList;
     private final OnItemClickListener mListener;
 
 
-    public UsersLeaderAdapter(List<User> list, OnItemClickListener listener) {
-        this.users = list;
+    public BooksLeaderAdapter(List<BookItem> list, OnItemClickListener listener) {
+        this.bookslist = list;
         this.mListener = listener;
+        this.copyList = new ArrayList<>();
+        copyList.addAll(list);
     }
 
-    @NonNull
     @Override
-    public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public BooksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.single_item_leaderboard, parent, false);
+                .inflate(R.layout.single_item_leaderboard2, parent, false);
 
-        return new UserViewHolder(itemView);
+        return new BooksViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(final UserViewHolder holder, int position) {
-        holder.bind(users.get(position), mListener);
+    public void onBindViewHolder(final BooksViewHolder holder, int position) {
+        holder.bind(bookslist.get(position), mListener);
     }
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return bookslist.size();
     }
 
 
-    static class UserViewHolder extends RecyclerView.ViewHolder {
-        private TextView title, info;
-        private ImageView img;
+    static class BooksViewHolder extends RecyclerView.ViewHolder {
+        private final TextView title, info;
         private FrameLayout frame;
+        private ImageView img;
         private View mView;
 
-        public UserViewHolder(View view) {
+        public BooksViewHolder(View view) {
             super(view);
             mView = view;
-            title = (TextView) view.findViewById(R.id.user_name1);
-            info = (TextView) view.findViewById(R.id.user_info);
-            img = (ImageView) view.findViewById(R.id.user_image);
-            frame = (FrameLayout) view.findViewById(R.id.frameLayout_points);
+            title = (TextView) view.findViewById(R.id.title_name);
+            info = (TextView) view.findViewById(R.id.info);
+            img = (ImageView) view.findViewById(R.id.image);
+            frame = (FrameLayout) view.findViewById(R.id.frameLayout_books);
         }
 
-        public void bind(final User user, final OnItemClickListener listener) {
-            title.setText(user.getName());
-            info.setText(user.getVibePointsString());
+        public void bind(final BookItem book, final OnItemClickListener listener) {
+            title.setText(book.getTitle());
+            info.setText(book.getAuthor());
 
-            int newWidth = 10*user.getVibePoints(); // Leaderboard.screenWidth);
+            int newWidth = 100; // Leaderboard.screenWidth);
             if (newWidth <= 0)
                 newWidth = 100;
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(frame.getLayoutParams());
             params.width = newWidth;
             frame.setLayoutParams(params);
 
-            img.setImageResource(user.getUserImg());
+            img.setImageResource(R.mipmap.as_few_days);         //TODO
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View view) {
-                    listener.onItemClick(user);
+                    listener.onItemClick(book);
                 }
             });
         }
 
     }
 }
-
-
-
 
 
 

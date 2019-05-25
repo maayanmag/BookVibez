@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -12,6 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
@@ -52,7 +55,7 @@ public class ServerApi {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            ListOfBooks.booksList.clear();
+                            ListOfBooks.clearBooksList();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 books.add(document.toObject(BookItem.class));
                                 Log.d("getBooks", document.getId() + " => " + document.getData());
@@ -67,12 +70,42 @@ public class ServerApi {
             .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Log.d("getBooks", "FAILEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd");
+                Log.d("getBooks", "FAILED_GET_BOOKS");
 
             }
         });
     }
 
+
+    public void getUsersList(final ArrayList<User> users, final BooksRecyclerAdapter adapt) {
+
+        db.collection(BOOKS_DB)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ListOfBooks.clearBooksList();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                users.add(document.toObject(User.class));
+                                Log.d("getBooks", document.getId() + " => " + document.getData());
+                            }
+
+                            adapt.notifyDataSetChanged();
+                        } else {
+                            Log.d("getBooks", "Error getting documents: ", task.getException());
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("getBooks", "FAILEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd");
+
+                    }
+                });
+    }
 
     public void getUser(final String userId, final User[] user, final TextView name,
                         final TextView vibeString, final TextView langs){

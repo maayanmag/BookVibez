@@ -17,8 +17,6 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
-//import static com.example.mybookvibez.ListOfBooks.random_books;
-
 
 public class ProfileFragment extends Fragment {
 
@@ -40,7 +38,6 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile_layout, null);
-//        myBooks = random_books();
         myBooksRecyclerView = view.findViewById(R.id.my_books_recycler_view);
         booksIReadRecyclerView = view.findViewById(R.id.books_i_read_recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext(),
@@ -56,7 +53,6 @@ public class ProfileFragment extends Fragment {
         myBooksRecyclerView.setAdapter(myBooksRecyclerAdapter);
 
 
-//        booksIRead = random_books();
         RecyclerView.LayoutManager booksIReadLayoutManager = new LinearLayoutManager(this.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         booksIReadRecyclerView.setLayoutManager(booksIReadLayoutManager);
@@ -82,8 +78,6 @@ public class ProfileFragment extends Fragment {
         TextView lastName = view.findViewById(R.id.user_last_name);
         TextView vibez = view.findViewById(R.id.myVibe);
         ServerApi.getInstance().getUser(user_id, user, firstName, vibez, lastName);
-
-
 
         return view;
     }

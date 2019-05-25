@@ -2,6 +2,8 @@ package com.example.mybookvibez;
 
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.GeoPoint;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,7 +13,7 @@ import java.util.ArrayList;
 public class BookItem {
     private String id, title, author, genre, ownerId, bookImg, location;
     private int points, giveaway;
-    private LatLng latLng;
+    private GeoPoint latLng;
     private ArrayList<Comment> comments;
 
     public enum GIVE_BOOK {EXCHANGE, LEAVE}
@@ -102,11 +104,11 @@ public class BookItem {
         this.giveaway = giveaway;
     }
 
-    public LatLng getLatLng() {
+    public GeoPoint getLatLng() {
         return latLng;
     }
 
-    public void setLatLng(LatLng latLng) {
+    public void setLatLng(GeoPoint latLng) {
         this.latLng = latLng;
     }
 
