@@ -53,11 +53,17 @@
     <string name="existing_book_btn">From My Books</string>
 
     <string-array name="book_types">
-        <item>Mind Blower! </item>
-        <item>Good For Chilling Out 8) </item>
-        <item>Deep Shit :O </item>
-        <item>Well, It Kills Some Time :) </item>
+        <item>For never-ending rides</item>
+        <item>Kills some time </item>
+        <item>Take on a trekk </item>
+        <item>Just chilling out </item>
+        <item>Spiritual vibes </item>
+        <item>Good for sick days </item>
+        <item>Flying high </item>
+        <item>Stoner vibes</item>
     </string-array>
+
+
 
     <string name="app_slogen">this will be slogen</string>
     <string name="current_owner">Contact Current Owner</string>
