@@ -347,17 +347,29 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
 
     public BitmapDescriptor addIconToMap(BookItem book){
-        if (book.getGenre().equals("mind blower!")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_chill);
+        if (book.getGenre().equals("For never-ending rides")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_bus);
         }
-        else if (book.getGenre().equals("thinker")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_thinker);
+        else if (book.getGenre().equals("Kills some time")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_cool);
         }
-        else if (book.getGenre().equals("trophy")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_tropht);
+        else if (book.getGenre().equals("Take on a trekk")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_treck);
+        }
+        else if (book.getGenre().equals("Flying high")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_trip);
+        }
+        else if (book.getGenre().equals("Stoner vibes")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_smoker);
+        }
+        else if (book.getGenre().equals("Good for sick days")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_vomit);
+        }
+        else if (book.getGenre().equals("Spiritual vibes")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_meditate);
         }
         else { //todo: if going to add categories - add else if
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_smoker);
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_summer);
         }
     }
 

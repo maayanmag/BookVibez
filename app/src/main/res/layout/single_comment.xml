@@ -32,7 +32,6 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
                     android:text="Tom Saltsberg"
-                    android:textAppearance="bold"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="15sp" />
 
@@ -43,7 +42,6 @@
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
                     android:text="17.05.2019"
-                    android:textAppearance="bold"
                     android:textColor="@color/black"
                     android:textSize="12sp" />
 
@@ -56,7 +54,6 @@
                 android:layout_margin="25dp"
                 android:layout_marginTop="10dp"
                 android:text="They do have elevator, but it's in periodical care for a week"
-                android:textAppearance="bold"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
