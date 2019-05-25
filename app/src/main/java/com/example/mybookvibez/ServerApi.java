@@ -43,27 +43,36 @@ public class ServerApi {
         return instance;
     }
 
-    public void getBooksList(final ArrayList<BookItem> ListOfBooks, final BooksRecyclerAdapter adapt) {
+    public void getBooksList(final ArrayList<BookItem> books, final BooksRecyclerAdapter adapt) {
 
         db.collection(BOOKS_DB)
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    ListOfBooks.clear();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        ListOfBooks.add(document.toObject(BookItem.class));
-                        Log.d("getBooks", document.getId() + " => " + document.getData());
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            ListOfBooks.booksList.clear();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                books.add(document.toObject(BookItem.class));
+                                Log.d("getBooks", document.getId() + " => " + document.getData());
+                            }
+
+                            adapt.notifyDataSetChanged();
+                        } else {
+                            Log.d("getBooks", "Error getting documents: ", task.getException());
+                        }
                     }
-                    adapt.notifyDataSetChanged();
-                } else {
-                    Log.d("getBooks", "Error getting documents: ", task.getException());
-                }
-                }
-            });
+                })
+            .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.d("getBooks", "FAILEDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDd");
+
+            }
+        });
     }
+
 
     public void getUser(final String userId, final User[] user, final TextView name,
                         final TextView vibeString, final TextView langs){
@@ -81,14 +90,13 @@ public class ServerApi {
                         user[0] = got;
                         name.setText(got.getName());
                         vibeString.setText(got.getVibePointsString());
-//                        langs.setText(Profile.getLangsString(got.getLangs()));
-
                     }
                     else
                     {
                         System.out.println("no user found");
                     }
                 }
+
             }
         });
 
@@ -111,28 +119,14 @@ public class ServerApi {
         });
     }
 
-    public void addNewBook(HashMap<String, Object> book)
+    public void addNewBook(BookItem book)
     {
-        db.collection(BOOKS_DB).add(book).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-            @Override
-            public void onSuccess(DocumentReference DocumentReference) {
-                System.out.println("BOOK_ADDED_SUCCESSFULLY");
-            }
-        })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                System.out.println("BOOK_ADDING_FAILED");
-            }
-        });
-    }
-
-    public void addUser(HashMap<String, Object> user, String id)
-    {
-        db.collection(USERS_DB).document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+        DocumentReference addDocRef = db.collection(BOOKS_DB).document();
+        String id = addDocRef.getId();
+        db.collection(BOOKS_DB).document(id).set(book).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                System.out.println("BOOK_ADDED_SUCCESSFULLY");
+                System.out.println("BOOk_ADDED_SUCCESSFULLY");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -140,18 +134,21 @@ public class ServerApi {
                 System.out.println("BOOK_ADDING_FAILED");
             }
         });
-//        db.collection(USERS_DB).add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//            @Override
-//            public void onSuccess(DocumentReference DocumentReference) {
-//                System.out.println("BOOK_ADDED_SUCCESSFULLY");
-//            }
-//        })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        System.out.println("BOOK_ADDING_FAILED");
-//                    }
-//                });
+    }
+
+    public void addUser(User user, String id)
+    {
+        db.collection(USERS_DB).document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                System.out.println("USER_ADDED_SUCCESSFULLY");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                System.out.println("USER_ADDING_FAILED");
+            }
+        });
     }
 
 

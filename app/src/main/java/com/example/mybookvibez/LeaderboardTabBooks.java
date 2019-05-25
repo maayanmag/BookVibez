@@ -23,7 +23,7 @@ import java.util.List;
 
 public class LeaderboardTabBooks extends Fragment {
 
-    private List<BookItem> booksList = random_books();
+    private List<BookItem> booksList;
     private RecyclerView recyclerView;
     public static BooksLeaderAdapter adapter;
 
@@ -80,21 +80,6 @@ public class LeaderboardTabBooks extends Fragment {
     }
 
 
-    /* temporary function to load data into booksList, will be deleted when we have a database */
-    public static List<BookItem> random_books() {
-        List<BookItem> l = new ArrayList<>();
-        BookItem b1 = new BookItem("A Little Bit of Meditation", "Amy Leigh Mercree", R.drawable.book1);
-        BookItem b2 = new BookItem("Transcendental Meditation", "Jack Forem",R.drawable.book2);
-        BookItem b3 = new BookItem("Real Happiness", "Sharon Salzberg", R.drawable.book3);
-        BookItem b4 = new BookItem("No Time Like The Present", "Jack Kornfield", R.drawable.book4);
-        BookItem b44 = new BookItem("Yoga and Vipassana", "Amit Ray", R.drawable.book8);
-        BookItem b11 = new BookItem("A Path With Heart", "Jack Kornfield", R.drawable.book5);
-        BookItem b22 = new BookItem("Your Best Meditation", "P. M. Marrison", R.drawable.book6);
-        BookItem b33 = new BookItem("Peace, Love and You", "Nerissa Marie", R.drawable.book7);
-        l.add(b1); l.add(b2); l.add(b3); l.add(b4);
-        l.add(b11); l.add(b22); l.add(b33); l.add(b44);
-        return l;
-    }
 
 
 }

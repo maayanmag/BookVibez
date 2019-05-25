@@ -121,9 +121,9 @@ public class NewBookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 BookItem book = createNewBook();
-                HashMap<String, Object> hm = new HashMap<String, Object>();
-                hm.put("book1", (Object)book);
-                ServerApi.getInstance().addNewBook(hm);
+                //HashMap<String, BookItem> hm = new HashMap<String, BookItem>();
+                //hm.put("book1", book);
+                ServerApi.getInstance().addNewBook(book);
                 Toast.makeText(getContext(), "Book was added successfully", Toast.LENGTH_SHORT).show();
 
                 loadMapFragment();

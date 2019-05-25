@@ -9,29 +9,17 @@ import java.util.ArrayList;
 
 
 public class BookItem {
-    private String id, title, author, genre, ownerId, bookImg, location;
+    private String title, author, genre, ownerId, bookImg, location;
     private int points, giveaway;
     private LatLng latLng;
     private ArrayList<Comment> comments;
 
     public enum GIVE_BOOK {EXCHANGE, LEAVE}
 
-    public BookItem(){
-
-    }
-
-    public BookItem(String title, String author, int src) {
-        this.id = "0";
-        this.title = title;
-        this.author = author;
-        genre = "no genre defined";
-        comments = new ArrayList<>();
-    }
-
+    public BookItem() {}
 
 
     public BookItem(String title, String author, String bookGenre, int giveaway) {
-        this.id = "";
         this.title = title;
         this.author = author;
         this.giveaway = giveaway;
@@ -39,47 +27,22 @@ public class BookItem {
         genre = bookGenre;
         latLng = null;
         comments = new ArrayList<>();
-
-    }
-
-    public String getSLocation() {
-        return location;
-    }
-
-    public void setSLocation(String location) {
-        this.location = location;
-    }
-
-    public LatLng getLatLng() {
-        return latLng;
-    }
-
-    public void setLatLng(LatLng latLng) {
-        this.latLng = latLng;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public int getPoints() {
-        return points;
-    }
-
-    public void setPoints(int points) {
-        this.points = points;
     }
 
     public String getTitle() {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getAuthor() {
         return author;
     }
 
-    public String getBookImg() {
-        return bookImg;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getGenre() {
@@ -94,6 +57,57 @@ public class BookItem {
         return ownerId;
     }
 
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getBookImg() {
+        return bookImg;
+    }
+
+    public void setBookImg(String bookImg) {
+        this.bookImg = bookImg;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
+
+    public int getGiveaway() {
+        return giveaway;
+    }
+
+    public void setGiveaway(int giveaway) {
+        this.giveaway = giveaway;
+    }
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
+
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
 
     // Constructor to convert JSON object into a Java class instance
     public BookItem(JSONObject object){

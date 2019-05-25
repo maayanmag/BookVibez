@@ -50,12 +50,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import static com.facebook.appevents.UserDataStore.EMAIL;
-
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnGoogleSignIn;
@@ -273,12 +267,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.d("AuthUI", "createUserWithEmail:success");
                             MainActivity.user = firebaseAuth.getCurrentUser();
                             MainActivity.userId = MainActivity.user.getUid();
-                            HashMap<String, Object> user = new HashMap<>();
+                            User user = new User ( "Maayan Yossef", null, null, 0, "");
+                            /*HashMap<String, Object> user = new HashMap<>();
                             user.put("name", "Maayan Yossef");
                             user.put("booksIRead", null);
                             user.put("myBooks", null);
                             user.put("vibePoints", 0);
-                            user.put("vibeString", "");
+                            user.put("vibeString", ""); */
                             ServerApi.getInstance().addUser(user, MainActivity.userId);
                             Intent main = new Intent(act.getApplicationContext(), MainActivity.class);
                             act.startActivity(main);

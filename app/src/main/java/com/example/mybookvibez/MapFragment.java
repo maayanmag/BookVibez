@@ -330,24 +330,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         bookItemList.get(2).setLatLng(new LatLng(32.243710, 77.180214));
         bookItemList.get(3).setLatLng(new LatLng(32.254074, 77.191976));
 
-        bookItemList.get(0).setSLocation("Manali Heights Guesthouse");
-        bookItemList.get(1).setSLocation("Hamta Cottage");
-        bookItemList.get(2).setSLocation("Shaina Mareema Cottage");
-        bookItemList.get(3).setSLocation("Manu Allaya Resort");
+        bookItemList.get(0).setLocation("Manali Heights Guesthouse");
+        bookItemList.get(1).setLocation("Hamta Cottage");
+        bookItemList.get(2).setLocation("Shaina Mareema Cottage");
+        bookItemList.get(3).setLocation("Manu Allaya Resort");
 
         bookItemList.get(0).setGenre("chill");
         bookItemList.get(1).setGenre("thinker");
         bookItemList.get(2).setGenre("trophy");;
-        bookItemList.get(3).setSLocation("smoker");
+        bookItemList.get(3).setLocation("smoker");
 
 
         for (int i = 0; i <4; i++){
             BookItem b = bookItemList.get(i);
-            String snip =  "Location: "+b.getSLocation()+ "\nCurrent Owner: "+"Lior Saadon";        //TODO
+            String snip =  "Location: "+b.getLocation()+ "\nCurrent Owner: "+"Lior Saadon";        //TODO
             MarkerOptions m = new MarkerOptions().position(b.getLatLng()).snippet(snip)
                     .title(b.getTitle()).icon(addIconToMap(b));
             Marker marker = mGoogleMap.addMarker(m);
-            marker.setTag(b.getId());
+//            marker.setTag(b.getId());
             markersList.add(marker);
         }
     }

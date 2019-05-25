@@ -26,9 +26,9 @@ import java.util.List;
 
 public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListener {
 
-    public ArrayList<BookItem> booksList = new ArrayList<>();
+    public static ArrayList<BookItem> booksList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private BooksRecyclerAdapter adapter;
+    private static BooksRecyclerAdapter adapter;
     private SearchView searchView;
 
     @Nullable
