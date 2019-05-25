@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 
 public class BookItem {
-    private String title, author, genre, ownerId, bookImg, location;
+    private String id, title, author, genre, ownerId, bookImg, location;
     private int points, giveaway;
     private LatLng latLng;
     private ArrayList<Comment> comments;
@@ -20,6 +20,7 @@ public class BookItem {
 
 
     public BookItem(String title, String author, String bookGenre, int giveaway) {
+        this.id = "";
         this.title = title;
         this.author = author;
         this.giveaway = giveaway;
@@ -31,6 +32,14 @@ public class BookItem {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setTitle(String title) {

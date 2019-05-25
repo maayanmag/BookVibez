@@ -16,15 +16,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.HashMap;
 
 public class NewBookFragment extends Fragment {
 
@@ -33,7 +29,7 @@ public class NewBookFragment extends Fragment {
     private ArrayAdapter<CharSequence> adapter;
     private RadioGroup radioGrp;
     private RadioButton checked;
-    private EditText editName, editDescription, editAuthor, editLocation; //take location off! netta
+    private EditText editName, editAuthor, editLocation; //take location off! netta
     private int selectedRB = 0;
 
 
@@ -121,8 +117,6 @@ public class NewBookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 BookItem book = createNewBook();
-                //HashMap<String, BookItem> hm = new HashMap<String, BookItem>();
-                //hm.put("book1", book);
                 ServerApi.getInstance().addNewBook(book);
                 Toast.makeText(getContext(), "Book was added successfully", Toast.LENGTH_SHORT).show();
 

@@ -123,6 +123,7 @@ public class ServerApi {
     {
         DocumentReference addDocRef = db.collection(BOOKS_DB).document();
         String id = addDocRef.getId();
+        book.setId(id);
         db.collection(BOOKS_DB).document(id).set(book).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {

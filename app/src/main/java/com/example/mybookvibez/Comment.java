@@ -1,10 +1,7 @@
 package com.example.mybookvibez;
 
-import com.google.firebase.database.IgnoreExtraProperties;
-import com.google.firebase.firestore.ServerTimestamp;
 import java.sql.Timestamp;
 
-@IgnoreExtraProperties
 public class Comment {
     private String comment;
     private Timestamp time;
