@@ -55,37 +55,46 @@
 
             <RelativeLayout
                 android:id="@+id/relLayout1"
-                android:layout_width="382dp"
+                android:layout_width="350dp"
                 android:layout_height="50dp"
-                android:background="@drawable/white_border"
-                android:layout_marginTop="25dp"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="25dp"
+                android:background="@drawable/white_border"
                 android:elevation="10dp"
                 tools:layout_editor_absoluteX="14dp"
                 tools:layout_editor_absoluteY="16dp">
 
-            <ImageView
-                android:id="@+id/ic_magnify"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="20dp"
-                android:contentDescription="@string/magnifying_image"
-                android:src="@drawable/ic_magnify" />
+                <ImageView
+                    android:id="@+id/ic_magnify"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="20dp"
+                    android:contentDescription="@string/magnifying_image"
+                    android:src="@drawable/ic_magnify" />
 
-            <AutoCompleteTextView
-                android:id="@+id/input_search"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_toEndOf="@id/ic_magnify"
-                android:background="@null"
-                android:hint="@string/search_hint"
-                android:imeOptions="actionSearch"
-                android:inputType="text"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-        </RelativeLayout>
+                <AutoCompleteTextView
+                    android:id="@+id/input_search"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/ic_magnify"
+                    android:background="@null"
+                    android:hint="@string/search_hint"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/profile_pic"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_toRightOf="@id/input_search"
+                    android:src="@mipmap/man_round_icon" />
+            </RelativeLayout>
 
         </RelativeLayout>
 
