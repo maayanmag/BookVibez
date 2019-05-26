@@ -61,7 +61,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         public void bind(final Comment comment, final OnItemClickListener listener) {
             publisher.setText(comment.getPublisherName());
             text.setText(comment.getComment());
-            date.setText(comment.getDate().toString());
+            date.setText(comment.getTime().toString());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View view) {
                     listener.onItemClick(comment);

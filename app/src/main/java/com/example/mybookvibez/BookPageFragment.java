@@ -25,9 +25,11 @@ import java.sql.Timestamp;
 public class BookPageFragment extends Fragment {
 
     public static BookItem bookToDisplay = null;
-
+    private final static int LEVEL_ONE_TRESH = 30;
+    private final static int LEVEL_TWO_TRESH = 70;
+    private final static int LEVEL_THREE_TRESH = 100;
     private CollapsingToolbarLayout collapsingToolbar;
-    private ImageView bookImg, ownerImg;
+    private ImageView bookImg, ownerImg, bookmarkImg;
     private TextView name, author, genre, owner;
     private Button gotBookButton;
     ImageView sendCommentButton;
@@ -43,10 +45,11 @@ public class BookPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_book_page, container, false);
 
         getAttributesIds(view);
-        handlingFloatingButton(view);
+//        handlingFloatingButton(view);
 
         if(bookToDisplay != null)
             handleAttribute();
+            setBookmarkImg();
 
         return view;
     }
@@ -90,7 +93,7 @@ public class BookPageFragment extends Fragment {
             public void onClick(View v) {
                 String text = editText.getText().toString();
                 Timestamp time = new Timestamp(System.currentTimeMillis());
-                Comment comment = new Comment(text, time);
+                Comment comment = new Comment(text, time, "", "", "");
                 ServerApi.getInstance().addComment("Ce50lYWDMxUGSxChVYZK", comment);        //TODO - replace with bookID
                 Toast.makeText(getContext(), "Comment was added successfully", Toast.LENGTH_SHORT).show();
             }
@@ -109,20 +112,35 @@ public class BookPageFragment extends Fragment {
         collapsingToolbar.setTitle(bookToDisplay.getTitle());
     }
 
-    /**
-     * the function handles the Add floating button object in content_scrolling_list.
-     * it defines a listener.
-     * @param view - current view (content_scrolling_list)
-     */
-    private void handlingFloatingButton(View view){
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//    /**
+//     * the function handles the Add floating button object in content_scrolling_list.
+//     * it defines a listener.
+//     * @param view - current view (content_scrolling_list)
+//     */
+//    private void handlingFloatingButton(View view){
+//        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
+//    }
+
+    private void setBookmarkImg(){
+        // adjust bookmark image to the amount of points
+        if (bookToDisplay.getPoints() < LEVEL_ONE_TRESH){
+            bookmarkImg.setVisibility(View.INVISIBLE);
+        } else if (bookToDisplay.getPoints() >= LEVEL_ONE_TRESH &&
+                bookToDisplay.getPoints() < LEVEL_TWO_TRESH){
+            bookmarkImg.setImageResource(R.drawable.star_bookmark);
+        } else if (bookToDisplay.getPoints() >= LEVEL_TWO_TRESH &&
+                bookToDisplay.getPoints() < LEVEL_THREE_TRESH){
+            bookmarkImg.setImageResource(R.drawable.diamond_bookmark);
+        } else if (bookToDisplay.getPoints() >= LEVEL_THREE_TRESH){
+            bookmarkImg.setImageResource(R.drawable.crown_bookmark);
+        }
     }
 
 

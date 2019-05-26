@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class BookItem {
 
-    private String id, title, author, genre, ownerId, location, location;
+    private String id, title, author, genre, ownerId, location;
     private int points, giveaway, ownedBy;
     private GeoPoint latLng;
     private ArrayList<Comment> comments;

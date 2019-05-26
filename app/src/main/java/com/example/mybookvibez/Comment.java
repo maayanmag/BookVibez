@@ -58,12 +58,4 @@ public class Comment {
     public void setComment(String comment) {
         this.comment = comment;
     }
-
-    public Timestamp getDate() {
-        return time;
-    }
-
-    public void setDate(Timestamp time) {
-        this.time = time;
-    }
 }
