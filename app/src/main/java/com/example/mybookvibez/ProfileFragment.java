@@ -49,7 +49,6 @@ public class ProfileFragment extends Fragment {
         myBooksRecyclerView = view.findViewById(R.id.my_books_recycler_view);
         setBooksRecyclerView(myBooksRecyclerView, myBooks);
         booksIReadRecyclerView = view.findViewById(R.id.books_i_read_recycler_view);
-
         setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
         return view;
     }

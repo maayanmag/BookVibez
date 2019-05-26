@@ -30,11 +30,13 @@ import java.util.ArrayList;
 public class BookPageFragment extends Fragment {
 
     public static BookItem bookToDisplay = null;
-    private static ArrayList<Comment> comments;
-
+    private final static int LEVEL_ONE_TRESH = 30;
+    private final static int LEVEL_TWO_TRESH = 70;
+    private final static int LEVEL_THREE_TRESH = 100;
     private CollapsingToolbarLayout collapsingToolbar;
-    private ImageView bookImg, ownerImg, sendCommentButton;
-    private TextView name, author, genre, ownerName;
+    private ImageView bookImg, ownerImg, bookmarkImg;
+    private TextView name, author, genre, owner;
+
     private Button gotBookButton;
     private EditText editText;
     private User user = new User();
@@ -51,8 +53,8 @@ public class BookPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_book_page, container, false);
 
         getAttributesIds(view);
+//        handlingFloatingButton(view);
         handleButtons();
-        handlingFloatingButton(view);
 
         User[] temp = new User[1];
         ServerApi.getInstance().getUser(bookToDisplay.getOwnerId(), temp, ownerName);
@@ -62,10 +64,10 @@ public class BookPageFragment extends Fragment {
 
         if(bookToDisplay != null && user != null) {
             handleAttribute();
+            setBookmarkImg();
         }
         comments = bookToDisplay.getComments();
         handleCommentsRecycle(view);
-
         return view;
     }
 
@@ -107,11 +109,6 @@ public class BookPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String text = editText.getText().toString();
-
-                Timestamp time = new Timestamp(System.currentTimeMillis());
-                Comment comment = new Comment();
-                ServerApi.getInstance().addComment("Ce50lYWDMxUGSxChVYZK", comment);        //TODO - replace with bookID
-=======
                 Comment comment = new Comment(text, MainActivity.userId);
                 ServerApi.getInstance().addComment(bookToDisplay.getId(), comment);
                 Toast.makeText(getContext(), "Comment was added successfully", Toast.LENGTH_SHORT).show();
@@ -129,6 +126,20 @@ public class BookPageFragment extends Fragment {
         collapsingToolbar.setTitle(bookToDisplay.getTitle());
     }
 
+
+    private void setBookmarkImg(){
+        // adjust bookmark image to the amount of points
+        if (bookToDisplay.getPoints() < LEVEL_ONE_TRESH){
+            bookmarkImg.setVisibility(View.INVISIBLE);
+        } else if (bookToDisplay.getPoints() >= LEVEL_ONE_TRESH &&
+                bookToDisplay.getPoints() < LEVEL_TWO_TRESH){
+            bookmarkImg.setImageResource(R.drawable.star_bookmark);
+        } else if (bookToDisplay.getPoints() >= LEVEL_TWO_TRESH &&
+                bookToDisplay.getPoints() < LEVEL_THREE_TRESH){
+            bookmarkImg.setImageResource(R.drawable.diamond_bookmark);
+        } else if (bookToDisplay.getPoints() >= LEVEL_THREE_TRESH){
+            bookmarkImg.setImageResource(R.drawable.crown_bookmark);
+        }
 
     private void handleCommentsRecycle(View view) {
         commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
@@ -148,20 +159,20 @@ public class BookPageFragment extends Fragment {
     }
 
 
-    /**
-     * the function handles the Add floating button object in content_scrolling_list.
-     * it defines a listener.
-     * @param view - current view (content_scrolling_list)
-     */
-    private void handlingFloatingButton(View view){
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//     /**
+//      * the function handles the Add floating button object in content_scrolling_list.
+//      * it defines a listener.
+//      * @param view - current view (content_scrolling_list)
+//      */
+//     private void handlingFloatingButton(View view){
+//         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+//         fab.setOnClickListener(new View.OnClickListener() {
+//             @Override
+//             public void onClick(View view) {
 
-            }
-        });
-    }
+//             }
+//         });
+//     }
 
 
 }

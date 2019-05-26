@@ -68,6 +68,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
             ServerApi.getInstance().getUser(comment.getPublisherId(), user, publisher);
             text.setText(comment.getComment());
 
+
             CardView catCard = new CardView(getApplicationContext());
             catCard.setLayoutParams(new CardView.LayoutParams(
                     CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT));

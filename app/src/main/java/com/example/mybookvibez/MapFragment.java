@@ -45,7 +45,7 @@ import java.util.List;
 
 
 
-public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class MapFragment extends Fragment implements OnMapReadyCallback {
 
     public static final int ERROR_DIALOG_REQUEST = 9001;
     public static final int PERMISSIONS_REQUEST_ENABLE_GPS = 9002;
@@ -86,6 +86,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         mMapView = (MapView) view.findViewById(R.id.map);
         mSearchText = (AutoCompleteTextView) view.findViewById(R.id.input_search);
         mProfilePic = (ImageView) view.findViewById(R.id.profile_pic);
+        ServerApi.getInstance().downloadProfilePic(mProfilePic, "BogscfIfRmeRd7Ylzh308AhUC4T2");
         mRecenter = (ImageView) view.findViewById(R.id.myLocationFloatingBottom);
         mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingLayout);
         mDb = FirebaseFirestore.getInstance();
@@ -216,7 +217,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
         init();
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(23.071181,79.596163), 4)); // initial zoom and center for map
-        mGoogleMap.setOnMarkerClickListener(this);
         initMarkers();
         //googleMap.setMyLocationEnabled(true); // todo: current location -if we want it, comment back.
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
@@ -341,7 +341,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 double lng = book.getLatLng().getLongitude ();
                 LatLng latLng = new LatLng(lat, lng);
                 MarkerOptions m = new MarkerOptions().position(latLng).snippet(snip)
-                        .title(book.getTitle()).icon(addIconToMap(book));
+                        .title(book.getTitle()).icon(BitmapDescriptorFactory.fromResource(matchIcon(book.getGenre())));
                 Marker marker = mGoogleMap.addMarker(m);
                 marker.setTag(book.getId());
                 markerMap.put(marker, book);
@@ -350,30 +350,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
 
-    public BitmapDescriptor addIconToMap(BookItem book){
-        if (book.getGenre().equals("For never-ending rides")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_bus);
+    public static int matchIcon(String genre){
+        if (genre.equals("For never-ending rides")){
+            return R.mipmap.ic_bus;
         }
-        else if (book.getGenre().equals("Kills some time")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_cool);
+        else if (genre.equals("Kills some time")){
+            return R.mipmap.ic_cool;
         }
-        else if (book.getGenre().equals("Take on a trekk")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_treck);
+        else if (genre.equals("Take on a trekk")){
+            return R.mipmap.ic_treck;
         }
-        else if (book.getGenre().equals("Flying high")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_trip);
+        else if (genre.equals("Flying high")){
+            return R.mipmap.ic_trip;
         }
-        else if (book.getGenre().equals("Stoner vibes")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_smoker);
+        else if (genre.equals("Stoner vibes")){
+            return R.mipmap.ic_smoker;
         }
-        else if (book.getGenre().equals("Good for sick days")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_vomit);
+        else if (genre.equals("Good for sick days")){
+            return R.mipmap.ic_vomit;
         }
-        else if (book.getGenre().equals("Spiritual vibes")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_meditate);
+        else if (genre.equals("Spiritual vibes")){
+            return R.mipmap.ic_meditate;
         }
         else { //todo: if going to add categories - add else if
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_summer);
+            return R.mipmap.ic_summer;
         }
     }
 
@@ -392,12 +392,5 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         transaction.commit();
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-//        if (marker.getTitle().equals("The Art of Hearing Heartbeats")){
-//            mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED); //to open
-//        }
-        return false;
-    }
 }
 
