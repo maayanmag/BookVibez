@@ -119,7 +119,6 @@ public class ServerApi {
 
     public void getUser(final String userId, final User[] user, final TextView name,
                         final TextView vibeString, final TextView langs){
-
         DocumentReference docRef = db.collection(USERS_DB).document(userId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -131,15 +130,16 @@ public class ServerApi {
                     {
                         User got =  document.toObject(User.class);
                         user[0] = got;
-                        name.setText(got.getName());
-                        vibeString.setText(got.getVibePoints()+"");
+                        if (name != null)
+                            name.setText(got.getName());
+                        if (vibeString != null)
+                            vibeString.setText(got.getVibePoints()+"");
                     }
                     else
                     {
                         System.out.println("no user found");
                     }
                 }
-
             }
         });
 

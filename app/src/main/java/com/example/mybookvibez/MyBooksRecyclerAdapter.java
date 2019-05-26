@@ -8,15 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,50 +74,6 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
                     listener.onItemClick(book);
                 }
             });
-
-//                String imgId = String.valueOf(book.getBookImg());
-//                reference = reference.child("Photos");
-//                reference = reference.child(imgId);
-//                db.collection("books")
-//                        .get()
-//                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                                if (task.isSuccessful()) {
-//                                    for (QueryDocumentSnapshot document : task.getResult()) {
-//                                        if (document.exists()) {
-//                                            String temp = "bookImg";
-//                                            DocumentReference ref = (DocumentReference) document.get(temp);
-//                                            if (ref != null){
-//                                                reference = FirebaseStorage.getInstance().getReference("Photos");
-//                                                reference = reference.child(ref.get().toString());
-//                                                System.out.println("here: " + ref.get().toString());
-//
-//                                            }
-//
-//                                        } else {
-//
-//                                        }
-//                                    }
-//                                } else {
-//                                }
-//                            }
-//                        });
-//                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        String imageUrl = uri.toString(); //image url
-//
-//                    }
-//                });
-            //            GlideApp.with(context)
-//                    .load(url)
-//                    .into(image);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override public void onClick(View view) {
-//                    listener.onItemClick(book);
-//                }
-//            });
         }
     }
 }

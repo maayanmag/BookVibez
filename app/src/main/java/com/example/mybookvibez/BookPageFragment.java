@@ -90,7 +90,7 @@ public class BookPageFragment extends Fragment {
             public void onClick(View v) {
                 String text = editText.getText().toString();
                 Timestamp time = new Timestamp(System.currentTimeMillis());
-                Comment comment = new Comment(text, time);
+                Comment comment = new Comment();
                 ServerApi.getInstance().addComment("Ce50lYWDMxUGSxChVYZK", comment);        //TODO - replace with bookID
                 Toast.makeText(getContext(), "Comment was added successfully", Toast.LENGTH_SHORT).show();
             }

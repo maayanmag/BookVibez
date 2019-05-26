@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.mybookvibez.LoginActivity;
+import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.R;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -60,6 +62,7 @@ public class AddBookImagePopup extends DialogFragment {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                dismiss();
             }
         });
         return v;

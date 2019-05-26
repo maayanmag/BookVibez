@@ -3,6 +3,8 @@ package com.example.mybookvibez;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,10 +28,6 @@ public class ProfileFragment extends Fragment {
 
     private List<BookItem> booksIRead = new ArrayList<>();
 
-    private MyBooksRecyclerAdapter myBooksRecyclerAdapter;
-
-    private MyBooksRecyclerAdapter booksIReadAdapter;
-
     private RecyclerView myBooksRecyclerView;
 
     private RecyclerView booksIReadRecyclerView;
@@ -39,25 +37,19 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        View view = inflater.inflate(R.layout.fragment_profile_layout, null);
         user = new User[1];
-        ServerApi.getInstance().getUser(MainActivity.userId, user, null, null, null);
+        TextView firstName = view.findViewById(R.id.user_first_name);
+//        TextView lastName = view.findViewById(R.id.user_last_name);
+        TextView vibez = view.findViewById(R.id.vibePointsNum);
+        ServerApi.getInstance().getUser(MainActivity.userId, user, firstName, vibez, null);
         myBooks = user[0].getMyBooks();
         booksIRead = user[0].getBooksIRead();
-        View view = inflater.inflate(R.layout.fragment_profile_layout, null);
+
         myBooksRecyclerView = view.findViewById(R.id.my_books_recycler_view);
         setBooksRecyclerView(myBooksRecyclerView, myBooks);
         booksIReadRecyclerView = view.findViewById(R.id.books_i_read_recycler_view);
         setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
-
-        ImageView bookGenreImg = view.findViewById(R.id.book_genre_img);
-
-
-//        String user_id = currentUser.getUid();
-//        User[] user = new User[1];
-//        TextView firstName = view.findViewById(R.id.user_first_name);
-//        TextView lastName = view.findViewById(R.id.user_last_name);
-//        TextView vibez = view.findViewById(R.id.myVibe);
-//        ServerApi.getInstance().getUser(user_id, user, firstName, vibez, lastName);
 
         return view;
     }
@@ -70,11 +62,22 @@ public class ProfileFragment extends Fragment {
                 new MyBooksRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(BookItem book) {
-                        return;
+                        BookPageFragment.bookToDisplay = book;
+                        loadBookPageFragment();
                     }
                 });
         recyclerView.setAdapter(adapter);
     }
 
+    /**
+     * this function replaces the layout to a book page layout in case some book was clicked in the list
+     */
+    private void loadBookPageFragment() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+//        transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view
+        transaction.replace(R.id.profile_layout, new BookPageFragment());
+        transaction.commit();
+    }
 
 }
