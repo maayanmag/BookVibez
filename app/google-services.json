@@ -1,0 +1,72 @@
+{
+  "project_info": {
+    "project_number": "179429553849",
+    "firebase_url": "https://bookvibez.firebaseio.com",
+    "project_id": "bookvibez",
+    "storage_bucket": "bookvibez.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:179429553849:android:a1a0ec7445a9b0ba",
+        "android_client_info": {
+          "package_name": "com.example.mybookvibez"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "179429553849-65qnqk2eadqthq984pk4tmeliajhmr9m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mybookvibez",
+            "certificate_hash": "40bcba20520ef6b78e292e7a655dd2975833fe88"
+          }
+        },
+        {
+          "client_id": "179429553849-cepbucspg2n1lbg637jj3pbbjlunt13r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mybookvibez",
+            "certificate_hash": "22265b517bcc52f9c65db289b5c8f25ab6f01476"
+          }
+        },
+        {
+          "client_id": "179429553849-2on8hq7ij9ij79c66pp5ubaah9uj8llu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mybookvibez",
+            "certificate_hash": "5283244f5a56b8490ea4bff6c17177181c7ba4d6"
+          }
+        },
+        {
+          "client_id": "179429553849-cc7aga6cbjv9jj7fb3mk9jb83sdj8fjt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mybookvibez",
+            "certificate_hash": "9d5591d2440bfa1b3658be1e73a118f39dfbf001"
+          }
+        },
+        {
+          "client_id": "179429553849-p6m1tp23plqljbfsjav60enn57tftvr0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKJQ1hjRsKAQYdEUIl3CslAVn3K3gtZgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "179429553849-p6m1tp23plqljbfsjav60enn57tftvr0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
