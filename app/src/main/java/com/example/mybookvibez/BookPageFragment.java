@@ -109,7 +109,6 @@ public class BookPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String text = editText.getText().toString();
-
                 Comment comment = new Comment(text, MainActivity.userId);
                 ServerApi.getInstance().addComment(bookToDisplay.getId(), comment);
                 Toast.makeText(getContext(), "Comment was added successfully", Toast.LENGTH_SHORT).show();
@@ -141,7 +140,6 @@ public class BookPageFragment extends Fragment {
         } else if (bookToDisplay.getPoints() >= LEVEL_THREE_TRESH){
             bookmarkImg.setImageResource(R.drawable.crown_bookmark);
         }
-=======
 
     private void handleCommentsRecycle(View view) {
         commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);

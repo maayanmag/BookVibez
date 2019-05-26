@@ -333,7 +333,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private void initMarkers(){
         for (BookItem book: bookList){
             if(book.getLatLng() != null) {
-                String snip = "Category: " + book.getGenre() +"\n"+ book.getOwnedBy() + " people read this book" +
+                String snip = "Category: " + book.getGenre() +"\n"+
+                        book.getOwnedBy() +
+                        " people read this book" +
                         "\n" + book.getPoints() + " VibePoints";
                 double lat = book.getLatLng().getLatitude();
                 double lng = book.getLatLng().getLongitude ();
