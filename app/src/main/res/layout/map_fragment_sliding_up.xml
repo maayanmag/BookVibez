@@ -86,7 +86,7 @@
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_pic"
                     android:layout_width="45dp"
                     android:layout_height="45dp"
