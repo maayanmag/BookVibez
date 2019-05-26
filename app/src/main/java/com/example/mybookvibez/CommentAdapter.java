@@ -1,12 +1,16 @@
 package com.example.mybookvibez;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHolder> {
@@ -15,15 +19,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         void onItemClick(Comment comment);
     }
 
-    private final List<Comment> commentList, copyList;
+    private final List<Comment> commentList;
     private final OnItemClickListener mListener;
 
 
     public CommentAdapter(List<Comment> list, OnItemClickListener listener) {
         this.commentList = list;
         this.mListener = listener;
-        this.copyList = new ArrayList<>();
-        copyList.addAll(list);
     }
 
     @Override
@@ -49,6 +51,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         private Comment comment;
         private TextView publisher, text, date;
         private View mView;
+        private CardView card;
+
 
         public MyViewHolder(View view) {
             super(view);
@@ -56,12 +60,23 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
             publisher = (TextView) view.findViewById(R.id.publisher);
             text = (TextView) view.findViewById(R.id.comment_text);
             date = (TextView) view.findViewById(R.id.date);
+            card = (CardView) view.findViewById(R.id.comment_card);
         }
 
         public void bind(final Comment comment, final OnItemClickListener listener) {
-            publisher.setText(comment.getPublisherName());
+            final User[] user = new User[1];
+            ServerApi.getInstance().getUser(comment.getPublisherId(), user, publisher);
             text.setText(comment.getComment());
-            date.setText(comment.getDate().toString());
+
+            CardView catCard = new CardView(getApplicationContext());
+            catCard.setLayoutParams(new CardView.LayoutParams(
+                    CardView.LayoutParams.MATCH_PARENT, CardView.LayoutParams.WRAP_CONTENT));
+            catCard.setMinimumHeight(75);
+
+            String[] toDate = comment.getTime().toString().split(" ");
+            String dateToShow = toDate[1] + " " + toDate[2] + " " + toDate[5];
+            date.setText(dateToShow);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View view) {
                     listener.onItemClick(comment);

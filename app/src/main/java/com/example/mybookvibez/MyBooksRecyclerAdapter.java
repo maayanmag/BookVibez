@@ -66,6 +66,7 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
             image = itemView.findViewById(R.id.single_book_image);
         }
 
+
         public void bind(final BookItem book, final OnItemClickListener listener) {
 //            downloadBookFrontCover(image, book, book.getId());
             image.setOnClickListener(new View.OnClickListener() {

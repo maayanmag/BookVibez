@@ -56,6 +56,7 @@ public class ServerApi {
         return instance;
     }
 
+
     public void getBooksList(final ArrayList<BookItem> books, final BooksRecyclerAdapter adapt) {
 
         db.collection(BOOKS_DB)
@@ -117,17 +118,36 @@ public class ServerApi {
                 });
     }
 
-    public void getUser(final String userId, final User[] user, final TextView name,
-                        final TextView vibeString, final TextView langs){
-        DocumentReference docRef = db.collection(USERS_DB).document(userId);
+
+
+    public void getBook(final String bookId, final BookItem[] book){
+        DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful())
                 {
                     DocumentSnapshot document = task.getResult();
-                    if(document != null && document.exists())
-                    {
+                    if(document != null && document.exists()) {
+                        book[0] = document.toObject(BookItem.class);
+                    }
+                    else {
+                        System.out.println("no book found");
+                    }
+                }
+            }
+        });
+    }
+
+
+    public void getUser(final String userId, final User[] user, final TextView name){
+        DocumentReference docRef = db.collection(USERS_DB).document(userId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if(document != null && document.exists()) {
                         User got =  document.toObject(User.class);
                         user[0] = got;
                         if (name != null)
@@ -135,19 +155,18 @@ public class ServerApi {
                         if (vibeString != null)
                             vibeString.setText(got.getVibePoints()+"");
                     }
-                    else
-                    {
+                    else {
                         System.out.println("no user found");
                     }
                 }
             }
         });
-
     }
 
 
     public void addComment(String bookId, Comment comment){
         DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
+        //comment.setTime(FieldValue.serverTimestamp());
         docRef.update("comments", FieldValue.arrayUnion(comment)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void v) {
@@ -162,8 +181,7 @@ public class ServerApi {
         });
     }
 
-    public void addNewBook(BookItem book, Uri uri)
-    {
+    public void addNewBook(BookItem book, Uri uri) {
         DocumentReference addDocRef = db.collection(BOOKS_DB).document();
         String id = addDocRef.getId();
         book.setId(id);
@@ -187,8 +205,7 @@ public class ServerApi {
         });
     }
 
-    public void addUser(User user, String id)
-    {
+    public void addUser(User user, String id) {
         user.setId(id);
         db.collection(USERS_DB).document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -227,29 +244,8 @@ public class ServerApi {
         }
     }
 
-//
-//    public void updateBook(String id, String field, Object val)
-//    {
-//        db.collection(BOOKS_DB).document(id).update(field, val).addOnSuccessListener(new OnSuccessListener<Void>() {
-//            @Override
-//            public void onSuccess(Void aVoid) {
-//                System.out.println("BOOK_ADDED_SUCCESSFULLY");
-//            }
-//        })
-//            .addOnFailureListener(new OnFailureListener() {
-//                @Override
-//                public void onFailure(@NonNull Exception e) {
-//                    System.out.println("BOOK_ADDED_FAILED");
-//                }
-//            });
-//    }
 
 
-//    public void addPointsUserBus(String busid, final int points){
-//
-//        DocumentReference busRef = db.collection(USERS_DB).document(busid);
-//
-//        busRef.update("vibePoints", FieldValue.increment(points)); // raise by points
-//    }
+
 
 }
