@@ -69,16 +69,15 @@ public class ProfileFragment extends Fragment {
         ImageView bookGenreImg = view.findViewById(R.id.book_genre_img);
 
 //        setUpRecyclerView(view);
-//
-//        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        String user_id = currentUser.getUid();
-//        User[] user = new User[1];
-//        TextView firstName = view.findViewById(R.id.user_first_name);
-//        TextView lastName = view.findViewById(R.id.user_last_name);
-//        TextView vibez = view.findViewById(R.id.myVibe);
-//        ServerApi.getInstance().getUser(user_id, user, firstName, vibez, lastName);
 
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        String user_id = currentUser.getUid();
+        User[] user = new User[1];
+        TextView firstName = view.findViewById(R.id.user_first_name);
+        TextView lastName = view.findViewById(R.id.user_last_name);
+        TextView vibez = view.findViewById(R.id.myVibe);
+        //ServerApi.getInstance().getUser(user_id, user);
         return view;
     }
 

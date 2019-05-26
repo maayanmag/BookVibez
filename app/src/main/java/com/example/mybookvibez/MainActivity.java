@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     public static FirebaseUser user;
-    public static String userId;
+    public static String userId = "BogscfIfRmeRd7Ylzh308AhUC4T2";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

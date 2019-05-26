@@ -73,7 +73,6 @@ public class BookItem {
         this.ownerId = ownerId;
     }
 
-
     public String getLocation() {
         return location;
     }
@@ -121,6 +120,7 @@ public class BookItem {
     public void setOwnedBy(int ownedBy) {
         this.ownedBy = ownedBy;
     }
+
 
     // Constructor to convert JSON object into a Java class instance
     public BookItem(JSONObject object){

@@ -1,5 +1,4 @@
 package com.example.mybookvibez;
-import com.example.mybookvibez.R;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -9,18 +8,24 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.firestore.ServerTimestamp;
+
+import java.sql.Array;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 
 public class BookPageFragment extends Fragment {
 
@@ -31,10 +36,13 @@ public class BookPageFragment extends Fragment {
     private CollapsingToolbarLayout collapsingToolbar;
     private ImageView bookImg, ownerImg, bookmarkImg;
     private TextView name, author, genre, owner;
+
     private Button gotBookButton;
-    ImageView sendCommentButton;
     private EditText editText;
-    private boolean isPressed = false;
+    private User user = new User();
+    private CommentAdapter commentAdapter;
+    private RecyclerView commentsRecycler;
+    private boolean isGotTheBookPressed = false;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -46,11 +54,20 @@ public class BookPageFragment extends Fragment {
 
         getAttributesIds(view);
 //        handlingFloatingButton(view);
+        handleButtons();
 
-        if(bookToDisplay != null)
+        User[] temp = new User[1];
+        ServerApi.getInstance().getUser(bookToDisplay.getOwnerId(), temp, ownerName);
+        user = temp[0];
+
+        ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
+
+        if(bookToDisplay != null && user != null) {
             handleAttribute();
             setBookmarkImg();
-
+        }
+        comments = bookToDisplay.getComments();
+        handleCommentsRecycle(view);
         return view;
     }
 
@@ -58,23 +75,24 @@ public class BookPageFragment extends Fragment {
     private void getAttributesIds(View view) {
         bookImg = (ImageView) view.findViewById(R.id.toolbar_image);
         ownerImg = (ImageView) view.findViewById(R.id.current_owner_profile_pic);
-
         name = (TextView) view.findViewById(R.id.book_name_content);
         author = (TextView) view.findViewById(R.id.book_author_content);
         genre = (TextView) view.findViewById(R.id.book_genre_content);
-        owner = (TextView) view.findViewById(R.id.current_owner_name);
-
+        ownerName = (TextView) view.findViewById(R.id.current_owner_name);
         editText = (EditText) view.findViewById(R.id.edittext_comment);
-
         collapsingToolbar = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-
         gotBookButton = (Button) view.findViewById(R.id.got_the_book_button);
+        sendCommentButton = (ImageButton) view.findViewById(R.id.sent_btn);
+        commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
+    }
+
+    private void handleButtons(){
         gotBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isPressed = !isPressed;     // change state
+                isGotTheBookPressed = !isGotTheBookPressed;     // change state
                 String text;
-                if(isPressed) {
+                if(isGotTheBookPressed) {
                     text = "I don't own it";
                     gotBookButton.setBackgroundResource(R.drawable.buttonshape);
                     //TODO - change current owner to this user
@@ -87,14 +105,13 @@ public class BookPageFragment extends Fragment {
             }
         });
 
-        sendCommentButton = (ImageButton) view.findViewById(R.id.sent_btn);
         sendCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = editText.getText().toString();
-                Timestamp time = new Timestamp(System.currentTimeMillis());
-                Comment comment = new Comment(text, time, "", "", "");
-                ServerApi.getInstance().addComment("Ce50lYWDMxUGSxChVYZK", comment);        //TODO - replace with bookID
+
+                Comment comment = new Comment(text, MainActivity.userId);
+                ServerApi.getInstance().addComment(bookToDisplay.getId(), comment);
                 Toast.makeText(getContext(), "Comment was added successfully", Toast.LENGTH_SHORT).show();
             }
         });
@@ -104,29 +121,12 @@ public class BookPageFragment extends Fragment {
         name.setText(bookToDisplay.getTitle());
         author.setText(bookToDisplay.getAuthor());
         genre.setText(bookToDisplay.getGenre());
-        owner.setText("TEMP");      //TODO
+        ownerName.setText(user.getName());
         bookImg.setImageResource(R.mipmap.as_few_days); //TODO
-        //ownerImg.setImageResource(bookToDisplay.getOwnerImg());
-        ownerImg.setImageResource(R.mipmap.man_icon);
-
+        ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
         collapsingToolbar.setTitle(bookToDisplay.getTitle());
     }
 
-//    /**
-//     * the function handles the Add floating button object in content_scrolling_list.
-//     * it defines a listener.
-//     * @param view - current view (content_scrolling_list)
-//     */
-//    private void handlingFloatingButton(View view){
-//        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-//    }
 
     private void setBookmarkImg(){
         // adjust bookmark image to the amount of points
@@ -141,7 +141,40 @@ public class BookPageFragment extends Fragment {
         } else if (bookToDisplay.getPoints() >= LEVEL_THREE_TRESH){
             bookmarkImg.setImageResource(R.drawable.crown_bookmark);
         }
+=======
+
+    private void handleCommentsRecycle(View view) {
+        commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        commentsRecycler.setLayoutManager(mLayoutManager);
+        commentAdapter = new CommentAdapter(comments, new CommentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Comment comment) {
+                // TODO open profile
+            }
+        });
+        commentsRecycler.setAdapter(commentAdapter);
+        commentsRecycler.setItemAnimator(new DefaultItemAnimator());
+        commentAdapter.notifyDataSetChanged();
+
     }
+
+
+//     /**
+//      * the function handles the Add floating button object in content_scrolling_list.
+//      * it defines a listener.
+//      * @param view - current view (content_scrolling_list)
+//      */
+//     private void handlingFloatingButton(View view){
+//         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+//         fab.setOnClickListener(new View.OnClickListener() {
+//             @Override
+//             public void onClick(View view) {
+
+//             }
+//         });
+//     }
 
 
 }
