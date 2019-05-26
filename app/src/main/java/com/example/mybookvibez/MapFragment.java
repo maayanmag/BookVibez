@@ -56,7 +56,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private TextView mSearchText;
     public GoogleMap mGoogleMap;
     MapView mMapView;
-    private ImageView mRecenter;
+    private ImageView mRecenter, mProfilePic;
     private static final String TAG = "MapFragment";
     private SlidingUpPanelLayout mLayout;
     public List<BookItem> bookList = ListOfBooks.getBooksList();
@@ -85,6 +85,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     private void setAttributes(View view){
         mMapView = (MapView) view.findViewById(R.id.map);
         mSearchText = (AutoCompleteTextView) view.findViewById(R.id.input_search);
+        mProfilePic = (ImageView) view.findViewById(R.id.profile_pic);
         mRecenter = (ImageView) view.findViewById(R.id.myLocationFloatingBottom);
         mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingLayout);
         mDb = FirebaseFirestore.getInstance();
@@ -107,9 +108,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
             }
         });
+
+        mProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadProfileFragment();
+            }
+        });
     }
-
-
 
     private void init(){
         Log.d(TAG, "init: initializing");
@@ -173,8 +179,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         //todo: when searching, destory marker after first search.
     }
 
-
-
     private void initGoogleMap(Bundle savedInstanceState) {
         // *** IMPORTANT ***
         // MapView requires that the Bundle you pass contain _ONLY_ MapView SDK
@@ -185,8 +189,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         }
         mMapView.onCreate(mapViewBundle);
         mMapView.getMapAsync(this);
-
-
     }
 
     @Override
@@ -221,8 +223,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             @Override
             public void onInfoWindowClick(Marker marker) {
                 if (marker != null){
-                    int id = (int)marker.getTag();
-                    BookPageFragment.bookToDisplay = bookItemList.get(id);
+//                    String id = (String)marker.getTag();
+                    BookPageFragment.bookToDisplay = markerMap.get(marker);
                     loadBookPageFragment();
                     mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED); //to open
                 }
@@ -329,10 +331,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
     private void initMarkers(){
-//        bookList.get(0).setLatLng(new LatLng(32.250504, 77.178156));
-//        bookList.get(1).setLatLng(new LatLng(32.251735, 77.180873));
-//        bookList.get(2).setLatLng(new LatLng(32.243710, 77.180214));
-//        bookList.get(3).setLatLng(new LatLng(32.254074, 77.191976));
         for (BookItem book: bookList){
             if(book.getLatLng() != null) {
                 String snip = "Category: " + book.getGenre() +"\n"+
@@ -345,7 +343,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 MarkerOptions m = new MarkerOptions().position(latLng).snippet(snip)
                         .title(book.getTitle()).icon(addIconToMap(book));
                 Marker marker = mGoogleMap.addMarker(m);
-                marker.setTag(0);
+                marker.setTag(book.getId());
                 markerMap.put(marker, book);
 //                markersList.add(marker);
             }}
@@ -385,6 +383,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 
     public static void setMarkerMap(HashMap<Marker, BookItem> markerMap) {
         MapFragment.markerMap = markerMap;
+    }
+
+    private void loadProfileFragment() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.main_fragment_container, new ProfileFragment());
+        transaction.commit();
     }
 
     @Override

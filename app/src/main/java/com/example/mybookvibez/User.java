@@ -3,12 +3,12 @@ package com.example.mybookvibez;
 import java.util.ArrayList;
 
 public class User {
-    private String name;
+    private String name, id, vibeString;
     private ArrayList<BookItem> myBooks;
     private ArrayList<BookItem> booksIRead;
     private int vibePoints;
-    private String vibeString;
-    private int userImg;
+
+    public User() {}
 
     public User(String name, ArrayList<BookItem> myBooks, ArrayList<BookItem> booksIRead, int vibePoints, String vibeString) {
         this.name = name;
@@ -16,7 +16,6 @@ public class User {
         this.booksIRead = booksIRead;
         this.vibePoints = vibePoints;
         this.vibeString = vibeString;
-        this.userImg = R.mipmap.man_icon;
     }
 
     public String getName() {
@@ -25,6 +24,22 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getVibeString() {
+        return vibeString;
+    }
+
+    public void setVibeString(String vibeString) {
+        this.vibeString = vibeString;
     }
 
     public ArrayList<BookItem> getMyBooks() {
@@ -43,31 +58,11 @@ public class User {
         this.booksIRead = booksIRead;
     }
 
-    public String getVibePointsString() {
-        return "" + vibePoints;
-    }
-
     public int getVibePoints() {
         return vibePoints;
     }
 
     public void setVibePoints(int vibePoints) {
         this.vibePoints = vibePoints;
-    }
-
-    public String getVibeString() {
-        return vibeString;
-    }
-
-    public void setVibeString(String vibeString) {
-        this.vibeString = vibeString;
-    }
-
-    public int getUserImg() {
-        return userImg;
-    }
-
-    public void setUserImg(int userImg) {
-        this.userImg = userImg;
     }
 }

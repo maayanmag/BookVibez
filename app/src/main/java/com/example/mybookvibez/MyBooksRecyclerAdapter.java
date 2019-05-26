@@ -28,10 +28,7 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
 
     private Context context;
 
-    private StorageReference reference = FirebaseStorage.getInstance().getReference("Photos");
-//    private OnItemClickListener mListener;
-
-    private List<BookItem> booksList, copyList;
+    private List<BookItem> booksList;
 
     private final OnItemClickListener mListener;
 
@@ -41,8 +38,6 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
         this.booksList = booksList;
         this.context = context;
         this.mListener = listener;
-        this.copyList = new ArrayList<>();
-        copyList.addAll(booksList);
     }
 
 
@@ -79,19 +74,6 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
             mView = itemView;
             image = itemView.findViewById(R.id.single_book_image);
         }
-
-
-        //        public void bind(final BookItem book, final OnItemClickListener listener) {
-//            title.setText(book.getTitle());
-//            author.setText(book.getGenre());
-//            img.setImageResource(R.mipmap.as_few_days);     //TODO
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override public void onClick(View view) {
-//                    listener.onItemClick(book);
-//                }
-//            });
-//        }
-//
 
         public void bind(final BookItem book, final OnItemClickListener listener) {
 //            downloadBookFrontCover(image, book, book.getId());

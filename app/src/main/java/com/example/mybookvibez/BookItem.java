@@ -1,7 +1,6 @@
 package com.example.mybookvibez;
 
 
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.GeoPoint;
 
 import org.json.JSONArray;
@@ -11,15 +10,15 @@ import java.util.ArrayList;
 
 
 public class BookItem {
-    private String id, title, author, genre, ownerId, bookImg, location;
-    private int points, giveaway;
+
+    private String id, title, author, genre, ownerId, location, location;
+    private int points, giveaway, ownedBy;
     private GeoPoint latLng;
     private ArrayList<Comment> comments;
 
     public enum GIVE_BOOK {EXCHANGE, LEAVE}
 
     public BookItem() {}
-
 
     public BookItem(String title, String author, String bookGenre, int giveaway) {
         this.id = "";
@@ -28,8 +27,10 @@ public class BookItem {
         this.giveaway = giveaway;
         this.location = "";
         genre = bookGenre;
+        points = 0;
         latLng = null;
         comments = new ArrayList<>();
+        this.ownedBy = 0;
     }
 
     public String getTitle() {
@@ -72,13 +73,6 @@ public class BookItem {
         this.ownerId = ownerId;
     }
 
-    public String getBookImg() {
-        return bookImg;
-    }
-
-    public void setBookImg(String bookImg) {
-        this.bookImg = bookImg;
-    }
 
     public String getLocation() {
         return location;
@@ -118,6 +112,14 @@ public class BookItem {
 
     public void setComments(ArrayList<Comment> comments) {
         this.comments = comments;
+    }
+
+    public int getOwnedBy() {
+        return this.ownedBy;
+    }
+
+    public void setOwnedBy(int ownedBy) {
+        this.ownedBy = ownedBy;
     }
 
     // Constructor to convert JSON object into a Java class instance

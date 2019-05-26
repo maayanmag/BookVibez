@@ -1,5 +1,6 @@
 package com.example.mybookvibez.AddBook;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
@@ -33,6 +34,7 @@ public class NewBookFragment extends Fragment {
     private RadioButton checked;
     private EditText editName, editAuthor, editLocation; //take location off! netta
     private int selectedRB = 0;
+    private static Uri uri = null;
 
 
     @Nullable
@@ -41,10 +43,15 @@ public class NewBookFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_new_book_layout, null);
         setAttributes(view);
-       initElements(inflater);
+        initElements(inflater);
 
         return view;
     }
+
+    public static void setUri(Uri newuri){
+        uri = newuri;
+    }
+
 
     private void loadMapFragment() {
         FragmentManager manager = getFragmentManager();
@@ -119,7 +126,7 @@ public class NewBookFragment extends Fragment {
                 BookItem book = createNewBook();
                 book.setLatLng(new GeoPoint(32.194796, 77.201137)); //todo: change!!! default adding of book
 //              ListOfBooks.booksList.add(book);
-                ServerApi.getInstance().addNewBook(book);
+                ServerApi.getInstance().addNewBook(book, uri);
                 Toast.makeText(getContext(), "Book was added successfully", Toast.LENGTH_SHORT).show();
                 loadMapFragment();
 
