@@ -138,14 +138,16 @@ public class ServerApi {
                         points.setText(got.getVibePoints() + " Vibe Points");
                         try {
                             myBooks.addAll(got.getMyBooks());
-                        } catch (IndexOutOfBoundsException ex) {
+                            Log.d("getUserForProfileFrag", "myBooks added: "+myBooks.toString());
+                        } catch (Exception e) {
                             Log.d("getUserForProfileFrag", "cought IndexOutOfBoundsException - getMyBooks");
                         }
-                        try {
-                            read.addAll(got.getBooksIRead());
-                        } catch (IndexOutOfBoundsException ex) {
-                            Log.d("getUserForProfileFrag", "cought IndexOutOfBoundsException - getBooksIRead");
-                        }
+//                        try {
+//                            read.addAll(got.getBooksIRead());
+//                        } catch (Exception e) {
+//                            Log.d("----------", String.valueOf(got.getBooksIRead().size() + read.size()));
+//                            Log.d("getUserForProfileFrag", "cought IndexOutOfBoundsException - getBooksIRead");
+//                        }
                         try {
                             StorageReference ref = storage.child(USERS_PROFILES + userId);
 

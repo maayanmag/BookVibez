@@ -59,10 +59,12 @@ public class ProfileFragment extends Fragment {
                 vibezString, vibez, mybooksId, readId);
 
         try {
+            myBooks = new ArrayList<>();
             ServerApi.getInstance().getBooksByIdsList(myBooks, mybooksId);
             setBooksRecyclerView(myBooksRecyclerView, myBooks);
         } catch (IndexOutOfBoundsException e) { }
         try {
+            booksIRead = new ArrayList<>();
             ServerApi.getInstance().getBooksByIdsList(booksIRead, readId);
             setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
         } catch (IndexOutOfBoundsException ex){ }
@@ -77,7 +79,6 @@ public class ProfileFragment extends Fragment {
         myBooksRecyclerView = view.findViewById(R.id.my_books_recycler_view);
         booksIReadRecyclerView = view.findViewById(R.id.books_i_read_recycler_view);
         ownerImg = (CircleImageView) view.findViewById(R.id.circ_image);
-
     }
 
     private void setBooksRecyclerView(RecyclerView recyclerView, List<BookItem> booksList) {
