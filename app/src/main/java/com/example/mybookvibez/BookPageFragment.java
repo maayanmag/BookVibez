@@ -74,7 +74,7 @@ public class BookPageFragment extends Fragment {
                 if(isPressed) {
                     text = "I don't own it";
                     gotBookButton.setBackgroundResource(R.drawable.buttonshape);
-                    //TODO - change current owner to this user
+                    //TODO - change current owner to this firebaseUser
                 }
                 else {
                     text = "I Got This Book!";

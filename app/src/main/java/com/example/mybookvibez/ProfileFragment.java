@@ -22,6 +22,8 @@ import java.util.List;
 
 public class ProfileFragment extends Fragment {
 
+    public static String userToDisplay = null;
+
     private User[] user;
 
     private List<BookItem> myBooks = new ArrayList<>();
@@ -33,12 +35,17 @@ public class ProfileFragment extends Fragment {
     private RecyclerView booksIReadRecyclerView;
 
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile_layout, null);
-        user = new User[1];
+        if (userToDisplay.equals(MainActivity.userId))
+            user = MainActivity.user;
+        else
+            user = new User[1];
         TextView firstName = view.findViewById(R.id.user_first_name);
 //        TextView lastName = view.findViewById(R.id.user_last_name);
         TextView vibez = view.findViewById(R.id.vibePointsNum);

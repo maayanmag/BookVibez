@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private FirebaseAuth firebaseAuth;
-    public static FirebaseUser user;
+    public static FirebaseUser firebaseUser;
     public static String userId;
+    public static User[] user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +48,9 @@ public class MainActivity extends AppCompatActivity {
         loadFragment(new MapFragment());
         handlingBottomNavigationView();
         firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-        userId = user.getUid();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        userId = firebaseUser.getUid();
+        ServerApi.getInstance().getUser(userId, user, null, null, null);
 
     }
 
@@ -140,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                 assert true;/// the main launching function is missing here
                 getDeviceLocation();
             } else {
-                // the boolean value is false, so we need to explicitly ask the user for permission
+                // the boolean value is false, so we need to explicitly ask the firebaseUser for permission
                 getLocationPermission();
             }
         }
@@ -165,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * this method builds a message that guides the user turn on their GPS.
+     * this method builds a message that guides the firebaseUser turn on their GPS.
      */
     private void buildAlertMessageNoGps() {
         //todo: put in an option for no!
@@ -188,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * this method determines whether the current application the user is using has GPS enabled on
+     * this method determines whether the current application the firebaseUser is using has GPS enabled on
      * the device.
      *
      * @return boolean value accordingly
@@ -234,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainActivity.this);
 
         if (available == ConnectionResult.SUCCESS) {
-            //everything is fine and the user can make map requests
+            //everything is fine and the firebaseUser can make map requests
             Log.d(TAG, "isServicesOK: Google Play Services is working");
             return true;
         } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
@@ -242,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "isServicesOK: an error occurred but we can fix it");
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(
                     MainActivity.this, available, MapFragment.ERROR_DIALOG_REQUEST);
-            dialog.show(); // the dialog guides the user to get google services
+            dialog.show(); // the dialog guides the firebaseUser to get google services
         } else {
             Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
         }
@@ -250,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * runs after the user has accepted/denied access to GPS (for the case that is wasn't granted
+     * runs after the firebaseUser has accepted/denied access to GPS (for the case that is wasn't granted
      * in the past.
      *
      * @param requestCode
@@ -284,7 +286,7 @@ public class MainActivity extends AppCompatActivity {
                     assert true; // todo:need to create a function that retrieves the available books
                     getDeviceLocation();
                 } else {
-                    getLocationPermission(); // ask user for explicit location permission
+                    getLocationPermission(); // ask firebaseUser for explicit location permission
                 }
             }
         }

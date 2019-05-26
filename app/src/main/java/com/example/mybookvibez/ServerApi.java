@@ -137,7 +137,7 @@ public class ServerApi {
                     }
                     else
                     {
-                        System.out.println("no user found");
+                        System.out.println("no firebaseUser found");
                     }
                 }
             }

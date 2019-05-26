@@ -117,7 +117,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         // if everything OK:
-        progressDialog.setMessage("Registering user...");
+        progressDialog.setMessage("Registering firebaseUser...");
         progressDialog.show();
         signUp(email, password, this);
 //        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this,
@@ -153,7 +153,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         // if everything OK:
-        progressDialog.setMessage("Login user...");
+        progressDialog.setMessage("Login firebaseUser...");
         progressDialog.show();
         firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -218,11 +218,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            // Sign in success, update UI with the signed-in firebaseUser's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                         } else {
-                            // If sign in fails, display a message to the user.
+                            // If sign in fails, display a message to the firebaseUser.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Snackbar.make(findViewById(R.id.mapContainer), "Authentication Failed.",
                                     Snackbar.LENGTH_SHORT).show();
@@ -240,17 +240,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
+                            // Sign in success, update UI with the signed-in firebaseUser's information
                             Log.d("AuthUI", "createUserWithEmail:success");
-                            MainActivity.user = firebaseAuth.getCurrentUser();
-                            MainActivity.userId = MainActivity.user.getUid();
+                            MainActivity.firebaseUser = firebaseAuth.getCurrentUser();
+                            MainActivity.userId = MainActivity.firebaseUser.getUid();
                             User user = new User ( "", null, null, 0, "");
                             ServerApi.getInstance().addUser(user, MainActivity.userId);
                             Intent main = new Intent(act.getApplicationContext(), MainActivity.class);
                             act.startActivity(main);
                             act.finish();
                         } else {
-                            // If sign in fails, display a message to the user.
+                            // If sign in fails, display a message to the firebaseUser.
                             Log.w("AuthUI", "createUserWithEmail:failure", task.getException());
                             Toast.makeText(LoginActivity.this, "Could not register, please try again",
                                     Toast.LENGTH_SHORT).show();
