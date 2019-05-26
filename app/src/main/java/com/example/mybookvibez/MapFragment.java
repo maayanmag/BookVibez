@@ -388,6 +388,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private void loadProfileFragment() {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
+        transaction.addToBackStack("MapFragment");  // enables to press "return" and go back to the list view
         transaction.replace(R.id.main_fragment_container, new ProfileFragment());
         transaction.commit();
     }

@@ -28,6 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 /**
  * easy API for server
@@ -119,6 +121,67 @@ public class ServerApi {
     }
 
 
+    public void getUserForProfileFragment(final String userId, final User[] user, final CircleImageView image,
+                          final TextView name, final TextView vibe, final TextView points,
+                          final ArrayList<ArrayList<BookItem>> booksLists) {         // books[0]=mybooks, books[1]=booksIRead
+        DocumentReference docRef = db.collection(USERS_DB).document(userId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if(document != null && document.exists()) {
+                        User got =  document.toObject(User.class);
+                        user[0] = got;
+                        name.setText(got.getName());
+                        vibe.setText(user[0].getVibeString());
+                        points.setText(user[0].getVibePoints() + " Vibe Points");
+                        try {
+                            booksLists.set(0, user[0].getMyBooks());
+                            booksLists.set(1, user[0].getBooksIRead());
+                        } catch (IndexOutOfBoundsException ex) {
+
+                        }
+                        try {
+                            StorageReference ref = storage.child(USERS_PROFILES + userId);
+
+                            final File localFile = File.createTempFile("Images", "bmp");
+
+                            ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener < FileDownloadTask.TaskSnapshot >() {
+                                @Override
+                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                    Bitmap my_image = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                                    image.setImageBitmap(my_image);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.d("Downloading photo: ", "Error downloading Image");
+                                }
+                            });
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                    else {
+                        System.out.println("no user found");
+                    }
+                }
+            }
+        });
+
+
+
+
+
+
+    }
+
+
+
+
+
 
     public void getBook(final String bookId, final BookItem[] book){
         DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
@@ -152,8 +215,6 @@ public class ServerApi {
                         user[0] = got;
                         if (name != null)
                             name.setText(got.getName());
-                        if (vibeString != null)
-                            vibeString.setText(got.getVibePoints()+"");
                     }
                     else {
                         System.out.println("no user found");
@@ -242,6 +303,10 @@ public class ServerApi {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void downloadBookFrontCover(final ImageView img, final String userId){
+
     }
 
 

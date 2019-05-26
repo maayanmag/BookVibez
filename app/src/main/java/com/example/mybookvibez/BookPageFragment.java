@@ -8,6 +8,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,9 +37,10 @@ public class BookPageFragment extends Fragment {
     private final static int LEVEL_THREE_TRESH = 100;
     private CollapsingToolbarLayout collapsingToolbar;
     private ImageView bookImg, ownerImg, bookmarkImg;
-    private TextView name, author, genre, owner;
-
+    private TextView name, author, genre, ownerName;
+    private ArrayList<Comment> comments;
     private Button gotBookButton;
+    private ImageButton sendCommentButton;
     private EditText editText;
     private User user = new User();
     private CommentAdapter commentAdapter;
@@ -69,6 +72,22 @@ public class BookPageFragment extends Fragment {
         comments = bookToDisplay.getComments();
         handleCommentsRecycle(view);
         return view;
+    }
+
+    private void handleCommentsRecycle(View view) {
+        commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        commentsRecycler.setLayoutManager(mLayoutManager);
+        commentAdapter = new CommentAdapter(comments, new CommentAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Comment comment) {
+                // TODO open profile
+            }
+        });
+        commentsRecycler.setAdapter(commentAdapter);
+        commentsRecycler.setItemAnimator(new DefaultItemAnimator());
+        commentAdapter.notifyDataSetChanged();
     }
 
 
@@ -105,6 +124,14 @@ public class BookPageFragment extends Fragment {
             }
         });
 
+        ownerImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileFragment.userToDisplay = user;
+                loadProfilePageFragment();
+            }
+        });
+
         sendCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,52 +154,26 @@ public class BookPageFragment extends Fragment {
     }
 
 
-    private void setBookmarkImg(){
+    private void setBookmarkImg() {
         // adjust bookmark image to the amount of points
-        if (bookToDisplay.getPoints() < LEVEL_ONE_TRESH){
+        if (bookToDisplay.getPoints() < LEVEL_ONE_TRESH) {
             bookmarkImg.setVisibility(View.INVISIBLE);
         } else if (bookToDisplay.getPoints() >= LEVEL_ONE_TRESH &&
-                bookToDisplay.getPoints() < LEVEL_TWO_TRESH){
+                bookToDisplay.getPoints() < LEVEL_TWO_TRESH) {
             bookmarkImg.setImageResource(R.drawable.star_bookmark);
         } else if (bookToDisplay.getPoints() >= LEVEL_TWO_TRESH &&
-                bookToDisplay.getPoints() < LEVEL_THREE_TRESH){
+                bookToDisplay.getPoints() < LEVEL_THREE_TRESH) {
             bookmarkImg.setImageResource(R.drawable.diamond_bookmark);
-        } else if (bookToDisplay.getPoints() >= LEVEL_THREE_TRESH){
+        } else if (bookToDisplay.getPoints() >= LEVEL_THREE_TRESH) {
             bookmarkImg.setImageResource(R.drawable.crown_bookmark);
         }
-
-    private void handleCommentsRecycle(View view) {
-        commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        commentsRecycler.setLayoutManager(mLayoutManager);
-        commentAdapter = new CommentAdapter(comments, new CommentAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Comment comment) {
-                // TODO open profile
-            }
-        });
-        commentsRecycler.setAdapter(commentAdapter);
-        commentsRecycler.setItemAnimator(new DefaultItemAnimator());
-        commentAdapter.notifyDataSetChanged();
-
     }
 
-
-//     /**
-//      * the function handles the Add floating button object in content_scrolling_list.
-//      * it defines a listener.
-//      * @param view - current view (content_scrolling_list)
-//      */
-//     private void handlingFloatingButton(View view){
-//         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-//         fab.setOnClickListener(new View.OnClickListener() {
-//             @Override
-//             public void onClick(View view) {
-
-//             }
-//         });
-//     }
-
-
+    private void loadProfilePageFragment() {
+        FragmentManager manager = getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view
+        transaction.replace(R.id.main_fragment_container, new ProfileFragment());
+        transaction.commit();
+    }
 }

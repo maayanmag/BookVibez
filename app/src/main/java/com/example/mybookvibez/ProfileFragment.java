@@ -19,17 +19,19 @@ import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 
 public class ProfileFragment extends Fragment {
 
-    private User[] user;
+    private User[] userArr = new User[1];
 
-    private List<BookItem> myBooks = new ArrayList<>();
+    public static User userToDisplay = null;
 
-    private List<BookItem> booksIRead = new ArrayList<>();
-
+    private ArrayList<BookItem> myBooks;
+    private CircleImageView ownerImg;
+    private ArrayList<BookItem> booksIRead;
     private RecyclerView myBooksRecyclerView;
-
     private RecyclerView booksIReadRecyclerView;
 
 
@@ -37,19 +39,40 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_profile_layout, null);
-        user = new User[1];
-        TextView firstName = view.findViewById(R.id.user_first_name);
-//        TextView lastName = view.findViewById(R.id.user_last_name);
-        TextView vibez = view.findViewById(R.id.vibePointsNum);
-        ServerApi.getInstance().getUser(MainActivity.userId, user, firstName, vibez, null);
-        myBooks = user[0].getMyBooks();
-        booksIRead = user[0].getBooksIRead();
+        View view = inflater.inflate(R.layout.fragment_profile_layout, container, false);
 
+        TextView firstName = view.findViewById(R.id.user_first_name);
+        TextView vibez = view.findViewById(R.id.vibePointsNum);
+        TextView vibezString = view.findViewById(R.id.myVibe);
         myBooksRecyclerView = view.findViewById(R.id.my_books_recycler_view);
-        setBooksRecyclerView(myBooksRecyclerView, myBooks);
         booksIReadRecyclerView = view.findViewById(R.id.books_i_read_recycler_view);
-        setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
+        ownerImg = (CircleImageView) view.findViewById(R.id.circ_image);
+
+        ArrayList<ArrayList<BookItem>> booksLists = new ArrayList<>(3);
+        String id;
+        if(userToDisplay == null)
+            id = MainActivity.userId;
+        else
+            id = userToDisplay.getId();
+
+        ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
+                vibezString, vibez, booksLists);
+
+        try {
+            myBooks = booksLists.get(0);
+            booksIRead = booksLists.get(1);
+
+            setBooksRecyclerView(myBooksRecyclerView, myBooks);
+            setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
+
+
+        } catch (IndexOutOfBoundsException ex){
+            myBooks = null;
+            booksIRead = null;
+        }
+
+
+
         return view;
     }
 
@@ -74,8 +97,8 @@ public class ProfileFragment extends Fragment {
     private void loadBookPageFragment() {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-//        transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view
-        transaction.replace(R.id.profile_layout, new BookPageFragment());
+        transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view
+        transaction.replace(R.id.main_fragment_container, new BookPageFragment());
         transaction.commit();
     }
 
