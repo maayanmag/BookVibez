@@ -102,7 +102,6 @@ public class BookPageFragment extends Fragment {
         author.setText(bookToDisplay.getAuthor());
         genre.setText(bookToDisplay.getGenre());
         owner.setText("TEMP");      //TODO
-
         bookImg.setImageResource(R.mipmap.as_few_days); //TODO
         //ownerImg.setImageResource(bookToDisplay.getOwnerImg());
         ownerImg.setImageResource(R.mipmap.man_icon);
