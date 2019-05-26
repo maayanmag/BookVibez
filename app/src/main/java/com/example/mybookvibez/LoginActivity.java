@@ -2,44 +2,21 @@ package com.example.mybookvibez;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.mybookvibez.R;
-import com.example.mybookvibez.MainActivity;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
-import com.facebook.login.widget.LoginButton;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -135,7 +112,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
 
         if (TextUtils.isEmpty(password)){
-            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Please enter password (at least 6 digits)", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -267,13 +244,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.d("AuthUI", "createUserWithEmail:success");
                             MainActivity.user = firebaseAuth.getCurrentUser();
                             MainActivity.userId = MainActivity.user.getUid();
-                            User user = new User ( "Maayan Yossef", null, null, 0, "");
-                            /*HashMap<String, Object> user = new HashMap<>();
-                            user.put("name", "Maayan Yossef");
-                            user.put("booksIRead", null);
-                            user.put("myBooks", null);
-                            user.put("vibePoints", 0);
-                            user.put("vibeString", ""); */
+                            User user = new User ( "", null, null, 0, "");
                             ServerApi.getInstance().addUser(user, MainActivity.userId);
                             Intent main = new Intent(act.getApplicationContext(), MainActivity.class);
                             act.startActivity(main);
@@ -281,8 +252,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("AuthUI", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Could not register, please try " +
-                                            "again",
+                            Toast.makeText(LoginActivity.this, "Could not register, please try again",
                                     Toast.LENGTH_SHORT).show();
 
                         }
