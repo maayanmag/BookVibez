@@ -26,8 +26,8 @@ import static android.app.Activity.RESULT_OK;
 public class AddBookImagePopup extends DialogFragment {
 
     private ImageView mImageView;
-    private StorageReference mStorage;
-    private ProgressDialog mProgress;
+    public static StorageReference mStorage;
+    public static ProgressDialog mProgress;
     private final static int CAMERA_REQUEST_CODE = 1;
     private final static int GALLERY_INTENT = 2;
 
@@ -72,15 +72,18 @@ public class AddBookImagePopup extends DialogFragment {
             mProgress.setMessage("Uploading image ...");
             mProgress.show();
             Uri uri = data.getData();
-            StorageReference filepath = mStorage.child("Photos").child(uri.getLastPathSegment());
-            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    mProgress.dismiss();
-                    Toast.makeText(getContext(), "The Upload is finished", Toast.LENGTH_SHORT).show();
+            NewBookFragment.setUri(uri);
+            mProgress.dismiss();
 
-                }
-            });
+//            StorageReference filepath = mStorage.child("Photos").child(uri.getLastPathSegment());
+//            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                @Override
+//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                    mProgress.dismiss();
+                    Toast.makeText(getContext(), "Photo Selected", Toast.LENGTH_SHORT).show();
+//
+//                }
+//            });
         }
     }
 }
