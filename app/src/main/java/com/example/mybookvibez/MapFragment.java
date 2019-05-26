@@ -334,7 +334,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         for (BookItem book: bookList){
             if(book.getLatLng() != null) {
                 String snip = "Category: " + book.getGenre() +"\n"+
-//                        book.getOwnedBy() +
+                        book.getOwnedBy() +
                         " people read this book" +
                         "\n" + book.getPoints() + " VibePoints";
                 double lat = book.getLatLng().getLatitude();
