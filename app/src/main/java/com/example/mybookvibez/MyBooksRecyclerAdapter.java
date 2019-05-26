@@ -89,9 +89,9 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
 
         public void bind(final BookItem book, final BooksRecyclerAdapter.OnItemClickListener listener) {
             try {
-                String imgId = String.valueOf(book.getBookImg());
+       //         String imgId = String.valueOf(book.getBookImg());
                 reference = reference.child("Photos");
-                reference = reference.child(imgId);
+        //        reference = reference.child(imgId);
                 db.collection("books")
                         .get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

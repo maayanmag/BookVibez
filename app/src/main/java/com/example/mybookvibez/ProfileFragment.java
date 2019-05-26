@@ -77,7 +77,7 @@ public class ProfileFragment extends Fragment {
         TextView firstName = view.findViewById(R.id.user_first_name);
         TextView lastName = view.findViewById(R.id.user_last_name);
         TextView vibez = view.findViewById(R.id.myVibe);
-        ServerApi.getInstance().getUser(user_id, user, firstName, vibez, lastName);
+        //ServerApi.getInstance().getUser(user_id, user);
 
         return view;
     }
