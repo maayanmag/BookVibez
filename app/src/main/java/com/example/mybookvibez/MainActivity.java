@@ -171,7 +171,12 @@ public class MainActivity extends AppCompatActivity {
                         Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         startActivityForResult(enableGpsIntent, MapFragment.PERMISSIONS_REQUEST_ENABLE_GPS);
                     }
-                });
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, "don't let access to location services");
+            }
+        });
         final AlertDialog alert = builder.create();
         alert.show();
     }
