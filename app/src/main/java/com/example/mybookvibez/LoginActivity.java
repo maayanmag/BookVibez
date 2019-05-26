@@ -50,12 +50,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import static com.facebook.appevents.UserDataStore.EMAIL;
-
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button btnGoogleSignIn;
@@ -149,7 +143,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.setMessage("Registering user...");
         progressDialog.show();
         signUp(email, password, this);
-//        firebaseAuth.createUserWithEmailAndPassword(email, pas
+//        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this,
+//                new OnCompleteListener<AuthResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<AuthResult> task) {
+//                        if (task.isSuccessful()){
+//                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                            finish();
+//                        }
+//                        else {
+//                            Toast.makeText(LoginActivity.this, "Could not register, please try " +
+//                                            "again",
+//                                    Toast.LENGTH_SHORT).show();
+//
+//                        }
+//                    }
+//                });
     }
 
     private void userLogin(){
@@ -256,15 +265,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("AuthUI", "createUserWithEmail:success");
-                            HashMap<String, Object> user = new HashMap<>();
-                            // should find a way to get the user's name and pic from google/facebook
+                            MainActivity.user = firebaseAuth.getCurrentUser();
+                            MainActivity.userId = MainActivity.user.getUid();
+                            User user = new User ( "Maayan Yossef", null, null, 0, "");
+                            /*HashMap<String, Object> user = new HashMap<>();
                             user.put("name", "Maayan Yossef");
                             user.put("booksIRead", null);
                             user.put("myBooks", null);
                             user.put("vibePoints", 0);
-                            user.put("vibeString", "");
-                            MainActivity.user = firebaseAuth.getCurrentUser();
-                            MainActivity.userId = MainActivity.user.getUid();
+                            user.put("vibeString", ""); */
                             ServerApi.getInstance().addUser(user, MainActivity.userId);
                             Intent main = new Intent(act.getApplicationContext(), MainActivity.class);
                             act.startActivity(main);

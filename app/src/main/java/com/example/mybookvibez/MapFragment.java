@@ -35,27 +35,34 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-import static com.example.mybookvibez.Constants.DEFAULT_ZOOM;
-import static com.example.mybookvibez.Constants.MAPVIEW_BUNDLE_KEY;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
-    //widgets
+    public static final int ERROR_DIALOG_REQUEST = 9001;
+    public static final int PERMISSIONS_REQUEST_ENABLE_GPS = 9002;
+    public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 9003;
+    public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
+    public static final int DEFAULT_ZOOM = 16;
+
     private TextView mSearchText;
-    GoogleMap mGoogleMap;
+    public GoogleMap mGoogleMap;
     MapView mMapView;
     private ImageView mRecenter;
     private static final String TAG = "MapFragment";
     private SlidingUpPanelLayout mLayout;
+    public List<BookItem> bookList = ListOfBooks.getBooksList();
     public static List<BookItem> bookItemList = new ArrayList<>();
-    private List<Marker> markersList = new ArrayList<Marker>();
+    private static ArrayList<Marker> markersList = new ArrayList<Marker>();
+    private static HashMap<Marker, BookItem> markerMap = new HashMap<>();
     private FirebaseFirestore mDb;
 
 
@@ -206,11 +213,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
             return;
         }
         init();
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(23.071181,
-                79.596163), 4)); // initial zoom and center for map
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(23.071181,79.596163), 4)); // initial zoom and center for map
         mGoogleMap.setOnMarkerClickListener(this);
-//        initMarkers();
-//        tempBookMarkers();
+        initMarkers();
         //googleMap.setMyLocationEnabled(true); // todo: current location -if we want it, comment back.
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
@@ -218,7 +223,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                 if (marker != null){
                     int id = (int)marker.getTag();
                     BookPageFragment.bookToDisplay = bookItemList.get(id);
-//                if (marker.getTitle().equals("The Art of Hearing Heartbeats")){
                     loadBookPageFragment();
                     mLayout.setPanelState(SlidingUpPanelLayout.PanelState.EXPANDED); //to open
                 }
@@ -325,48 +329,62 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     }
 
     private void initMarkers(){
-        bookItemList.get(0).setLatLng(new LatLng(32.250504, 77.178156));
-        bookItemList.get(1).setLatLng(new LatLng(32.251735, 77.180873));
-        bookItemList.get(2).setLatLng(new LatLng(32.243710, 77.180214));
-        bookItemList.get(3).setLatLng(new LatLng(32.254074, 77.191976));
-
-        bookItemList.get(0).setSLocation("Manali Heights Guesthouse");
-        bookItemList.get(1).setSLocation("Hamta Cottage");
-        bookItemList.get(2).setSLocation("Shaina Mareema Cottage");
-        bookItemList.get(3).setSLocation("Manu Allaya Resort");
-
-        bookItemList.get(0).setGenre("chill");
-        bookItemList.get(1).setGenre("thinker");
-        bookItemList.get(2).setGenre("trophy");;
-        bookItemList.get(3).setSLocation("smoker");
-
-
-        for (int i = 0; i <4; i++){
-            BookItem b = bookItemList.get(i);
-            String snip =  "Location: "+b.getSLocation()+ "\nCurrent Owner: "+"Lior Saadon";        //TODO
-            MarkerOptions m = new MarkerOptions().position(b.getLatLng()).snippet(snip)
-                    .title(b.getTitle()).icon(addIconToMap(b));
-            Marker marker = mGoogleMap.addMarker(m);
-            marker.setTag(b.getId());
-            markersList.add(marker);
-        }
+//        bookList.get(0).setLatLng(new LatLng(32.250504, 77.178156));
+//        bookList.get(1).setLatLng(new LatLng(32.251735, 77.180873));
+//        bookList.get(2).setLatLng(new LatLng(32.243710, 77.180214));
+//        bookList.get(3).setLatLng(new LatLng(32.254074, 77.191976));
+        for (BookItem book: bookList){
+            if(book.getLatLng() != null) {
+                String snip = "Category: " + book.getGenre() +"\n"+
+//                        book.getOwnedBy() +
+                        " people read this book" +
+                        "\n" + book.getPoints() + " VibePoints";
+                double lat = book.getLatLng().getLatitude();
+                double lng = book.getLatLng().getLongitude ();
+                LatLng latLng = new LatLng(lat, lng);
+                MarkerOptions m = new MarkerOptions().position(latLng).snippet(snip)
+                        .title(book.getTitle()).icon(addIconToMap(book));
+                Marker marker = mGoogleMap.addMarker(m);
+                marker.setTag(0);
+                markerMap.put(marker, book);
+//                markersList.add(marker);
+            }}
     }
 
 
-
-    private BitmapDescriptor addIconToMap(BookItem book){
-        if (book.getGenre().equals("chill")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_chill);
+    public BitmapDescriptor addIconToMap(BookItem book){
+        if (book.getGenre().equals("For never-ending rides")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_bus);
         }
-        else if (book.getGenre().equals("thinker")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_thinker);
+        else if (book.getGenre().equals("Kills some time")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_cool);
         }
-        else if (book.getGenre().equals("trophy")){
-            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_tropht);
+        else if (book.getGenre().equals("Take on a trekk")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_treck);
         }
-        else { //todo: if going to add categories - add else if
+        else if (book.getGenre().equals("Flying high")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_trip);
+        }
+        else if (book.getGenre().equals("Stoner vibes")){
             return BitmapDescriptorFactory.fromResource(R.mipmap.ic_smoker);
         }
+        else if (book.getGenre().equals("Good for sick days")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_vomit);
+        }
+        else if (book.getGenre().equals("Spiritual vibes")){
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_meditate);
+        }
+        else { //todo: if going to add categories - add else if
+            return BitmapDescriptorFactory.fromResource(R.mipmap.ic_summer);
+        }
+    }
+
+    public static HashMap<Marker, BookItem> getMarkerMap() {
+        return markerMap;
+    }
+
+    public static void setMarkerMap(HashMap<Marker, BookItem> markerMap) {
+        MapFragment.markerMap = markerMap;
     }
 
     @Override

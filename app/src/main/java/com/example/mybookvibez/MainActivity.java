@@ -18,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.example.mybookvibez.Leaderboard.Leaderboard;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -27,9 +29,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import static com.example.mybookvibez.Constants.ERROR_DIALOG_REQUEST;
-import static com.example.mybookvibez.Constants.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION;
-import static com.example.mybookvibez.Constants.PERMISSIONS_REQUEST_ENABLE_GPS;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -176,9 +175,14 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         Intent enableGpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivityForResult(enableGpsIntent, PERMISSIONS_REQUEST_ENABLE_GPS);
+                        startActivityForResult(enableGpsIntent, MapFragment.PERMISSIONS_REQUEST_ENABLE_GPS);
                     }
-                });
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.d(TAG, "don't let access to location services");
+            }
+        });
         final AlertDialog alert = builder.create();
         alert.show();
     }
@@ -216,7 +220,7 @@ public class MainActivity extends AppCompatActivity {
             //asking for permission to access fine location
             ActivityCompat.requestPermissions(this,
                     new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
-                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+                    MapFragment.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
 
@@ -236,7 +240,8 @@ public class MainActivity extends AppCompatActivity {
         } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
             //an error occurred but we can resolve it
             Log.d(TAG, "isServicesOK: an error occurred but we can fix it");
-            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(MainActivity.this, available, ERROR_DIALOG_REQUEST);
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(
+                    MainActivity.this, available, MapFragment.ERROR_DIALOG_REQUEST);
             dialog.show(); // the dialog guides the user to get google services
         } else {
             Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
@@ -258,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                                            @NonNull int[] grantResults) {
         mLocationPermissionGranted = false;
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+            case MapFragment.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 // some results exist, check if they granted permission
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -274,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Log.d(TAG, "onActivityResult: called.");
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_ENABLE_GPS: {
+            case MapFragment.PERMISSIONS_REQUEST_ENABLE_GPS: {
                 if (mLocationPermissionGranted) {
                     assert true; // todo:need to create a function that retrieves the available books
                     getDeviceLocation();

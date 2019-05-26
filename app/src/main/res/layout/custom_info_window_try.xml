@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/white_border"
+    android:orientation="horizontal"
+    android:padding="10dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="105dp"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="custom_title"
+            android:textColor="#000000"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/book_Image"
+            android:layout_width="98dp"
+            android:layout_height="131dp"
+            android:layout_below="@+id/tv_title"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="0dp"
+            android:layout_marginTop="-21dp"
+            android:src="@drawable/art_of_listening" />
+
+        <TextView
+            android:id="@+id/book_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginStart="35dp"
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@+id/book_Image"
+            android:layout_toRightOf="@id/book_Image"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="book_ganre"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/people_read"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/book_category"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/reading_icon"
+            android:text="4 people read this"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/book_vibes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/reading_icon"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/star_icon"
+            android:text="book_vibes"
+            android:textColor="#000000"
+            android:textSize="17sp" />
+
+        <ImageView
+            android:id="@+id/genre_icon"
+            android:layout_width="27dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/tv_title"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/book_Image"
+            app:srcCompat="@mipmap/tag" />
+
+
+        <ImageView
+            android:id="@+id/reading_icon"
+            android:layout_width="27dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/book_category"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/book_Image"
+            app:srcCompat="@mipmap/reading" />
+
+        <ImageView
+            android:id="@+id/star_icon"
+            android:layout_width="27dp"
+            android:layout_height="25dp"
+            android:layout_below="@id/reading_icon"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/book_Image"
+            app:srcCompat="@mipmap/star" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

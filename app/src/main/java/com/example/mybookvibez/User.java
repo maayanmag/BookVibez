@@ -10,13 +10,13 @@ public class User {
     private String vibeString;
     private int userImg;
 
-    public User(String name, int p, int userImg){
+    public User(String name, ArrayList<BookItem> myBooks, ArrayList<BookItem> booksIRead, int vibePoints, String vibeString) {
         this.name = name;
-        this.myBooks = new ArrayList<>();
-        this.booksIRead  = new ArrayList<>();
-        this.vibePoints = p;
-        this.vibeString = "hi";
-        this.userImg = userImg;
+        this.myBooks = myBooks;
+        this.booksIRead = booksIRead;
+        this.vibePoints = vibePoints;
+        this.vibeString = vibeString;
+        this.userImg = R.mipmap.man_icon;
     }
 
     public String getName() {

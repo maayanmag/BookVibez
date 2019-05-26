@@ -16,15 +16,13 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.GeoPoint;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.util.HashMap;
 
 public class NewBookFragment extends Fragment {
 
@@ -33,7 +31,7 @@ public class NewBookFragment extends Fragment {
     private ArrayAdapter<CharSequence> adapter;
     private RadioGroup radioGrp;
     private RadioButton checked;
-    private EditText editName, editDescription, editAuthor, editLocation; //take location off! netta
+    private EditText editName, editAuthor, editLocation; //take location off! netta
     private int selectedRB = 0;
 
 
@@ -42,9 +40,8 @@ public class NewBookFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_new_book_layout, null);
-        setAttributes(view, inflater);
-
-       initElements(view, inflater);
+        setAttributes(view);
+       initElements(inflater);
 
         return view;
     }
@@ -57,7 +54,7 @@ public class NewBookFragment extends Fragment {
         transaction.commit();
     }
 
-    private void setAttributes(View view, LayoutInflater inflater){
+    private void setAttributes(View view){
         spinner = view.findViewById(R.id.book_type_spinner);
         addFrontImageBtn = view.findViewById(R.id.addBookFrontImgBtn);
         addBackImageBtn = view.findViewById(R.id.addBookBackImgBtn);
@@ -68,10 +65,9 @@ public class NewBookFragment extends Fragment {
         radioGrp = view.findViewById(R.id.radio_grp);
         checked = view.findViewById(R.id.exchange_radio_btn);       // exchange books is default
         checked.setChecked(true);
-
     }
 
-    private void initElements(View view, LayoutInflater inflater){
+    private void initElements(LayoutInflater inflater){
         /* handling array adapter */
         adapter = ArrayAdapter.createFromResource(inflater.getContext(),                // Create an ArrayAdapter using the string array and a default spinner layout
                 R.array.book_types, android.R.layout.simple_spinner_item);
@@ -121,12 +117,12 @@ public class NewBookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 BookItem book = createNewBook();
-                HashMap<String, Object> hm = new HashMap<String, Object>();
-                hm.put("book1", (Object)book);
-                ServerApi.getInstance().addNewBook(hm);
+                book.setLatLng(new GeoPoint(32.194796, 77.201137)); //todo: change!!! default adding of book
+//              ListOfBooks.booksList.add(book);
+                ServerApi.getInstance().addNewBook(book);
                 Toast.makeText(getContext(), "Book was added successfully", Toast.LENGTH_SHORT).show();
-
                 loadMapFragment();
+
             }
         });
     }
@@ -138,7 +134,6 @@ public class NewBookFragment extends Fragment {
         String genre = spinner.getSelectedItem().toString();
         //String location = editLocation.getText().toString();
         int giveaway = selectedRB;
-
         return new BookItem(name, author, genre, giveaway);
     }
 

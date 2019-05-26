@@ -1,4 +1,4 @@
-package com.example.mybookvibez;
+package com.example.mybookvibez.Leaderboard;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.example.mybookvibez.ProfileFragment;
+import com.example.mybookvibez.R;
+import com.example.mybookvibez.User;
+
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +28,7 @@ import java.util.List;
 
 public class LeaderboardTabUsers extends Fragment {
 
-    private List<User> userList = random_users();
+    private List<User> userList;
     private RecyclerView recyclerView;
     public static UsersLeaderAdapter adapter;
 
@@ -41,7 +44,8 @@ public class LeaderboardTabUsers extends Fragment {
                 return Integer.compare(u2.getVibePoints(), u1.getVibePoints());
             }
         };
-        Collections.sort(userList, cmp);
+        if (userList != null)
+            Collections.sort(userList, cmp);
 
         handlingRecycleViewer(view);
         return view;
@@ -82,21 +86,6 @@ public class LeaderboardTabUsers extends Fragment {
     }
 
 
-    public static List<User> random_users() {
-        List<User> l = new ArrayList<>();
-        User b3 = new User("Tom Saltsberg",78,  R.mipmap.man_icon);
-        User b1 = new User("Bob Marley", 60, R.mipmap.man_icon);
-        User b11 = new User("Lior Saadon", 95, R.mipmap.man_icon);
-        User b22 = new User("Madonna", 56, R.mipmap.man_icon);
-        User b2 = new User("Neta Zohar", 42, R.mipmap.man_icon);
-        User b33 = new User("Yair Netanyahu", 4, R.mipmap.man_icon);
-        User b44 = new User("WonderWoman", 13, R.mipmap.man_icon);
-        User b4 = new User("Beyonce", 78, R.mipmap.man_icon);
-        l.add(b1); l.add(b2); l.add(b3); l.add(b4);
-        l.add(b11); l.add(b22); l.add(b33); l.add(b44);
-        return l;
-    }
-
 
 }
 
@@ -132,6 +121,8 @@ class UsersLeaderAdapter extends RecyclerView.Adapter<UsersLeaderAdapter.UserVie
 
     @Override
     public int getItemCount() {
+        if (users == null)
+            return 0;
         return users.size();
     }
 

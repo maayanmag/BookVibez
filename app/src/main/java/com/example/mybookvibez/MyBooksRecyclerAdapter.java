@@ -29,6 +29,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,19 +47,22 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
     private Context context;
 
     private StorageReference reference = FirebaseStorage.getInstance().getReference("Photos");
+//    private OnItemClickListener mListener;
 
-
-    private List<BookItem> booksList;
+    private List<BookItem> booksList, copyList;
 
     private final BooksRecyclerAdapter.OnItemClickListener mListener;
 
 
-    public MyBooksRecyclerAdapter(Context context, List<BookItem> books,
+    public MyBooksRecyclerAdapter(Context context, List<BookItem> booksList,
                                   BooksRecyclerAdapter.OnItemClickListener listener) {
-        this.booksList = books;
+        this.booksList = booksList;
         this.context = context;
         this.mListener = listener;
+        this.copyList = new ArrayList<>();
+        copyList.addAll(booksList);
     }
+
 
     @NonNull
     @Override
@@ -68,15 +72,26 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
         return new ViewHolder(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         viewHolder.bind(booksList.get(i), mListener);
     }
 
+
+
     @Override
     public int getItemCount() {
         return this.booksList.size();
     }
+
+
+    //    static class MyViewHolder extends RecyclerView.ViewHolder {
+//        private final TextView title, author;
+//        private ImageView img;
+//        private View mView;
+//
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
@@ -138,3 +153,27 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
         }
     }
 }
+
+//    //--------------------------------------
+//
+//
+//        public MyViewHolder(View view) {
+//            super(view);
+//            mView = view;
+//            title = (TextView) view.findViewById(R.id.book_name);
+//            author = (TextView) view.findViewById(R.id.book_author);
+//            img = (ImageView) view.findViewById(R.id.book_img);
+//        }
+//
+//        public void bind(final BookItem book, final OnItemClickListener listener) {
+//            title.setText(book.getTitle());
+//            author.setText(book.getGenre());
+//            img.setImageResource(R.mipmap.as_few_days);     //TODO
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View view) {
+//                    listener.onItemClick(book);
+//                }
+//            });
+//        }
+//
+//    }
