@@ -40,6 +40,7 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -61,6 +62,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
     public List<BookItem> bookList = ListOfBooks.getBooksList();
     public static List<BookItem> bookItemList = new ArrayList<>();
     private static ArrayList<Marker> markersList = new ArrayList<Marker>();
+    private static HashMap<Marker, BookItem> markerMap = new HashMap<>();
     private FirebaseFirestore mDb;
 
 
@@ -333,7 +335,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
 //        bookList.get(3).setLatLng(new LatLng(32.254074, 77.191976));
         for (BookItem book: bookList){
             if(book.getLatLng() != null) {
-                String snip = "Location: " + book.getLocation() + "\nVibePoints: " + book.getPoints();
+                String snip = "Category: " + book.getGenre() +"\n"+ book.getOwnedBy() + " people read this book" +
+                        "\n" + book.getPoints() + " VibePoints";
                 double lat = book.getLatLng().getLatitude();
                 double lng = book.getLatLng().getLongitude ();
                 LatLng latLng = new LatLng(lat, lng);
@@ -341,7 +344,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
                         .title(book.getTitle()).icon(addIconToMap(book));
                 Marker marker = mGoogleMap.addMarker(m);
                 marker.setTag(0);
-                markersList.add(marker);
+                markerMap.put(marker, book);
+//                markersList.add(marker);
             }}
     }
 
@@ -371,6 +375,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleM
         else { //todo: if going to add categories - add else if
             return BitmapDescriptorFactory.fromResource(R.mipmap.ic_summer);
         }
+    }
+
+    public static HashMap<Marker, BookItem> getMarkerMap() {
+        return markerMap;
+    }
+
+    public static void setMarkerMap(HashMap<Marker, BookItem> markerMap) {
+        MapFragment.markerMap = markerMap;
     }
 
     @Override
