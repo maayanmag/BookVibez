@@ -119,6 +119,7 @@ public class ServerApi {
     }
 
 
+
     public void getBook(final String bookId, final BookItem[] book){
         DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -151,7 +152,10 @@ public class ServerApi {
                         user[0] = got;
                         if (name != null)
                             name.setText(got.getName());
-                    } else {
+                        if (vibeString != null)
+                            vibeString.setText(got.getVibePoints()+"");
+                    }
+                    else {
                         System.out.println("no user found");
                     }
                 }

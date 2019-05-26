@@ -26,6 +26,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
+    private FirebaseAuth firebaseAuth;
     public static FirebaseUser user;
     public static String userId = "BogscfIfRmeRd7Ylzh308AhUC4T2";
 
@@ -44,6 +46,10 @@ public class MainActivity extends AppCompatActivity {
 
         loadFragment(new MapFragment());
         handlingBottomNavigationView();
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+        userId = user.getUid();
+
     }
 
     public void getDeviceLocation() {

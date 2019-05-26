@@ -107,6 +107,11 @@ public class BookPageFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String text = editText.getText().toString();
+
+                Timestamp time = new Timestamp(System.currentTimeMillis());
+                Comment comment = new Comment();
+                ServerApi.getInstance().addComment("Ce50lYWDMxUGSxChVYZK", comment);        //TODO - replace with bookID
+=======
                 Comment comment = new Comment(text, MainActivity.userId);
                 ServerApi.getInstance().addComment(bookToDisplay.getId(), comment);
                 Toast.makeText(getContext(), "Comment was added successfully", Toast.LENGTH_SHORT).show();
