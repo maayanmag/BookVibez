@@ -2,62 +2,83 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginTop="0dp"
-        android:layout_margin="20dp"
-        android:background="@drawable/bg_white_rounded"
-        android:stateListAnimator="@null"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        <GridLayout
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/past_owner_img"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="15dp"
+            android:src="@mipmap/man_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/user_last_name" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/comment_card"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:rowCount="2"
-            android:columnCount="1">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/bg_white_rounded"
+            android:stateListAnimator="@null"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+
+            <GridLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:columnCount="1"
+                android:rowCount="2">
 
-                <TextView
-                    android:id="@+id/publisher"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/publisher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="Tom Saltsberg"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginTop="10dp"
+                        android:text="17.05.2019"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/comment_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="25dp"
                     android:layout_marginTop="10dp"
-                    android:text="Tom Saltsberg"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:text="I really enjoyed it"
+                    android:textColor="@color/black"
                     android:textSize="15sp" />
 
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginTop="10dp"
-                    android:text="17.05.2019"
-                    android:textColor="@color/black"
-                    android:textSize="12sp" />
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/comment_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="25dp"
-                android:layout_marginTop="10dp"
-                android:text="They do have elevator, but it's in periodical care for a week"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-        </GridLayout>
-
-    </android.support.v7.widget.CardView>
+            </GridLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

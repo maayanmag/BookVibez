@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class BookItem {
 
-    private String id, title, author, genre, ownerId, location, location;
+    private String id, title, author, genre, ownerId, location;
     private int points, giveaway, ownedBy;
     private GeoPoint latLng;
     private ArrayList<Comment> comments;
@@ -73,7 +73,6 @@ public class BookItem {
         this.ownerId = ownerId;
     }
 
-
     public String getLocation() {
         return location;
     }
@@ -121,6 +120,7 @@ public class BookItem {
     public void setOwnedBy(int ownedBy) {
         this.ownedBy = ownedBy;
     }
+
 
     // Constructor to convert JSON object into a Java class instance
     public BookItem(JSONObject object){
