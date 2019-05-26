@@ -20,6 +20,8 @@ import java.util.List;
 
 public class ProfileFragment extends Fragment {
 
+    private User[] user;
+
     private List<BookItem> myBooks = new ArrayList<>();
 
     private List<BookItem> booksIRead = new ArrayList<>();
@@ -37,47 +39,41 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        user = new User[1];
+        ServerApi.getInstance().getUser(MainActivity.userId, user, null, null, null);
+        myBooks = user[0].getMyBooks();
+        booksIRead = user[0].getBooksIRead();
         View view = inflater.inflate(R.layout.fragment_profile_layout, null);
         myBooksRecyclerView = view.findViewById(R.id.my_books_recycler_view);
+        setBooksRecyclerView(myBooksRecyclerView, myBooks);
         booksIReadRecyclerView = view.findViewById(R.id.books_i_read_recycler_view);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext(),
-                LinearLayoutManager.HORIZONTAL, false);
-        myBooksRecyclerView.setLayoutManager(mLayoutManager);
-        myBooksRecyclerAdapter = new MyBooksRecyclerAdapter(this.getContext(), myBooks,
-                new BooksRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BookItem book) {
-                return;
-            }
-        });
-        myBooksRecyclerView.setAdapter(myBooksRecyclerAdapter);
-
-
-        RecyclerView.LayoutManager booksIReadLayoutManager = new LinearLayoutManager(this.getContext(),
-                LinearLayoutManager.HORIZONTAL, false);
-        booksIReadRecyclerView.setLayoutManager(booksIReadLayoutManager);
-        booksIReadAdapter = new MyBooksRecyclerAdapter(this.getContext(), booksIRead,
-                new BooksRecyclerAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BookItem book) {
-                return;
-            }
-        });
-
-        booksIReadRecyclerView.setAdapter(booksIReadAdapter);
+        setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
 
         ImageView bookGenreImg = view.findViewById(R.id.book_genre_img);
 
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        String user_id = currentUser.getUid();
-        User[] user = new User[1];
-        TextView firstName = view.findViewById(R.id.user_first_name);
-        TextView lastName = view.findViewById(R.id.user_last_name);
-        TextView vibez = view.findViewById(R.id.myVibe);
-        ServerApi.getInstance().getUser(user_id, user, firstName, vibez, lastName);
+//        String user_id = currentUser.getUid();
+//        User[] user = new User[1];
+//        TextView firstName = view.findViewById(R.id.user_first_name);
+//        TextView lastName = view.findViewById(R.id.user_last_name);
+//        TextView vibez = view.findViewById(R.id.myVibe);
+//        ServerApi.getInstance().getUser(user_id, user, firstName, vibez, lastName);
 
         return view;
+    }
+
+    private void setBooksRecyclerView(RecyclerView recyclerView, List<BookItem> booksList) {
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext(),
+                LinearLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(mLayoutManager);
+        MyBooksRecyclerAdapter adapter = new MyBooksRecyclerAdapter(this.getContext(), booksList,
+                new MyBooksRecyclerAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(BookItem book) {
+                        return;
+                    }
+                });
+        recyclerView.setAdapter(adapter);
     }
 
 

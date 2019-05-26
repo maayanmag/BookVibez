@@ -121,8 +121,10 @@ public class ServerApi {
                     {
                         User got =  document.toObject(User.class);
                         user[0] = got;
-                        name.setText(got.getName());
-                        vibeString.setText(got.getVibePointsString());
+                        if (name != null)
+                            name.setText(got.getName());
+                        if (vibeString != null)
+                            vibeString.setText(got.getVibePointsString());
                     }
                     else
                     {
