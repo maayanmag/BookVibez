@@ -149,22 +149,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         progressDialog.setMessage("Registering user...");
         progressDialog.show();
         signUp(email, password, this);
-//        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this,
-//                new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()){
-//                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                            finish();
-//                        }
-//                        else {
-//                            Toast.makeText(LoginActivity.this, "Could not register, please try " +
-//                                            "again",
-//                                    Toast.LENGTH_SHORT).show();
-//
-//                        }
-//                    }
-//                });
+//        firebaseAuth.createUserWithEmailAndPassword(email, pas
     }
 
     private void userLogin(){
@@ -271,14 +256,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("AuthUI", "createUserWithEmail:success");
-                            MainActivity.user = firebaseAuth.getCurrentUser();
-                            MainActivity.userId = MainActivity.user.getUid();
                             HashMap<String, Object> user = new HashMap<>();
+                            // should find a way to get the user's name and pic from google/facebook
                             user.put("name", "Maayan Yossef");
                             user.put("booksIRead", null);
                             user.put("myBooks", null);
                             user.put("vibePoints", 0);
                             user.put("vibeString", "");
+                            MainActivity.user = firebaseAuth.getCurrentUser();
+                            MainActivity.userId = MainActivity.user.getUid();
                             ServerApi.getInstance().addUser(user, MainActivity.userId);
                             Intent main = new Intent(act.getApplicationContext(), MainActivity.class);
                             act.startActivity(main);

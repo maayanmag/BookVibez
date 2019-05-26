@@ -140,18 +140,6 @@ public class ServerApi {
                 System.out.println("BOOK_ADDING_FAILED");
             }
         });
-//        db.collection(USERS_DB).add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//            @Override
-//            public void onSuccess(DocumentReference DocumentReference) {
-//                System.out.println("BOOK_ADDED_SUCCESSFULLY");
-//            }
-//        })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        System.out.println("BOOK_ADDING_FAILED");
-//                    }
-//                });
     }
 
 
