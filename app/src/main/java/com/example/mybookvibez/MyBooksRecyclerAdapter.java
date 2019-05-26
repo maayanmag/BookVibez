@@ -40,14 +40,10 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
         return new ViewHolder(view);
     }
 
-
-
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, int i) {
         viewHolder.bind(booksList.get(i), mListener);
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -68,7 +64,7 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
 
 
         public void bind(final BookItem book, final OnItemClickListener listener) {
-//            downloadBookFrontCover(image, book, book.getId());
+            ServerApi.getInstance().downloadBookFrontCover(image, book.getId());
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

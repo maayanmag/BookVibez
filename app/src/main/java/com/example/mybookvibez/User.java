@@ -4,16 +4,14 @@ import java.util.ArrayList;
 
 public class User {
     private String name, id, vibeString;
-    private ArrayList<BookItem> myBooks;
-    private ArrayList<BookItem> booksIRead;
+    private ArrayList<String> myBooks;
+    private ArrayList<String> booksIRead;
     private int vibePoints;
 
     public User() {}
 
-    public User(String name, ArrayList<BookItem> myBooks, ArrayList<BookItem> booksIRead, int vibePoints, String vibeString) {
+    public User(String name, int vibePoints, String vibeString) {
         this.name = name;
-        this.myBooks = myBooks;
-        this.booksIRead = booksIRead;
         this.vibePoints = vibePoints;
         this.vibeString = vibeString;
     }
@@ -42,19 +40,19 @@ public class User {
         this.vibeString = vibeString;
     }
 
-    public ArrayList<BookItem> getMyBooks() {
+    public ArrayList<String> getMyBooks() {
         return myBooks;
     }
 
-    public void setMyBooks(ArrayList<BookItem> myBooks) {
+    public void setMyBooks(ArrayList<String> myBooks) {
         this.myBooks = myBooks;
     }
 
-    public ArrayList<BookItem> getBooksIRead() {
+    public ArrayList<String> getBooksIRead() {
         return booksIRead;
     }
 
-    public void setBooksIRead(ArrayList<BookItem> booksIRead) {
+    public void setBooksIRead(ArrayList<String> booksIRead) {
         this.booksIRead = booksIRead;
     }
 

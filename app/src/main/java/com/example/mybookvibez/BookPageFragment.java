@@ -56,7 +56,6 @@ public class BookPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_book_page, container, false);
 
         getAttributesIds(view);
-//        handlingFloatingButton(view);
         handleButtons();
 
         User[] temp = new User[1];

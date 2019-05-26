@@ -28,9 +28,10 @@ public class ProfileFragment extends Fragment {
 
     public static User userToDisplay = null;
 
-    private ArrayList<BookItem> myBooks;
+    private ArrayList<BookItem> myBooks, booksIRead;
     private CircleImageView ownerImg;
-    private ArrayList<BookItem> booksIRead;
+    private TextView firstName, vibezString, vibez;
+    private ArrayList<String> readId, mybooksId;
     private RecyclerView myBooksRecyclerView;
     private RecyclerView booksIReadRecyclerView;
 
@@ -40,40 +41,43 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile_layout, container, false);
+        mybooksId = new ArrayList<>();
+        readId = new ArrayList<>();
 
-        TextView firstName = view.findViewById(R.id.user_first_name);
-        TextView vibez = view.findViewById(R.id.vibePointsNum);
-        TextView vibezString = view.findViewById(R.id.myVibe);
+
+        getAttributes(view);
+
+        String id;
+        if(userToDisplay == null) {
+            id = MainActivity.userId;
+        }
+        else {
+            id = userToDisplay.getId();
+        }
+
+        ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
+                vibezString, vibez, mybooksId, readId);
+
+        try {
+            ServerApi.getInstance().getBooksByIdsList(myBooks, mybooksId);
+            setBooksRecyclerView(myBooksRecyclerView, myBooks);
+        } catch (IndexOutOfBoundsException e) { }
+        try {
+            ServerApi.getInstance().getBooksByIdsList(booksIRead, readId);
+            setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
+        } catch (IndexOutOfBoundsException ex){ }
+
+        return view;
+    }
+
+    private void getAttributes(View view) {
+        firstName = view.findViewById(R.id.user_first_name);
+        vibez = view.findViewById(R.id.vibePointsNum);
+        vibezString = view.findViewById(R.id.myVibe);
         myBooksRecyclerView = view.findViewById(R.id.my_books_recycler_view);
         booksIReadRecyclerView = view.findViewById(R.id.books_i_read_recycler_view);
         ownerImg = (CircleImageView) view.findViewById(R.id.circ_image);
 
-        ArrayList<ArrayList<BookItem>> booksLists = new ArrayList<>(3);
-        String id;
-        if(userToDisplay == null)
-            id = MainActivity.userId;
-        else
-            id = userToDisplay.getId();
-
-        ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
-                vibezString, vibez, booksLists);
-
-        try {
-            myBooks = booksLists.get(0);
-            booksIRead = booksLists.get(1);
-
-            setBooksRecyclerView(myBooksRecyclerView, myBooks);
-            setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
-
-
-        } catch (IndexOutOfBoundsException ex){
-            myBooks = null;
-            booksIRead = null;
-        }
-
-
-
-        return view;
     }
 
     private void setBooksRecyclerView(RecyclerView recyclerView, List<BookItem> booksList) {
