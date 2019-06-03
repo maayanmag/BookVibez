@@ -179,7 +179,7 @@ public class ServerApi {
     }
 
 
-    public void getBooksByIdsList(final ArrayList<BookItem> books, final ArrayList<String> booksIds) {
+    public void getBooksByIdsList(final ArrayList<BookItem> books, final ArrayList<String> booksIds, final MyBooksRecyclerAdapter adapterMyBooks) {
         for(String id : booksIds){
             final DocumentReference docRef = db.collection(BOOKS_DB).document(id);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -191,6 +191,7 @@ public class ServerApi {
                         if(document != null && document.exists()) {
                             books.add(document.toObject(BookItem.class));
                             Log.d("getBooksByIdsList: ", "added book "+ document.getData());
+                            adapterMyBooks.notifyDataSetChanged();
                         }
                         else {
                             System.out.println("no book found");
@@ -327,7 +328,7 @@ public class ServerApi {
 
     public void downloadBookFrontCover(final ImageView img, final String bookId){
         try {
-            StorageReference ref = storage.child(BOOKS_DB + bookId);
+            StorageReference ref = storage.child(bookId);
 
             final File localFile = File.createTempFile("Images", "bmp");
 

@@ -68,7 +68,7 @@ public class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.
 
         public void bind(final BookItem book, final OnItemClickListener listener) {
             title.setText(book.getTitle());
-            info.setText(book.getAuthor());
+            info.setText(book.getPoints()+"");
 
             int newWidth = 100; // Leaderboard.screenWidth);
             if (newWidth <= 0)

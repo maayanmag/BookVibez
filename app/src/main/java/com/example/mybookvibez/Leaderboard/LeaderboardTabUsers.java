@@ -69,7 +69,7 @@ public class LeaderboardTabUsers extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new UsersLeaderAdapter(userList, new UsersLeaderAdapter.OnItemClickListener() {
             @Override public void onItemClick(User user) {
-                ProfileFragment.userToDisplay = user;
+                ProfileFragment.userToDisplay = user.getId();
                 loadProfilePageFragment();
             }
         });

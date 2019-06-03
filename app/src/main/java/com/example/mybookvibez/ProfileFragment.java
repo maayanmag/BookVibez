@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +26,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
 
     private User[] userArr = new User[1];
-
-    public static User userToDisplay = null;
+    public static BookItem tempBook;
+    public static String userToDisplay = null;
 
     private ArrayList<BookItem> myBooks, booksIRead;
     private CircleImageView ownerImg;
     private TextView firstName, vibezString, vibez;
     private ArrayList<String> readId, mybooksId;
     private RecyclerView myBooksRecyclerView;
+    private MyBooksRecyclerAdapter adapterMyBooks;
     private RecyclerView booksIReadRecyclerView;
 
 
@@ -52,22 +54,25 @@ public class ProfileFragment extends Fragment {
             id = MainActivity.userId;
         }
         else {
-            id = userToDisplay.getId();
+            id = userToDisplay;
         }
 
         ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
                 vibezString, vibez, mybooksId, readId);
+        //mybooksId.clear(); mybooksId.add("RVZw1o8c2rpC3ynuYTL0");//TODO remove
 
         try {
             myBooks = new ArrayList<>();
-            ServerApi.getInstance().getBooksByIdsList(myBooks, mybooksId);
+            myBooks.add(tempBook);
             setBooksRecyclerView(myBooksRecyclerView, myBooks);
+            //ServerApi.getInstance().getBooksByIdsList(myBooks, mybooksId, adapterMyBooks);
+
         } catch (IndexOutOfBoundsException e) { }
-        try {
-            booksIRead = new ArrayList<>();
-            ServerApi.getInstance().getBooksByIdsList(booksIRead, readId);
-            setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
-        } catch (IndexOutOfBoundsException ex){ }
+//        try {
+//            booksIRead = new ArrayList<>();
+//            ServerApi.getInstance().getBooksByIdsList(booksIRead, readId);
+//            setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
+//        } catch (IndexOutOfBoundsException ex){ }
 
         return view;
     }
@@ -85,7 +90,7 @@ public class ProfileFragment extends Fragment {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
-        MyBooksRecyclerAdapter adapter = new MyBooksRecyclerAdapter(this.getContext(), booksList,
+        adapterMyBooks = new MyBooksRecyclerAdapter(this.getContext(), booksList,
                 new MyBooksRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(BookItem book) {
@@ -93,7 +98,7 @@ public class ProfileFragment extends Fragment {
                         loadBookPageFragment();
                     }
                 });
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapterMyBooks);
     }
 
     /**
