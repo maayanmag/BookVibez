@@ -69,9 +69,8 @@ public class LeaderboardTabUsers extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new UsersLeaderAdapter(userList, new UsersLeaderAdapter.OnItemClickListener() {
             @Override public void onItemClick(User user) {
+                ProfileFragment.userToDisplay = user;
                 loadProfilePageFragment();
-                Toast.makeText(getContext(), user.getName() + " was chosen", Toast.LENGTH_SHORT).show();
-
             }
         });
 
@@ -83,6 +82,7 @@ public class LeaderboardTabUsers extends Fragment {
      * this function replaces the layout to a book page layout in case some book was clicked in the list
      */
     private void loadProfilePageFragment() {
+
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view

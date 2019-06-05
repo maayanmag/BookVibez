@@ -77,16 +77,8 @@ public class AddBookImagePopup extends DialogFragment {
             Uri uri = data.getData();
             NewBookFragment.setUri(uri);
             mProgress.dismiss();
+            Toast.makeText(getContext(), "Photo Selected", Toast.LENGTH_SHORT).show();
 
-//            StorageReference filepath = mStorage.child("Photos").child(uri.getLastPathSegment());
-//            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                @Override
-//                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                    mProgress.dismiss();
-                    Toast.makeText(getContext(), "Photo Selected", Toast.LENGTH_SHORT).show();
-//
-//                }
-//            });
         }
     }
 }

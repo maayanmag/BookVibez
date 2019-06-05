@@ -19,6 +19,7 @@ import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.BookPageFragment;
 import com.example.mybookvibez.ListOfBooks;
 import com.example.mybookvibez.R;
+import com.example.mybookvibez.ServerApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,16 +38,17 @@ public class LeaderboardTabBooks extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.leaderboard_tab_books, container, false);
 
+        handlingRecycleViewer(view);
+
         /* sort */
         Comparator<BookItem> cmp = new Comparator<BookItem>() {
             @Override
             public int compare(BookItem o1, BookItem o2) {
-                return 0;
+                return 0;       //TODO
             }
         };
         Collections.sort(booksList, cmp);
 
-        handlingRecycleViewer(view);
         return view;
     }
 
