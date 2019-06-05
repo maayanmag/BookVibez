@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,13 +26,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
 
     private User[] userArr = new User[1];
+    public static BookItem tempBook;
+    public static String userToDisplay = null;
 
-    public static User userToDisplay = null;
-
-    private ArrayList<BookItem> myBooks;
+    private ArrayList<BookItem> myBooks, booksIRead;
     private CircleImageView ownerImg;
-    private ArrayList<BookItem> booksIRead;
+    private TextView firstName, vibezString, vibez;
+    private ArrayList<String> readId, mybooksId;
     private RecyclerView myBooksRecyclerView;
+    private MyBooksRecyclerAdapter adapterMyBooks;
     private RecyclerView booksIReadRecyclerView;
 
 
@@ -40,47 +43,54 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_profile_layout, container, false);
+        mybooksId = new ArrayList<>();
+        readId = new ArrayList<>();
 
-        TextView firstName = view.findViewById(R.id.user_first_name);
-        TextView vibez = view.findViewById(R.id.vibePointsNum);
-        TextView vibezString = view.findViewById(R.id.myVibe);
+
+        getAttributes(view);
+
+        String id;
+        if(userToDisplay == null) {
+            id = MainActivity.userId;
+        }
+        else {
+            id = userToDisplay;
+        }
+
+        ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
+                vibezString, vibez, mybooksId, readId);
+        //mybooksId.clear(); mybooksId.add("RVZw1o8c2rpC3ynuYTL0");//TODO remove
+
+        try {
+            myBooks = new ArrayList<>();
+            myBooks.add(tempBook);
+            setBooksRecyclerView(myBooksRecyclerView, myBooks);
+            //ServerApi.getInstance().getBooksByIdsList(myBooks, mybooksId, adapterMyBooks);
+
+        } catch (IndexOutOfBoundsException e) { }
+//        try {
+//            booksIRead = new ArrayList<>();
+//            ServerApi.getInstance().getBooksByIdsList(booksIRead, readId);
+//            setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
+//        } catch (IndexOutOfBoundsException ex){ }
+
+        return view;
+    }
+
+    private void getAttributes(View view) {
+        firstName = view.findViewById(R.id.user_first_name);
+        vibez = view.findViewById(R.id.vibePointsNum);
+        vibezString = view.findViewById(R.id.myVibe);
         myBooksRecyclerView = view.findViewById(R.id.my_books_recycler_view);
         booksIReadRecyclerView = view.findViewById(R.id.books_i_read_recycler_view);
         ownerImg = (CircleImageView) view.findViewById(R.id.circ_image);
-
-        ArrayList<ArrayList<BookItem>> booksLists = new ArrayList<>(3);
-        String id;
-        if(userToDisplay == null)
-            id = MainActivity.userId;
-        else
-            id = userToDisplay.getId();
-
-        ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
-                vibezString, vibez, booksLists);
-
-        try {
-            myBooks = booksLists.get(0);
-            booksIRead = booksLists.get(1);
-
-            setBooksRecyclerView(myBooksRecyclerView, myBooks);
-            setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
-
-
-        } catch (IndexOutOfBoundsException ex){
-            myBooks = null;
-            booksIRead = null;
-        }
-
-
-
-        return view;
     }
 
     private void setBooksRecyclerView(RecyclerView recyclerView, List<BookItem> booksList) {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
-        MyBooksRecyclerAdapter adapter = new MyBooksRecyclerAdapter(this.getContext(), booksList,
+        adapterMyBooks = new MyBooksRecyclerAdapter(this.getContext(), booksList,
                 new MyBooksRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(BookItem book) {
@@ -88,7 +98,7 @@ public class ProfileFragment extends Fragment {
                         loadBookPageFragment();
                     }
                 });
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapterMyBooks);
     }
 
     /**

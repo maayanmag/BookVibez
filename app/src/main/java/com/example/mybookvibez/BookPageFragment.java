@@ -56,13 +56,10 @@ public class BookPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_book_page, container, false);
 
         getAttributesIds(view);
-//        handlingFloatingButton(view);
         handleButtons();
 
         User[] temp = new User[1];
         ServerApi.getInstance().getUser(bookToDisplay.getOwnerId(), temp, ownerName);
-        user = temp[0];
-
         ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
 
         if(bookToDisplay != null && user != null) {
@@ -103,6 +100,7 @@ public class BookPageFragment extends Fragment {
         gotBookButton = (Button) view.findViewById(R.id.got_the_book_button);
         sendCommentButton = (ImageButton) view.findViewById(R.id.sent_btn);
         commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
+        bookmarkImg = (ImageView) view.findViewById(R.id.bookmark);
     }
 
     private void handleButtons(){
@@ -127,7 +125,8 @@ public class BookPageFragment extends Fragment {
         ownerImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProfileFragment.userToDisplay = user;
+                ProfileFragment.tempBook = bookToDisplay;
+                ProfileFragment.userToDisplay = bookToDisplay.getOwnerId();
                 loadProfilePageFragment();
             }
         });
@@ -148,7 +147,8 @@ public class BookPageFragment extends Fragment {
         author.setText(bookToDisplay.getAuthor());
         genre.setText(bookToDisplay.getGenre());
         ownerName.setText(user.getName());
-        bookImg.setImageResource(R.mipmap.as_few_days); //TODO
+        //bookImg.setImageResource(R.mipmap.as_few_days); //TODO
+        ServerApi.getInstance().downloadBookFrontCover(bookImg, bookToDisplay.getId());
         ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
         collapsingToolbar.setTitle(bookToDisplay.getTitle());
     }
