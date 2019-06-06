@@ -27,6 +27,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -59,7 +60,7 @@ public class ServerApi {
     }
 
 
-    public void getBooksList(final ArrayList<BookItem> books, final BooksRecyclerAdapter adapt) {
+    public void getBooksListForMap(final ArrayList<BookItem> books, final Callable<Void> AddMarkers) {
 
         db.collection(BOOKS_DB)
                 .get()
@@ -71,27 +72,29 @@ public class ServerApi {
                             ListOfBooks.clearBooksList();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 books.add(document.toObject(BookItem.class));
-                                Log.d("getBooks", document.getId() + " => " + document.getData());
+                                Log.d("getBooksList", document.getId() + " => " + document.getData());
                             }
-
-                            adapt.notifyDataSetChanged();
+                            try {
+                                AddMarkers.call();
+                            } catch (Exception e) {
+                                Log.d("getBooksList", "getBooks from getBooksListForMap failed");
+                            }
                         } else {
-                            Log.d("getBooks", "Error getting documents: ", task.getException());
+                            Log.d("getBooksList", "Error getting documents: ", task.getException());
                         }
                     }
                 })
-            .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("getBooks", "FAILED_GET_BOOKS");
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("getBooksList", "FAILED_GET_BOOKS");
 
-            }
-        });
+                    }
+                });
     }
 
 
     public void getUsersList(final ArrayList<User> users, final UsersLeaderAdapter adapt) {
-
         db.collection(USERS_DB)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -104,7 +107,6 @@ public class ServerApi {
                                 users.add(document.toObject(User.class));
                                 Log.d("getUsers", document.getId() + " => " + document.getData());
                             }
-
                             adapt.notifyDataSetChanged();
                         } else {
                             Log.d("getUsers", "Error getting documents: ", task.getException());
@@ -122,8 +124,8 @@ public class ServerApi {
 
 
     public void getUserForProfileFragment(final String userId, final User[] user, final CircleImageView image,
-                          final TextView name, final TextView vibe, final TextView points,
-                          final ArrayList<ArrayList<BookItem>> booksLists) {         // books[0]=mybooks, books[1]=booksIRead
+                                          final TextView name, final TextView vibe, final TextView points,
+                                          final ArrayList<String> myBooks, final ArrayList<String> read) {         // books[0]=mybooks, books[1]=booksIRead
         DocumentReference docRef = db.collection(USERS_DB).document(userId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -133,14 +135,20 @@ public class ServerApi {
                     if(document != null && document.exists()) {
                         User got =  document.toObject(User.class);
                         user[0] = got;
+                        Log.d("getUserForProfileFrag", "adding user name: "+got.getName());
                         name.setText(got.getName());
-                        vibe.setText(user[0].getVibeString());
-                        points.setText(user[0].getVibePoints() + " Vibe Points");
+                        vibe.setText(got.getVibeString());
+                        points.setText(got.getVibePoints() + " Vibe Points");
                         try {
-                            booksLists.set(0, user[0].getMyBooks());
-                            booksLists.set(1, user[0].getBooksIRead());
-                        } catch (IndexOutOfBoundsException ex) {
-
+                            myBooks.addAll(got.getMyBooks());
+                            Log.d("getUserForProfileFrag", "myBooks added: "+myBooks.toString());
+                        } catch (Exception e) {
+                            Log.d("getUserForProfileFrag", "cought IndexOutOfBoundsException - getMyBooks");
+                        }
+                        try {
+                            read.addAll(got.getBooksIRead());
+                        } catch (Exception e) {
+                            Log.d("getUserForProfileFrag", "cought IndexOutOfBoundsException - getBooksIRead");
                         }
                         try {
                             StorageReference ref = storage.child(USERS_PROFILES + userId);
@@ -165,21 +173,40 @@ public class ServerApi {
 
                     }
                     else {
-                        System.out.println("no user found");
+                        System.out.println("getUserForProfileFragment: something went wrong");
                     }
                 }
             }
         });
-
-
-
-
-
-
     }
 
 
-
+    public void getBooksByIdsList(final ArrayList<BookItem> books, final ArrayList<String> booksIds, final Callable<Void> func) {
+        for(String id : booksIds){
+            final DocumentReference docRef = db.collection(BOOKS_DB).document(id);
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if(task.isSuccessful())
+                    {
+                        DocumentSnapshot document = task.getResult();
+                        if(document != null && document.exists()) {
+                            books.add(document.toObject(BookItem.class));
+                            Log.d("getBooksByIdsList: ", "added book "+ document.getData());
+                            try {
+                                func.call();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        else {
+                            System.out.println("no book found");
+                        }
+                    }
+                }
+            });
+        }
+    }
 
 
 
@@ -305,8 +332,27 @@ public class ServerApi {
         }
     }
 
-    public void downloadBookFrontCover(final ImageView img, final String userId){
+    public void downloadBookImage(final ImageView img, final String bookId){
+        try {
+            StorageReference ref = storage.child(bookId);
 
+            final File localFile = File.createTempFile("Images", "bmp");
+
+            ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener < FileDownloadTask.TaskSnapshot >() {
+                @Override
+                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                    Bitmap my_image = BitmapFactory.decodeFile(localFile.getAbsolutePath());
+                    img.setImageBitmap(my_image);
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("Downloading photo: ", "Error downloading Image");
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.firestore.ServerTimestamp;
-
-import java.sql.Array;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class BookPageFragment extends Fragment {
@@ -56,13 +51,10 @@ public class BookPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_book_page, container, false);
 
         getAttributesIds(view);
-//        handlingFloatingButton(view);
         handleButtons();
 
         User[] temp = new User[1];
         ServerApi.getInstance().getUser(bookToDisplay.getOwnerId(), temp, ownerName);
-        user = temp[0];
-
         ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
 
         if(bookToDisplay != null && user != null) {
@@ -103,6 +95,7 @@ public class BookPageFragment extends Fragment {
         gotBookButton = (Button) view.findViewById(R.id.got_the_book_button);
         sendCommentButton = (ImageButton) view.findViewById(R.id.sent_btn);
         commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
+        bookmarkImg = (ImageView) view.findViewById(R.id.bookmark);
     }
 
     private void handleButtons(){
@@ -127,7 +120,8 @@ public class BookPageFragment extends Fragment {
         ownerImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProfileFragment.userToDisplay = user;
+                ProfileFragment.userToDisplay = bookToDisplay.getOwnerId();
+                ProfileFragment.displayMyProfile = false;
                 loadProfilePageFragment();
             }
         });
@@ -148,7 +142,8 @@ public class BookPageFragment extends Fragment {
         author.setText(bookToDisplay.getAuthor());
         genre.setText(bookToDisplay.getGenre());
         ownerName.setText(user.getName());
-        bookImg.setImageResource(R.mipmap.as_few_days); //TODO
+        //bookImg.setImageResource(R.mipmap.as_few_days); //TODO
+        ServerApi.getInstance().downloadBookImage(bookImg, bookToDisplay.getId());
         ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
         collapsingToolbar.setTitle(bookToDisplay.getTitle());
     }

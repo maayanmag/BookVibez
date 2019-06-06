@@ -24,25 +24,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mybookvibez.AddBook.AddBookPopup;
+import com.example.mybookvibez.Leaderboard.LeaderboardTabBooks;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
+import java.util.concurrent.Callable;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -59,9 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private ImageView mRecenter, mProfilePic;
     private static final String TAG = "MapFragment";
     private SlidingUpPanelLayout mLayout;
-    public List<BookItem> bookList = ListOfBooks.getBooksList();
-    public static List<BookItem> bookItemList = new ArrayList<>();
-    private static ArrayList<Marker> markersList = new ArrayList<Marker>();
+    private static ArrayList<BookItem> bookList = new ArrayList<>();
     private static HashMap<Marker, BookItem> markerMap = new HashMap<>();
     private FirebaseFirestore mDb;
 
@@ -72,15 +69,30 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.map_fragment_sliding_up, container, false);
+
         setAttributes(view);
         initGoogleMap(savedInstanceState);
         /* handling click on "addBook" button */
         handlingAddBookButton(view);
         /* handling click on "centerMapToMyLocation" button */
         handlingRecenterFAB(view);
+
+        Callable<Void> func = new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                return initMarkers();
+            }
+        };
+        ServerApi.getInstance().getBooksListForMap(bookList, func);
+
+
         return view;
     }
 
+
+    public static ArrayList<BookItem> getListOfBooks(){
+        return bookList;
+    }
 
     private void setAttributes(View view){
         mMapView = (MapView) view.findViewById(R.id.map);
@@ -113,6 +125,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ProfileFragment.userToDisplay = MainActivity.userId;
+                Log.d("ownerImgListener: ", MainActivity.userId);
+                ProfileFragment.displayMyProfile = true;
                 loadProfileFragment();
             }
         });
@@ -330,7 +345,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMapView.onLowMemory();
     }
 
-    private void initMarkers(){
+    private Void initMarkers(){
         for (BookItem book: bookList){
             if(book.getLatLng() != null) {
                 String snip = "Category: " + book.getGenre() +"\n"+
@@ -347,6 +362,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 markerMap.put(marker, book);
 //                markersList.add(marker);
             }}
+        return null;
     }
 
 

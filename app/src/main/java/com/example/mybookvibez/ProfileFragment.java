@@ -7,17 +7,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -25,62 +23,76 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
 
     private User[] userArr = new User[1];
+    public static String userToDisplay = MainActivity.userId;
+    public static boolean displayMyProfile = false;
 
-    public static User userToDisplay = null;
-
-    private ArrayList<BookItem> myBooks;
+    private ArrayList<BookItem> myBooks, booksIRead;
     private CircleImageView ownerImg;
-    private ArrayList<BookItem> booksIRead;
+    private TextView firstName, vibezString, vibez;
+    private ArrayList<String> readId, mybooksId;
     private RecyclerView myBooksRecyclerView;
+    private MyBooksRecyclerAdapter adapterMyBooks;
     private RecyclerView booksIReadRecyclerView;
+
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_profile_layout, container, false);
+        mybooksId = new ArrayList<>();
+        readId = new ArrayList<>();
 
-        TextView firstName = view.findViewById(R.id.user_first_name);
-        TextView vibez = view.findViewById(R.id.vibePointsNum);
-        TextView vibezString = view.findViewById(R.id.myVibe);
-        myBooksRecyclerView = view.findViewById(R.id.my_books_recycler_view);
-        booksIReadRecyclerView = view.findViewById(R.id.books_i_read_recycler_view);
-        ownerImg = (CircleImageView) view.findViewById(R.id.circ_image);
+        getAttributes(view);
 
-        ArrayList<ArrayList<BookItem>> booksLists = new ArrayList<>(3);
         String id;
-        if(userToDisplay == null)
+        if(displayMyProfile) {
             id = MainActivity.userId;
-        else
-            id = userToDisplay.getId();
-
-        ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
-                vibezString, vibez, booksLists);
-
-        try {
-            myBooks = booksLists.get(0);
-            booksIRead = booksLists.get(1);
-
-            setBooksRecyclerView(myBooksRecyclerView, myBooks);
-            setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
-
-
-        } catch (IndexOutOfBoundsException ex){
-            myBooks = null;
-            booksIRead = null;
+        }
+        else {
+            id = userToDisplay;
         }
 
+        ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
+                vibezString, vibez, mybooksId, readId);
+
+
+
+        myBooks = new ArrayList<>();
+        ServerApi.getInstance().getBooksByIdsList(myBooks, mybooksId, new Callable<Void>() {
+            @Override
+            public Void call() {
+                return setBooksRecyclerView(myBooksRecyclerView, myBooks);
+            }
+        });
+
+
+        booksIRead = new ArrayList<>();
+        ServerApi.getInstance().getBooksByIdsList(booksIRead, readId, new Callable<Void>() {
+            @Override
+            public Void call() {
+                return setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
+            }
+        });
 
 
         return view;
     }
 
-    private void setBooksRecyclerView(RecyclerView recyclerView, List<BookItem> booksList) {
+    private void getAttributes(View view) {
+        firstName = view.findViewById(R.id.user_first_name);
+        vibez = view.findViewById(R.id.vibePointsNum);
+        vibezString = view.findViewById(R.id.myVibe);
+        myBooksRecyclerView = view.findViewById(R.id.my_books_recycler_view);
+        booksIReadRecyclerView = view.findViewById(R.id.books_i_read_recycler_view);
+        ownerImg = (CircleImageView) view.findViewById(R.id.circ_image);
+    }
+
+    private Void setBooksRecyclerView(RecyclerView recyclerView, List<BookItem> booksList) {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
-        MyBooksRecyclerAdapter adapter = new MyBooksRecyclerAdapter(this.getContext(), booksList,
+        adapterMyBooks = new MyBooksRecyclerAdapter(this.getContext(), booksList,
                 new MyBooksRecyclerAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(BookItem book) {
@@ -88,7 +100,8 @@ public class ProfileFragment extends Fragment {
                         loadBookPageFragment();
                     }
                 });
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(adapterMyBooks);
+        return null;
     }
 
     /**

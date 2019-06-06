@@ -244,7 +244,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             Log.d("AuthUI", "createUserWithEmail:success");
                             MainActivity.user = firebaseAuth.getCurrentUser();
                             MainActivity.userId = MainActivity.user.getUid();
-                            User user = new User ( "", null, null, 0, "");
+                            User user = new User ( "", 0, "");
                             ServerApi.getInstance().addUser(user, MainActivity.userId);
                             Intent main = new Intent(act.getApplicationContext(), MainActivity.class);
                             act.startActivity(main);
