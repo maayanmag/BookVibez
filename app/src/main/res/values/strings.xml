@@ -67,7 +67,7 @@
 
     <string name="app_slogen">this will be slogen</string>
     <string name="current_owner">Contact Current Owner</string>
-    <string name="interested_books_title">Books I\'m Interested In</string>
+    <string name="books_i_read">Books I\'ve Read</string>
     <string name="my_books">My Books</string>
 
     <string name="add_image_title">Add Image From</string>

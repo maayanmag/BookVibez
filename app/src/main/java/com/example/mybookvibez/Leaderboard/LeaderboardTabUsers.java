@@ -71,7 +71,6 @@ public class LeaderboardTabUsers extends Fragment {
         adapter = new UsersLeaderAdapter(userList, new UsersLeaderAdapter.OnItemClickListener() {
             @Override public void onItemClick(User user) {
                 ProfileFragment.userToDisplay = user.getId();
-                Log.d("TODEBUG: "," usermane: "+user.getName()+" , userID: "+user.getId());
                 ProfileFragment.displayMyProfile = false;
                 loadProfilePageFragment();
             }
@@ -84,10 +83,10 @@ public class LeaderboardTabUsers extends Fragment {
 
 
     private void loadProfilePageFragment() {
+        FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
 
-        FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view
+        transaction.addToBackStack("profile");  // enables to press "return" and go back to the list view
         transaction.replace(R.id.main_fragment_container, new ProfileFragment());
         transaction.commit();
 
