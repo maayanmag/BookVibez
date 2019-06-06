@@ -27,6 +27,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.Callable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -59,7 +60,7 @@ public class ServerApi {
     }
 
 
-    public void getBooksList(final ArrayList<BookItem> books, final BooksRecyclerAdapter adapt) {
+    public void getBooksListForMap(final ArrayList<BookItem> books, final Callable<Void> AddMarkers) {
 
         db.collection(BOOKS_DB)
                 .get()
@@ -71,27 +72,29 @@ public class ServerApi {
                             ListOfBooks.clearBooksList();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 books.add(document.toObject(BookItem.class));
-                                Log.d("getBooks", document.getId() + " => " + document.getData());
+                                Log.d("getBooksList", document.getId() + " => " + document.getData());
                             }
-
-                            adapt.notifyDataSetChanged();
+                            try {
+                                AddMarkers.call();
+                            } catch (Exception e) {
+                                Log.d("getBooksList", "getBooks from getBooksListForMap failed");
+                            }
                         } else {
-                            Log.d("getBooks", "Error getting documents: ", task.getException());
+                            Log.d("getBooksList", "Error getting documents: ", task.getException());
                         }
                     }
                 })
-            .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.d("getBooks", "FAILED_GET_BOOKS");
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("getBooksList", "FAILED_GET_BOOKS");
 
-            }
-        });
+                    }
+                });
     }
 
 
     public void getUsersList(final ArrayList<User> users, final UsersLeaderAdapter adapt) {
-
         db.collection(USERS_DB)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -104,7 +107,6 @@ public class ServerApi {
                                 users.add(document.toObject(User.class));
                                 Log.d("getUsers", document.getId() + " => " + document.getData());
                             }
-
                             adapt.notifyDataSetChanged();
                         } else {
                             Log.d("getUsers", "Error getting documents: ", task.getException());
@@ -133,6 +135,7 @@ public class ServerApi {
                     if(document != null && document.exists()) {
                         User got =  document.toObject(User.class);
                         user[0] = got;
+                        Log.d("getUserForProfileFrag", "adding user name: "+got.getName());
                         name.setText(got.getName());
                         vibe.setText(got.getVibeString());
                         points.setText(got.getVibePoints() + " Vibe Points");
@@ -142,12 +145,11 @@ public class ServerApi {
                         } catch (Exception e) {
                             Log.d("getUserForProfileFrag", "cought IndexOutOfBoundsException - getMyBooks");
                         }
-//                        try {
-//                            read.addAll(got.getBooksIRead());
-//                        } catch (Exception e) {
-//                            Log.d("----------", String.valueOf(got.getBooksIRead().size() + read.size()));
-//                            Log.d("getUserForProfileFrag", "cought IndexOutOfBoundsException - getBooksIRead");
-//                        }
+                        try {
+                            read.addAll(got.getBooksIRead());
+                        } catch (Exception e) {
+                            Log.d("getUserForProfileFrag", "cought IndexOutOfBoundsException - getBooksIRead");
+                        }
                         try {
                             StorageReference ref = storage.child(USERS_PROFILES + userId);
 
@@ -179,7 +181,7 @@ public class ServerApi {
     }
 
 
-    public void getBooksByIdsList(final ArrayList<BookItem> books, final ArrayList<String> booksIds, final MyBooksRecyclerAdapter adapterMyBooks) {
+    public void getBooksByIdsList(final ArrayList<BookItem> books, final ArrayList<String> booksIds, final Callable<Void> func) {
         for(String id : booksIds){
             final DocumentReference docRef = db.collection(BOOKS_DB).document(id);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -191,7 +193,11 @@ public class ServerApi {
                         if(document != null && document.exists()) {
                             books.add(document.toObject(BookItem.class));
                             Log.d("getBooksByIdsList: ", "added book "+ document.getData());
-                            adapterMyBooks.notifyDataSetChanged();
+                            try {
+                                func.call();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                         else {
                             System.out.println("no book found");
@@ -326,7 +332,7 @@ public class ServerApi {
         }
     }
 
-    public void downloadBookFrontCover(final ImageView img, final String bookId){
+    public void downloadBookImage(final ImageView img, final String bookId){
         try {
             StorageReference ref = storage.child(bookId);
 

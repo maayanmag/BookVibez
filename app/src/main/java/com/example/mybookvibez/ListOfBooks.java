@@ -26,7 +26,7 @@ import java.util.List;
 
 public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListener {
 
-    private static ArrayList<BookItem> booksList = new ArrayList<>();
+    public static ArrayList<BookItem> booksList = MapFragment.getListOfBooks();
     private RecyclerView recyclerView;
     private static BooksRecyclerAdapter adapter;
     private SearchView searchView;
@@ -41,7 +41,7 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         handlingAddBookButton(view);
         handlingSearchView(view);
 
-        ServerApi.getInstance().getBooksList(booksList, adapter);
+        //ServerApi.getInstance().getBooksList(booksList, adapter);
 
         return view;
     }

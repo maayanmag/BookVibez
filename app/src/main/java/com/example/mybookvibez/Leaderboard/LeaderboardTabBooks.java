@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.BookPageFragment;
 import com.example.mybookvibez.ListOfBooks;
+import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
 
@@ -29,7 +30,7 @@ import java.util.List;
 
 public class LeaderboardTabBooks extends Fragment {
 
-    private List<BookItem> booksList = ListOfBooks.getBooksList();
+    private List<BookItem> booksList = MapFragment.getListOfBooks();
     private RecyclerView recyclerView;
     public static BooksLeaderAdapter adapter;
 
@@ -43,8 +44,8 @@ public class LeaderboardTabBooks extends Fragment {
         /* sort */
         Comparator<BookItem> cmp = new Comparator<BookItem>() {
             @Override
-            public int compare(BookItem o1, BookItem o2) {
-                return 0;       //TODO
+            public int compare(BookItem b1, BookItem b2) {
+                return Integer.compare(b1.getPoints(), b2.getPoints());
             }
         };
         Collections.sort(booksList, cmp);

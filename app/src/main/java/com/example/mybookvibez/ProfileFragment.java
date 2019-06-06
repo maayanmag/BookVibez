@@ -11,14 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -26,8 +23,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
 
     private User[] userArr = new User[1];
-    public static BookItem tempBook;
-    public static String userToDisplay = null;
+    public static String userToDisplay = MainActivity.userId;
+    public static boolean displayMyProfile = false;
 
     private ArrayList<BookItem> myBooks, booksIRead;
     private CircleImageView ownerImg;
@@ -38,19 +35,18 @@ public class ProfileFragment extends Fragment {
     private RecyclerView booksIReadRecyclerView;
 
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_profile_layout, container, false);
         mybooksId = new ArrayList<>();
         readId = new ArrayList<>();
 
-
         getAttributes(view);
 
         String id;
-        if(userToDisplay == null) {
+        if(displayMyProfile) {
             id = MainActivity.userId;
         }
         else {
@@ -59,20 +55,26 @@ public class ProfileFragment extends Fragment {
 
         ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
                 vibezString, vibez, mybooksId, readId);
-        //mybooksId.clear(); mybooksId.add("RVZw1o8c2rpC3ynuYTL0");//TODO remove
 
-        try {
-            myBooks = new ArrayList<>();
-            myBooks.add(tempBook);
-            setBooksRecyclerView(myBooksRecyclerView, myBooks);
-            //ServerApi.getInstance().getBooksByIdsList(myBooks, mybooksId, adapterMyBooks);
 
-        } catch (IndexOutOfBoundsException e) { }
-//        try {
-//            booksIRead = new ArrayList<>();
-//            ServerApi.getInstance().getBooksByIdsList(booksIRead, readId);
-//            setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
-//        } catch (IndexOutOfBoundsException ex){ }
+
+        myBooks = new ArrayList<>();
+        ServerApi.getInstance().getBooksByIdsList(myBooks, mybooksId, new Callable<Void>() {
+            @Override
+            public Void call() {
+                return setBooksRecyclerView(myBooksRecyclerView, myBooks);
+            }
+        });
+
+
+        booksIRead = new ArrayList<>();
+        ServerApi.getInstance().getBooksByIdsList(booksIRead, readId, new Callable<Void>() {
+            @Override
+            public Void call() {
+                return setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
+            }
+        });
+
 
         return view;
     }
@@ -86,7 +88,7 @@ public class ProfileFragment extends Fragment {
         ownerImg = (CircleImageView) view.findViewById(R.id.circ_image);
     }
 
-    private void setBooksRecyclerView(RecyclerView recyclerView, List<BookItem> booksList) {
+    private Void setBooksRecyclerView(RecyclerView recyclerView, List<BookItem> booksList) {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -99,6 +101,7 @@ public class ProfileFragment extends Fragment {
                     }
                 });
         recyclerView.setAdapter(adapterMyBooks);
+        return null;
     }
 
     /**
