@@ -204,9 +204,9 @@ public class NewBookFragment extends Fragment {
         String name = editName.getText().toString();
         String author = editAuthor.getText().toString();
         String genre = spinner.getSelectedItem().toString();
-        //String location = editLocation.getText().toString();
+        String location = editLocation.getText().toString();
         int giveaway = selectedRB;
-        return new BookItem(name, author, genre, giveaway);
+        return new BookItem(name, author, genre, location, giveaway);
     }
 
 
