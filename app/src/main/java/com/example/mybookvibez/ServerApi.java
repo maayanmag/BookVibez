@@ -36,12 +36,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * easy API for server
  */
 public class ServerApi {
+    private FirebaseFirestore db;
+    private final static ServerApi instance = new ServerApi();
+    private StorageReference storage = FirebaseStorage.getInstance().getReference();
     private final static String USERS_DB = "users";
     private final static String BOOKS_DB = "books";
     private final static String USERS_PROFILES = "users_profile_pics/";
-    private StorageReference storage = FirebaseStorage.getInstance().getReference();
-    private FirebaseFirestore db;
-    private final static ServerApi instance = new ServerApi();
 
 
     /**
@@ -60,7 +60,13 @@ public class ServerApi {
     }
 
 
-    public void getBooksListForMap(final ArrayList<BookItem> books, final Callable<Void> AddMarkers) {
+    /**
+     * the function gets an empty books list and fill it with all the books in database,
+     * and then calls AddMarker when finshed.
+     * @param books - empty books list.
+     * @param AddMarkers - the function to activate when all books are pulled into the list.
+     */
+    public void getAllBooksToList(final ArrayList<BookItem> books, final Callable<Void> AddMarkers) {
 
         db.collection(BOOKS_DB)
                 .get()
@@ -69,31 +75,36 @@ public class ServerApi {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            ListOfBooks.clearBooksList();
+                            //ListOfBooks.clearBooksList();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 books.add(document.toObject(BookItem.class));
-                                Log.d("getBooksList", document.getId() + " => " + document.getData());
+                                Log.d("getAllBooksToList", document.getId() + " => " + document.getData());
                             }
                             try {
                                 AddMarkers.call();
                             } catch (Exception e) {
-                                Log.d("getBooksList", "getBooks from getBooksListForMap failed");
+                                Log.d("getAllBooksToList", "getBooks from getAllBooksToList failed");
                             }
                         } else {
-                            Log.d("getBooksList", "Error getting documents: ", task.getException());
+                            Log.d("getAllBooksToList", "Error getting documents: ", task.getException());
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("getBooksList", "FAILED_GET_BOOKS");
+                        Log.d("getAllBooksToList", "FAILED_GET_BOOKS");
 
                     }
                 });
     }
 
 
+    /**
+     * get a list of all the users in database to a given users list, and notify the adapter when finished.
+     * @param users - the users list to fill.
+     * @param adapt - the adapter to notify when all users ere pulled into the users list.
+     */
     public void getUsersList(final ArrayList<User> users, final UsersLeaderAdapter adapt) {
         db.collection(USERS_DB)
                 .get()
@@ -105,24 +116,34 @@ public class ServerApi {
                             LeaderboardTabUsers.clearUsersList();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 users.add(document.toObject(User.class));
-                                Log.d("getUsers", document.getId() + " => " + document.getData());
+                                Log.d("getUsersList", document.getId() + " => " + document.getData());
                             }
                             adapt.notifyDataSetChanged();
                         } else {
-                            Log.d("getUsers", "Error getting documents: ", task.getException());
+                            Log.d("getUsersList", "Error getting documents: ", task.getException());
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("getUsers", "FAILED_GET_USERS");
+                        Log.d("getUsersList", "FAILED_GET_USERS");
 
                     }
                 });
     }
 
-
+    /**
+     * the function uses to get and display data of particular user in ProfileFragment.
+     * @param userId - string id of the user to display
+     * @param user - User array to insert User object at index 0
+     * @param image - CircleImageView to assign the profile picture of the user
+     * @param name - the user name to display
+     * @param vibe - the vibe string to display
+     * @param points - vibe points of the user
+     * @param myBooks - list of books the user have
+     * @param read - list of books the user already read
+     */
     public void getUserForProfileFragment(final String userId, final User[] user, final CircleImageView image,
                                           final TextView name, final TextView vibe, final TextView points,
                                           final ArrayList<String> myBooks, final ArrayList<String> read) {         // books[0]=mybooks, books[1]=booksIRead
@@ -229,7 +250,12 @@ public class ServerApi {
         });
     }
 
-
+    /**
+     * the method returm a User object and assign it's name in a given textView. used in bookPage.
+     * @param userId - the user id to display
+     * @param user - the user object to assign
+     * @param name - the user name
+     */
     public void getUser(final String userId, final User[] user, final TextView name){
         DocumentReference docRef = db.collection(USERS_DB).document(userId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -269,6 +295,13 @@ public class ServerApi {
         });
     }
 
+    /**
+     * the method adds new book to firebase and assign it's id to the Book object.
+     * the method also creates a folder in firebase storage and store a given image as "1" inside a
+     * folder which named with the book id.
+     * @param book - the BookItem to add.
+     * @param uri - the book image to store
+     */
     public void addNewBook(BookItem book, Uri uri) {
         DocumentReference addDocRef = db.collection(BOOKS_DB).document();
         String id = addDocRef.getId();
@@ -284,7 +317,8 @@ public class ServerApi {
                 System.out.println("BOOK_ADDING_FAILED");
             }
         });
-        StorageReference filepath = AddBookImagePopup.mStorage.child(id).child(uri.getLastPathSegment());
+
+        StorageReference filepath = storage.child(id).child("1");
         filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -293,6 +327,11 @@ public class ServerApi {
         });
     }
 
+    /**
+     * the method adds a new user to firebase and give the User object its generated new id.
+     * @param user - the User object to store.
+     * @param id - the user id (which given at outhintication pahse).
+     */
     public void addUser(User user, String id) {
         user.setId(id);
         db.collection(USERS_DB).document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -308,7 +347,11 @@ public class ServerApi {
         });
     }
 
-
+    /**
+     * the function assign the user profile picture to a given ImageView.
+     * @param img - the image view to update
+     * @param userId - the id of the user to pull his pic
+     */
     public void downloadProfilePic(final ImageView img, final String userId) {
         try {
             StorageReference ref = storage.child(USERS_PROFILES + userId);
@@ -332,9 +375,14 @@ public class ServerApi {
         }
     }
 
+    /**
+     * the function assign the book cover picture to a given ImageView.
+     * @param img - the image view to update
+     * @param bookId - the id of the book
+     */
     public void downloadBookImage(final ImageView img, final String bookId){
         try {
-            StorageReference ref = storage.child(bookId);
+            StorageReference ref = storage.child(bookId+"/1");
 
             final File localFile = File.createTempFile("Images", "bmp");
 
@@ -347,7 +395,7 @@ public class ServerApi {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d("Downloading photo: ", "Error downloading Image");
+                    Log.d("downloadBookImage", "Error downloading Image");
                 }
             });
         } catch (IOException e) {
