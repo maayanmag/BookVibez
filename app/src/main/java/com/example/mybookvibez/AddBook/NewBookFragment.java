@@ -51,7 +51,7 @@ public class NewBookFragment extends Fragment {
     private RadioGroup radioGrp;
     private RadioButton checked;
     private ImageView genreImg;
-    private EditText editName, editAuthor, editLocation; //take location off! netta
+    private EditText editName, editAuthor, editLocation;
     private int selectedRB = 0;
     private static Uri uri = null;
     private final String TAG = "add location";
@@ -190,7 +190,6 @@ public class NewBookFragment extends Fragment {
             public void onClick(View v) {
                 BookItem book = createNewBook();
                 book.setLatLng(new GeoPoint(newLatLng.latitude, newLatLng.longitude)); //todo: check this works
-//              ListOfBooks.booksList.add(book);
                 ServerApi.getInstance().addNewBook(book, uri);
                 Toast.makeText(getContext(), "Book was added successfully", Toast.LENGTH_SHORT).show();
                 loadMapFragment();
@@ -204,9 +203,9 @@ public class NewBookFragment extends Fragment {
         String name = editName.getText().toString();
         String author = editAuthor.getText().toString();
         String genre = spinner.getSelectedItem().toString();
-        //String location = editLocation.getText().toString();
+        String location = editLocation.getText().toString();
         int giveaway = selectedRB;
-        return new BookItem(name, author, genre, giveaway);
+        return new BookItem(name, author, genre, location, giveaway);
     }
 
 
