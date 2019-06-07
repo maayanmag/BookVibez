@@ -30,7 +30,6 @@ public class BookPageFragment extends Fragment {
     private final static int LEVEL_ONE_TRESH = 30;
     private final static int LEVEL_TWO_TRESH = 70;
     private final static int LEVEL_THREE_TRESH = 100;
-
     private CollapsingToolbarLayout collapsingToolbar;
     private ImageView bookImg, ownerImg, bookmarkImg;
     private TextView name, author, genre, ownerName;
@@ -38,7 +37,7 @@ public class BookPageFragment extends Fragment {
     private Button gotBookButton;
     private ImageButton sendCommentButton;
     private EditText editText;
-    private User user;
+    private User user = new User();
     private CommentAdapter commentAdapter;
     private RecyclerView commentsRecycler;
     private boolean isGotTheBookPressed = false;
@@ -54,13 +53,13 @@ public class BookPageFragment extends Fragment {
         getAttributesIds(view);
         handleButtons();
 
-        if(bookToDisplay != null) {
+        User[] temp = new User[1];
+        ServerApi.getInstance().getUser(bookToDisplay.getOwnerId(), temp, ownerName);
+        ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
+
+        if(bookToDisplay != null && user != null) {
             handleAttribute();
             setBookmarkImg();
-
-            User[] temp = new User[1];
-            ServerApi.getInstance().getUser(bookToDisplay.getOwnerId(), temp, ownerName);
-            ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
         }
         comments = bookToDisplay.getComments();
         handleCommentsRecycle(view);
@@ -140,12 +139,13 @@ public class BookPageFragment extends Fragment {
 
     private void handleAttribute() {
         name.setText(bookToDisplay.getTitle());
-        collapsingToolbar.setTitle(bookToDisplay.getTitle());
         author.setText(bookToDisplay.getAuthor());
         genre.setText(bookToDisplay.getGenre());
+        ownerName.setText(user.getName());
+        //bookImg.setImageResource(R.mipmap.as_few_days); //TODO
         ServerApi.getInstance().downloadBookImage(bookImg, bookToDisplay.getId());
-
-
+        ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
+        collapsingToolbar.setTitle(bookToDisplay.getTitle());
     }
 
 

@@ -108,6 +108,7 @@ public class ProfileFragment extends Fragment {
      * this function replaces the layout to a book page layout in case some book was clicked in the list
      */
     private void loadBookPageFragment() {
+
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view

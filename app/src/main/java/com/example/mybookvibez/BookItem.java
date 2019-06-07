@@ -20,12 +20,12 @@ public class BookItem {
 
     public BookItem() {}
 
-    public BookItem(String title, String author, String bookGenre, String location, int giveaway) {
+    public BookItem(String title, String author, String bookGenre, int giveaway) {
         this.id = "";
         this.title = title;
         this.author = author;
         this.giveaway = giveaway;
-        this.location = location;
+        this.location = "";
         genre = bookGenre;
         points = 0;
         latLng = null;
