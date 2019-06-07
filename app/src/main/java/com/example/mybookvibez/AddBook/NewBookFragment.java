@@ -44,7 +44,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class NewBookFragment extends Fragment {
 
-    private int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private Button addBookBtn, addFrontImageBtn, addBackImageBtn;
     private Spinner spinner;
     private ArrayAdapter<CharSequence> adapter;
@@ -67,8 +67,6 @@ public class NewBookFragment extends Fragment {
         if (!Places.isInitialized()) {
         Places.initialize(getContext(), "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ"); //todo: change to tha value from strings after it works
         }
-
-//        PlacesClient placesClient = Places.createClient(getContext());
 
         editLocation.setOnClickListener(new View.OnClickListener() {
             @Override
