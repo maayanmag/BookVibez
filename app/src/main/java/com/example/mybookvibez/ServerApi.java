@@ -133,7 +133,17 @@ public class ServerApi {
                 });
     }
 
-
+    /**
+     * the function uses to get and display data of particular user in ProfileFragment.
+     * @param userId - string id of the user to display
+     * @param user - User array to insert User object at index 0
+     * @param image - CircleImageView to assign the profile picture of the user
+     * @param name - the user name to display
+     * @param vibe - the vibe string to display
+     * @param points - vibe points of the user
+     * @param myBooks - list of books the user have
+     * @param read - list of books the user already read
+     */
     public void getUserForProfileFragment(final String userId, final User[] user, final CircleImageView image,
                                           final TextView name, final TextView vibe, final TextView points,
                                           final ArrayList<String> myBooks, final ArrayList<String> read) {         // books[0]=mybooks, books[1]=booksIRead
@@ -240,7 +250,12 @@ public class ServerApi {
         });
     }
 
-
+    /**
+     * the method returm a User object and assign it's name in a given textView. used in bookPage.
+     * @param userId - the user id to display
+     * @param user - the user object to assign
+     * @param name - the user name
+     */
     public void getUser(final String userId, final User[] user, final TextView name){
         DocumentReference docRef = db.collection(USERS_DB).document(userId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -280,6 +295,13 @@ public class ServerApi {
         });
     }
 
+    /**
+     * the method adds new book to firebase and assign it's id to the Book object.
+     * the method also creates a folder in firebase storage and store a given image as "1" inside a
+     * folder which named with the book id.
+     * @param book - the BookItem to add.
+     * @param uri - the book image to store
+     */
     public void addNewBook(BookItem book, Uri uri) {
         DocumentReference addDocRef = db.collection(BOOKS_DB).document();
         String id = addDocRef.getId();
@@ -305,6 +327,11 @@ public class ServerApi {
         });
     }
 
+    /**
+     * the method adds a new user to firebase and give the User object its generated new id.
+     * @param user - the User object to store.
+     * @param id - the user id (which given at outhintication pahse).
+     */
     public void addUser(User user, String id) {
         user.setId(id);
         db.collection(USERS_DB).document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -320,7 +347,11 @@ public class ServerApi {
         });
     }
 
-
+    /**
+     * the function assign the user profile picture to a given ImageView.
+     * @param img - the image view to update
+     * @param userId - the id of the user to pull his pic
+     */
     public void downloadProfilePic(final ImageView img, final String userId) {
         try {
             StorageReference ref = storage.child(USERS_PROFILES + userId);
@@ -344,6 +375,11 @@ public class ServerApi {
         }
     }
 
+    /**
+     * the function assign the book cover picture to a given ImageView.
+     * @param img - the image view to update
+     * @param bookId - the id of the book
+     */
     public void downloadBookImage(final ImageView img, final String bookId){
         try {
             StorageReference ref = storage.child(bookId+"/1");
