@@ -306,7 +306,7 @@ public class ServerApi {
                 System.out.println("BOOK_ADDING_FAILED");
             }
         });
-        StorageReference filepath = AddBookImagePopup.mStorage.child(id).child("1");
+        StorageReference filepath = storage.child(id).child("1");
         filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
