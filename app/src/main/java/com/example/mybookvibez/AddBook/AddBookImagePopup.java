@@ -58,11 +58,9 @@ public class AddBookImagePopup extends DialogFragment {
         galleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // write the code here
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
-                startActivityForResult(intent, CAMERA_REQUEST_CODE);
-                dismiss();
+                startActivityForResult(intent, GALLERY_INTENT);
             }
         });
         return v;
@@ -71,7 +69,7 @@ public class AddBookImagePopup extends DialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
+        if ((requestCode == CAMERA_REQUEST_CODE || requestCode == GALLERY_INTENT) && resultCode == RESULT_OK){
             mProgress.setMessage("Uploading image ...");
             mProgress.show();
             Uri uri = data.getData();
