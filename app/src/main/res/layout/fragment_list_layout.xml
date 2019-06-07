@@ -7,18 +7,21 @@
     android:background="@color/colorPrimaryDark"
     android:orientation="vertical">
 
-    <android.support.v7.widget.SearchView
+    <AutoCompleteTextView
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="25dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/bg_white_rounded"
         android:gravity="center_vertical"
         android:iconifiedByDefault="false"
-        android:background="@drawable/bg_white_rounded"
         app:defaultQueryHint="@string/search_title"
         app:queryHint="@string/search_title"
-        app:submitBackground="@drawable/bg_white_rounded"
-        app:searchIcon="@android:drawable/ic_menu_search"/>
+        app:searchIcon="@android:drawable/ic_menu_search"
+        app:submitBackground="@drawable/bg_white_rounded" />
 
     <android.support.v4.widget.NestedScrollView xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
