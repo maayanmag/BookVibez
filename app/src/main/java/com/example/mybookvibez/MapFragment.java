@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mybookvibez.AddBook.AddBookPopup;
-import com.example.mybookvibez.Leaderboard.LeaderboardTabBooks;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -58,7 +57,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private ImageView mRecenter, mProfilePic;
     private static final String TAG = "MapFragment";
     private SlidingUpPanelLayout mLayout;
-    private static ArrayList<BookItem> bookList = new ArrayList<>();
+    private static ArrayList<BookItem> bookList;
     private static HashMap<Marker, BookItem> markerMap = new HashMap<>();
     private FirebaseFirestore mDb;
 
@@ -77,13 +76,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         /* handling click on "centerMapToMyLocation" button */
         handlingRecenterFAB(view);
 
+        bookList = new ArrayList<>();
         Callable<Void> func = new Callable<Void>() {
             @Override
             public Void call() throws Exception {
                 return initMarkers();
             }
         };
-        ServerApi.getInstance().getBooksListForMap(bookList, func);
+        ServerApi.getInstance().getAllBooksToList(bookList, func);
 
 
         return view;

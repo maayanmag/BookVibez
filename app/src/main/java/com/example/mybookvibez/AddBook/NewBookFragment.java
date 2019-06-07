@@ -24,7 +24,6 @@ import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.firestore.GeoPoint;
 
 
@@ -142,7 +141,6 @@ public class NewBookFragment extends Fragment {
             public void onClick(View v) {
                 BookItem book = createNewBook();
                 book.setLatLng(new GeoPoint(32.194796, 77.201137)); //todo: change!!! default adding of book
-//              ListOfBooks.booksList.add(book);
                 ServerApi.getInstance().addNewBook(book, uri);
                 Toast.makeText(getContext(), "Book was added successfully", Toast.LENGTH_SHORT).show();
                 loadMapFragment();

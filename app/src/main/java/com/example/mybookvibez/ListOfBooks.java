@@ -41,8 +41,6 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         handlingAddBookButton(view);
         handlingSearchView(view);
 
-        //ServerApi.getInstance().getBooksList(booksList, adapter);
-
         return view;
     }
 
@@ -120,10 +118,6 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         Toast.makeText(getContext(), "Query filtering", Toast.LENGTH_SHORT).show();
         adapter.filter(place);
         return true;
-    }
-
-    public static List<BookItem> getBooksList() {
-        return booksList;
     }
 
     public static void clearBooksList(){

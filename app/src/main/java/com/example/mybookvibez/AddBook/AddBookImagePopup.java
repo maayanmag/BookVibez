@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,6 @@ import static android.app.Activity.RESULT_OK;
 @SuppressWarnings("deprecation")
 public class AddBookImagePopup extends DialogFragment {
 
-    private ImageView mImageView;
-    public static StorageReference mStorage;
     public static ProgressDialog mProgress;
     private final static int CAMERA_REQUEST_CODE = 1;
     private final static int GALLERY_INTENT = 2;
@@ -45,7 +44,6 @@ public class AddBookImagePopup extends DialogFragment {
         Button cameraBtn = (Button) v.findViewById(R.id.camera_btn);
         Button galleryBtn = (Button) v.findViewById(R.id.gallery_btn);
         //mImageView = (ImageView) v.findViewById(R.id.bookImage);
-        mStorage = FirebaseStorage.getInstance().getReference();
         mProgress = new ProgressDialog(getContext());
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,8 +59,7 @@ public class AddBookImagePopup extends DialogFragment {
                 // write the code here
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
-                startActivityForResult(intent, CAMERA_REQUEST_CODE);
-                dismiss();
+                startActivityForResult(intent, GALLERY_INTENT);
             }
         });
         return v;
@@ -71,7 +68,7 @@ public class AddBookImagePopup extends DialogFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK){
+        if ((requestCode == CAMERA_REQUEST_CODE || requestCode == GALLERY_INTENT) && resultCode == RESULT_OK){
             mProgress.setMessage("Uploading image ...");
             mProgress.show();
             Uri uri = data.getData();
