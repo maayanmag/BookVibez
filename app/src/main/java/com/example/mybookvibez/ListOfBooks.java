@@ -66,7 +66,6 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         handlingRecycleViewer(view);
         handlingAddBookButton(view);
 //        handlingSearchView(view);
-        //ServerApi.getInstance().getBooksList(booksList, adapter);
 
         return view;
     }
@@ -174,5 +173,3 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
     }
 
 }
-
-
