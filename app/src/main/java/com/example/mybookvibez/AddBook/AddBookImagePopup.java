@@ -27,8 +27,6 @@ import static android.app.Activity.RESULT_OK;
 @SuppressWarnings("deprecation")
 public class AddBookImagePopup extends DialogFragment {
 
-    private ImageView mImageView;
-    public static StorageReference mStorage;
     public static ProgressDialog mProgress;
     private final static int CAMERA_REQUEST_CODE = 1;
     private final static int GALLERY_INTENT = 2;
@@ -45,7 +43,6 @@ public class AddBookImagePopup extends DialogFragment {
         Button cameraBtn = (Button) v.findViewById(R.id.camera_btn);
         Button galleryBtn = (Button) v.findViewById(R.id.gallery_btn);
         //mImageView = (ImageView) v.findViewById(R.id.bookImage);
-        mStorage = FirebaseStorage.getInstance().getReference();
         mProgress = new ProgressDialog(getContext());
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
