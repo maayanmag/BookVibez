@@ -1,6 +1,6 @@
 package com.example.mybookvibez.AddBook;
 
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +8,8 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +26,25 @@ import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.firestore.GeoPoint;
+
+import java.util.Arrays;
+import java.util.List;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 
 
 public class NewBookFragment extends Fragment {
 
+    private int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private Button addBookBtn, addFrontImageBtn, addBackImageBtn;
     private Spinner spinner;
     private ArrayAdapter<CharSequence> adapter;
@@ -38,7 +54,8 @@ public class NewBookFragment extends Fragment {
     private EditText editName, editAuthor, editLocation; //take location off! netta
     private int selectedRB = 0;
     private static Uri uri = null;
-
+    private final String TAG = "add location";
+    private LatLng newLatLng;
 
     @Nullable
     @Override
@@ -47,9 +64,43 @@ public class NewBookFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_new_book_layout, null);
         setAttributes(view);
         initElements(inflater);
+        if (!Places.isInitialized()) {
+        Places.initialize(getContext(), "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ"); //todo: change to tha value from strings after it works
+        }
 
-        return view;
+//        PlacesClient placesClient = Places.createClient(getContext());
+
+        editLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME,
+                        Place.Field.LAT_LNG);
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
+                        fields).build(getContext());
+                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+            }});
+    return view;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                newLatLng = place.getLatLng();
+                editLocation.setText(place.getName());
+                Log.i(TAG, "latlng: " + newLatLng);
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+    }
+
 
     public static void setUri(Uri newuri){
         uri = newuri;
@@ -140,7 +191,8 @@ public class NewBookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 BookItem book = createNewBook();
-                book.setLatLng(new GeoPoint(32.194796, 77.201137)); //todo: change!!! default adding of book
+                book.setLatLng(new GeoPoint(newLatLng.latitude, newLatLng.longitude)); //todo: check this works
+//              ListOfBooks.booksList.add(book);
                 ServerApi.getInstance().addNewBook(book, uri);
                 Toast.makeText(getContext(), "Book was added successfully", Toast.LENGTH_SHORT).show();
                 loadMapFragment();
