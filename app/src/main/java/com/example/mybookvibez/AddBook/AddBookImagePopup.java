@@ -49,6 +49,7 @@ public class AddBookImagePopup extends DialogFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
+                dismiss();
             }
         });
 
@@ -58,6 +59,7 @@ public class AddBookImagePopup extends DialogFragment {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent, GALLERY_INTENT);
+                dismiss();
             }
         });
         return v;

@@ -45,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
 public class NewBookFragment extends Fragment {
 
     public static int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-    private Button addBookBtn, addFrontImageBtn, addBackImageBtn;
+    private Button addBookBtn, addFrontImageBtn;
     private Spinner spinner;
     private ArrayAdapter<CharSequence> adapter;
     private RadioGroup radioGrp;
@@ -116,7 +116,6 @@ public class NewBookFragment extends Fragment {
     private void setAttributes(View view){
         spinner = view.findViewById(R.id.book_type_spinner);
         addFrontImageBtn = view.findViewById(R.id.addBookFrontImgBtn);
-        addBackImageBtn = view.findViewById(R.id.addBookBackImgBtn);
         addBookBtn = view.findViewById(R.id.finish_adding_book_btn);
         editName = view.findViewById(R.id.book_name_input);
         editLocation = view.findViewById(R.id.choose_location_edit_text);
@@ -148,21 +147,6 @@ public class NewBookFragment extends Fragment {
 
             /* handling add front image button */
         addFrontImageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction ft = getFragmentManager().beginTransaction();
-                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-                if (prev != null) {
-                    ft.remove(prev);
-                }
-                ft.addToBackStack(null);
-                DialogFragment dialogFragment = new AddBookImagePopup();
-                dialogFragment.show(ft, "dialog");
-            }
-        });
-
-        /* handling add back image button */
-        addBackImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction ft = getFragmentManager().beginTransaction();

@@ -98,38 +98,13 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/rectanglez"
             android:gravity="center"
-            android:text="Add \nFront Cover"
+            android:text="+"
             android:textAllCaps="false"
-            android:textSize="14sp"
+            android:textSize="30sp"
             android:visibility="visible"
             app:layout_constraintStart_toStartOf="@+id/book_pictures_title"
             app:layout_constraintTop_toBottomOf="@+id/book_pictures_title"
             app:srcCompat="@drawable/book1" />
-
-        <ImageView
-            android:id="@+id/bookBackImage"
-            android:layout_width="133dp"
-            android:layout_height="182dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="24dp"
-            app:layout_constraintStart_toEndOf="@+id/bookFrontImage"
-            app:layout_constraintTop_toBottomOf="@+id/book_pictures_title"
-            app:srcCompat="@drawable/book1"
-            android:visibility="invisible"/>
-
-        <Button
-            android:id="@+id/addBookBackImgBtn"
-            android:layout_width="133dp"
-            android:layout_height="182dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="24dp"
-            android:gravity="center"
-            android:text="Add \nBack Cover"
-            android:background="@drawable/rectanglez"
-            android:textAllCaps="false"
-            android:visibility="visible"
-            app:layout_constraintStart_toEndOf="@+id/bookFrontImage"
-            app:layout_constraintTop_toBottomOf="@+id/book_pictures_title" />
 
 
         <AutoCompleteTextView
@@ -154,12 +129,12 @@
             android:id="@+id/location_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:text="@string/location_title"
             android:textColor="#000000"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/book_pictures_title"
-            app:layout_constraintTop_toBottomOf="@+id/bookBackImage" />
+            app:layout_constraintTop_toBottomOf="@+id/addBookFrontImgBtn" />
 
 
         <TextView
@@ -206,12 +181,14 @@
             android:layout_width="110dp"
             android:layout_height="44dp"
             android:layout_marginTop="24dp"
+            android:layout_marginEnd="40dp"
             android:layout_marginBottom="24dp"
             android:background="@drawable/button_filled_shape"
             android:text="@string/add_book_btn"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/bookBackImage"
-            app:layout_constraintTop_toBottomOf="@+id/radio_grp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radio_grp"
+            app:layout_constraintVertical_bias="1.0" />
 
         <ImageView
             android:id="@+id/book_genre_img"
