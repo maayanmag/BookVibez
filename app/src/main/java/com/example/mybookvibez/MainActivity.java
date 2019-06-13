@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private FirebaseAuth firebaseAuth;
+
     public static FirebaseUser user;
     public static String userId = "BogscfIfRmeRd7Ylzh308AhUC4T2";
 
@@ -48,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
         handlingBottomNavigationView();
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        userId = user.getUid();
+        //userId = user.getUid();       //TODO removeeeeeeeeee
+
 
     }
 

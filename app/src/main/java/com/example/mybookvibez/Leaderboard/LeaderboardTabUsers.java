@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,7 @@ public class LeaderboardTabUsers extends Fragment {
         adapter = new UsersLeaderAdapter(userList, new UsersLeaderAdapter.OnItemClickListener() {
             @Override public void onItemClick(User user) {
                 ProfileFragment.userToDisplay = user.getId();
+                ProfileFragment.displayMyProfile = false;
                 loadProfilePageFragment();
             }
         });
@@ -78,16 +80,18 @@ public class LeaderboardTabUsers extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-    /**
-     * this function replaces the layout to a book page layout in case some book was clicked in the list
-     */
-    private void loadProfilePageFragment() {
 
-        FragmentManager manager = getFragmentManager();
+
+    private void loadProfilePageFragment() {
+        FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
+
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view
+        transaction.addToBackStack("profile");  // enables to press "return" and go back to the list view
         transaction.replace(R.id.main_fragment_container, new ProfileFragment());
         transaction.commit();
+
+
+
     }
 
 

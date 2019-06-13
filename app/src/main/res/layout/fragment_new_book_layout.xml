@@ -132,7 +132,7 @@
             app:layout_constraintTop_toBottomOf="@+id/book_pictures_title" />
 
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/choose_location_edit_text"
             android:layout_width="217dp"
             android:layout_height="38dp"
@@ -160,6 +160,7 @@
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="@+id/book_pictures_title"
             app:layout_constraintTop_toBottomOf="@+id/bookBackImage" />
+
 
         <TextView
             android:id="@+id/radio_grp_title"
@@ -224,7 +225,6 @@
             app:layout_constraintStart_toEndOf="@+id/book_type_spinner"
             app:layout_constraintTop_toBottomOf="@+id/book_author_input"
             app:srcCompat="@drawable/chill_icon" />
-
 
     </android.support.constraint.ConstraintLayout>
 

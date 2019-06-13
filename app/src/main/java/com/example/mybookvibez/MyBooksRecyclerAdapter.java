@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecyclerAdapter.ViewHolder> {
@@ -65,7 +63,7 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
 
         public void bind(final BookItem book, final OnItemClickListener listener) {
             image.setImageResource(R.mipmap.as_few_days);
-            //ServerApi.getInstance().downloadBookFrontCover(image, book.getId());      //TODO change
+            //ServerApi.getInstance().downloadBookImage(image, book.getId());      //TODO change
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

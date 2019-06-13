@@ -5,14 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,10 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.firestore.ServerTimestamp;
-
-import java.sql.Array;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 public class BookPageFragment extends Fragment {
@@ -125,8 +120,8 @@ public class BookPageFragment extends Fragment {
         ownerImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProfileFragment.tempBook = bookToDisplay;
                 ProfileFragment.userToDisplay = bookToDisplay.getOwnerId();
+                ProfileFragment.displayMyProfile = false;
                 loadProfilePageFragment();
             }
         });
@@ -148,7 +143,7 @@ public class BookPageFragment extends Fragment {
         genre.setText(bookToDisplay.getGenre());
         ownerName.setText(user.getName());
         //bookImg.setImageResource(R.mipmap.as_few_days); //TODO
-        ServerApi.getInstance().downloadBookFrontCover(bookImg, bookToDisplay.getId());
+        ServerApi.getInstance().downloadBookImage(bookImg, bookToDisplay.getId());
         ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
         collapsingToolbar.setTitle(bookToDisplay.getTitle());
     }
