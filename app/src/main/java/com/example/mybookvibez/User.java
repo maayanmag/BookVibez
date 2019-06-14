@@ -10,10 +10,12 @@ public class User {
 
     public User() {}
 
-    public User(String name, int vibePoints, String vibeString) {
+    public User(String name, String vibeString) {
         this.name = name;
-        this.vibePoints = vibePoints;
+        this.vibePoints = 0;
         this.vibeString = vibeString;
+        myBooks = new ArrayList<>();
+        booksIRead = new ArrayList<>();
     }
 
     public String getName() {
