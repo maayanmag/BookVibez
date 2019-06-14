@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
-import com.example.mybookvibez.User;
 
 import java.util.ArrayList;
 
@@ -68,12 +67,7 @@ public class BookPageTabTimeline extends Fragment {
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         commentsRecycler.setLayoutManager(mLayoutManager);
-        commentAdapter = new CommentAdapter(comments, new CommentAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Comment comment) {
-                // TODO open profile
-            }
-        });
+        commentAdapter = new CommentAdapter(comments);
         commentsRecycler.setAdapter(commentAdapter);
         commentsRecycler.setItemAnimator(new DefaultItemAnimator());
         commentAdapter.notifyDataSetChanged();
