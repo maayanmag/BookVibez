@@ -36,12 +36,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * easy API for server
  */
 public class ServerApi {
-    private FirebaseFirestore db;
-    private final static ServerApi instance = new ServerApi();
-    private StorageReference storage = FirebaseStorage.getInstance().getReference();
     private final static String USERS_DB = "users";
     private final static String BOOKS_DB = "books";
     private final static String USERS_PROFILES = "users_profile_pics/";
+    private StorageReference storage = FirebaseStorage.getInstance().getReference();
+    private FirebaseFirestore db;
+    private final static ServerApi instance = new ServerApi();
 
 
     /**
@@ -60,13 +60,7 @@ public class ServerApi {
     }
 
 
-    /**
-     * the function gets an empty books list and fill it with all the books in database,
-     * and then calls AddMarker when finshed.
-     * @param books - empty books list.
-     * @param AddMarkers - the function to activate when all books are pulled into the list.
-     */
-    public void getAllBooksToList(final ArrayList<BookItem> books, final Callable<Void> AddMarkers) {
+    public void getBooksListForMap(final ArrayList<BookItem> books, final Callable<Void> AddMarkers) {
 
         db.collection(BOOKS_DB)
                 .get()
@@ -75,36 +69,31 @@ public class ServerApi {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            //ListOfBooks.clearBooksList();
+                            ListOfBooks.clearBooksList();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 books.add(document.toObject(BookItem.class));
-                                Log.d("getAllBooksToList", document.getId() + " => " + document.getData());
+                                Log.d("getBooksList", document.getId() + " => " + document.getData());
                             }
                             try {
                                 AddMarkers.call();
                             } catch (Exception e) {
-                                Log.d("getAllBooksToList", "getBooks from getAllBooksToList failed");
+                                Log.d("getBooksList", "getBooks from getBooksListForMap failed");
                             }
                         } else {
-                            Log.d("getAllBooksToList", "Error getting documents: ", task.getException());
+                            Log.d("getBooksList", "Error getting documents: ", task.getException());
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("getAllBooksToList", "FAILED_GET_BOOKS");
+                        Log.d("getBooksList", "FAILED_GET_BOOKS");
 
                     }
                 });
     }
 
 
-    /**
-     * get a list of all the users in database to a given users list, and notify the adapter when finished.
-     * @param users - the users list to fill.
-     * @param adapt - the adapter to notify when all users ere pulled into the users list.
-     */
     public void getUsersList(final ArrayList<User> users, final UsersLeaderAdapter adapt) {
         db.collection(USERS_DB)
                 .get()
@@ -116,18 +105,18 @@ public class ServerApi {
                             LeaderboardTabUsers.clearUsersList();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 users.add(document.toObject(User.class));
-                                Log.d("getUsersList", document.getId() + " => " + document.getData());
+                                Log.d("getUsers", document.getId() + " => " + document.getData());
                             }
                             adapt.notifyDataSetChanged();
                         } else {
-                            Log.d("getUsersList", "Error getting documents: ", task.getException());
+                            Log.d("getUsers", "Error getting documents: ", task.getException());
                         }
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("getUsersList", "FAILED_GET_USERS");
+                        Log.d("getUsers", "FAILED_GET_USERS");
 
                     }
                 });
@@ -317,7 +306,6 @@ public class ServerApi {
                 System.out.println("BOOK_ADDING_FAILED");
             }
         });
-
         StorageReference filepath = storage.child(id).child("1");
         filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -326,6 +314,7 @@ public class ServerApi {
             }
         });
     }
+
 
     /**
      * the method adds a new user to firebase and give the User object its generated new id.
@@ -382,7 +371,7 @@ public class ServerApi {
      */
     public void downloadBookImage(final ImageView img, final String bookId){
         try {
-            StorageReference ref = storage.child(bookId+"/1");
+            StorageReference ref = storage.child(bookId + "/1");
 
             final File localFile = File.createTempFile("Images", "bmp");
 
@@ -395,7 +384,7 @@ public class ServerApi {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    Log.d("downloadBookImage", "Error downloading Image");
+                    Log.d("Downloading photo: ", "Error downloading Image");
                 }
             });
         } catch (IOException e) {
