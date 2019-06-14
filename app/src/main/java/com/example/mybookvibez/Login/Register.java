@@ -159,7 +159,7 @@ public class Register extends Fragment {
                                     return null;
                                 }
                             };
-                            ServerApi.getInstance().addUser(new User(name, vibe), firebaseAuth.getCurrentUser().getUid(), image, func);
+                            ServerApi.getInstance().addUser(new User(name, vibe, "0"), firebaseAuth.getCurrentUser().getUid(), image, func);
 
                         } else {    // If sign in fails, display a message to the user.
                             Log.w("AuthUI", "createUserWithEmail:failure", task.getException());

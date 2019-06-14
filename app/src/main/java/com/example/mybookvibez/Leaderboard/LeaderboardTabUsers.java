@@ -74,17 +74,12 @@ public class LeaderboardTabUsers extends Fragment {
     }
 
 
-
     private void loadProfilePageFragment() {
         FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
-
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.addToBackStack("profile");  // enables to press "return" and go back to the list view
         transaction.replace(R.id.main_fragment_container, new ProfileFragment());
         transaction.commit();
-
-
-
     }
 
 

@@ -10,19 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.mybookvibez.BookItem;
-import com.example.mybookvibez.BookPageFragment;
-import com.example.mybookvibez.ListOfBooks;
+import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
-import com.example.mybookvibez.ServerApi;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -79,13 +72,15 @@ public class LeaderboardTabBooks extends Fragment {
     /**
      * this function replaces the layout to a book page layout in case some book was clicked in the list
      */
+
     private void loadBookPageFragment() {
-        FragmentManager manager = getFragmentManager();
+        FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view
+        transaction.addToBackStack("profile");  // enables to press "return" and go back to the list view
         transaction.replace(R.id.main_fragment_container, new BookPageFragment());
         transaction.commit();
     }
+
 
 }
 
