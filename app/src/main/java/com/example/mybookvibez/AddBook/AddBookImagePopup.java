@@ -11,16 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.mybookvibez.LoginActivity;
-import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.R;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -49,7 +42,7 @@ public class AddBookImagePopup extends DialogFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
-                dismiss();
+                //dismiss();
             }
         });
 
@@ -59,7 +52,7 @@ public class AddBookImagePopup extends DialogFragment {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent, GALLERY_INTENT);
-                dismiss();
+                //dismiss();
             }
         });
         return v;

@@ -1,18 +1,24 @@
-package com.example.mybookvibez;
+package com.example.mybookvibez.Login;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.example.mybookvibez.MainActivity;
+import com.example.mybookvibez.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -29,11 +35,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btnGoogleSignIn;
-    private EditText mEmailField;
-    private EditText mPasswordField;
-    private Button btnLogIn;
-    private Button btnRegister;
+    private Button btnGoogleSignIn, btnLogIn, btnRegister;
+    private EditText mEmailField, mPasswordField;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
     private static final String TAG = "EmailPassword";
@@ -56,22 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //            finish();
 //        }
 
-        mEmailField = (EditText) findViewById(R.id.email_box);
-        mPasswordField = (EditText) findViewById(R.id.password_box);
-        btnRegister = (Button) findViewById(R.id.register_button);
-        btnLogIn = (Button) findViewById(R.id.login_button);
-        btnGoogleSignIn = (Button) findViewById(R.id.google_sign_in_button);
-        btnRegister.setOnClickListener(this);
-        btnLogIn.setOnClickListener(this);
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser() != null){
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
-                }
-            }
-        };
+        getAttributes();
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -102,6 +90,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
+    private void getAttributes(){
+        mEmailField = (EditText) findViewById(R.id.email_box);
+        mPasswordField = (EditText) findViewById(R.id.password_box);
+        btnRegister = (Button) findViewById(R.id.register_button);
+        btnLogIn = (Button) findViewById(R.id.login_button);
+        btnGoogleSignIn = (Button) findViewById(R.id.google_sign_in_button);
+        btnRegister.setOnClickListener(this);
+        btnLogIn.setOnClickListener(this);
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() != null){
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                }
+            }
+        };
+    }
+
+
     private void userLogin(){
         String email = mEmailField.getText().toString().trim();
         String password = mPasswordField.getText().toString().trim();
@@ -129,10 +137,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     finish();
                 }
                 else {
-                    Toast.makeText(LoginActivity.this, "Could not Login, please try " +
-                                    "again",
-                            Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(LoginActivity.this, "Could not Login, please try again", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -141,9 +146,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v == btnRegister){
-            Log.i(TAG, "register button pressed");
-            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
-            finish();
+            Fragment fragment = new Register();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.container_login, fragment)
+                    .commit();
+
         }
 
         if (v == btnLogIn){

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.example.mybookvibez.AddBook.AddBookImagePopup;
 import com.example.mybookvibez.Leaderboard.LeaderboardTabUsers;
 import com.example.mybookvibez.Leaderboard.UsersLeaderAdapter;
+import com.example.mybookvibez.Login.Register;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -321,12 +322,26 @@ public class ServerApi {
      * @param user - the User object to store.
      * @param id - the user id (which given at outhintication pahse).
      */
-    public void addUser(User user, String id) {
+    public void addUser(User user,final String id, final Uri uri, final Callable<Void> func) {
         user.setId(id);
         db.collection(USERS_DB).document(id).set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
                 System.out.println("USER_ADDED_SUCCESSFULLY");
+
+                StorageReference filepath = storage.child(USERS_PROFILES + id);
+                filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        System.out.println("addUser: added photo");
+                    }
+                });
+
+                try {
+                    func.call();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
