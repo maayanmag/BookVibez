@@ -8,9 +8,9 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.mybookvibez.AddBook.AddBookImagePopup;
+import com.example.mybookvibez.BookPage.Comment;
 import com.example.mybookvibez.Leaderboard.LeaderboardTabUsers;
 import com.example.mybookvibez.Leaderboard.UsersLeaderAdapter;
-import com.example.mybookvibez.Login.Register;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -151,7 +151,6 @@ public class ServerApi {
 
                         try {
                             StorageReference ref = storage.child(USERS_PROFILES + userId);
-
                             final File localFile = File.createTempFile("Images", "bmp");
 
                             ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener < FileDownloadTask.TaskSnapshot >() {

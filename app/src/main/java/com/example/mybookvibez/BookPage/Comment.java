@@ -1,4 +1,4 @@
-package com.example.mybookvibez;
+package com.example.mybookvibez.BookPage;
 
 import com.google.firebase.firestore.ServerTimestamp;
 
