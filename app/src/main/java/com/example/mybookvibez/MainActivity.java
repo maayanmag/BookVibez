@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     public static FirebaseUser user;
-    public static String userId = "BogscfIfRmeRd7Ylzh308AhUC4T2";
+    public static String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,9 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
         loadFragment(new MapFragment());
         handlingBottomNavigationView();
+
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        //userId = user.getUid();       //TODO removeeeeeeeeee
+        userId = user.getUid();
 
 
     }

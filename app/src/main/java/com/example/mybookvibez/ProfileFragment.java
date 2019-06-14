@@ -7,32 +7,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ProfileFragment extends Fragment {
 
-    private User[] userArr = new User[1];
-    public static String userToDisplay = MainActivity.userId;
+    private User thisUser;
+    public static String userIdToDisplay = MainActivity.userId;
     public static boolean displayMyProfile = false;
 
     private ArrayList<BookItem> myBooks, booksIRead;
     private CircleImageView ownerImg;
     private TextView firstName, vibezString, vibez;
-    private ArrayList<String> readId, mybooksId;
-    private RecyclerView myBooksRecyclerView;
+    private RecyclerView myBooksRecyclerView, booksIReadRecyclerView;
     private MyBooksRecyclerAdapter adapterMyBooks;
-    private RecyclerView booksIReadRecyclerView;
 
 
 
@@ -40,41 +35,44 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile_layout, container, false);
-        mybooksId = new ArrayList<>();
-        readId = new ArrayList<>();
 
-        getAttributes(view);
+       getAttributes(view);
 
         String id;
         if(displayMyProfile) {
             id = MainActivity.userId;
         }
         else {
-            id = userToDisplay;
+            id = userIdToDisplay;
         }
 
+
+        final User[] userArr = new User[1];
         ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
-                vibezString, vibez, mybooksId, readId);
+                vibezString, vibez, new Callable<Void>() {
+                    @Override
+                    public Void call() throws Exception {
+                        thisUser = userArr[0];
+                        myBooks = new ArrayList<>();
+                        ServerApi.getInstance().getBooksByIdsList(myBooks, thisUser.getMyBooks(), new Callable<Void>() {
+                            @Override
+                            public Void call() {
+                                return setBooksRecyclerView(myBooksRecyclerView, myBooks);
+                            }
+                        });
 
 
+                        booksIRead = new ArrayList<>();
+                        ServerApi.getInstance().getBooksByIdsList(booksIRead, thisUser.getBooksIRead(), new Callable<Void>() {
+                            @Override
+                            public Void call() {
+                                return setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
+                            }
+                        });
 
-        myBooks = new ArrayList<>();
-        ServerApi.getInstance().getBooksByIdsList(myBooks, mybooksId, new Callable<Void>() {
-            @Override
-            public Void call() {
-                return setBooksRecyclerView(myBooksRecyclerView, myBooks);
-            }
-        });
-
-
-        booksIRead = new ArrayList<>();
-        ServerApi.getInstance().getBooksByIdsList(booksIRead, readId, new Callable<Void>() {
-            @Override
-            public Void call() {
-                return setBooksRecyclerView(booksIReadRecyclerView, booksIRead);
-            }
-        });
-
+                        return null;
+                    }
+                });
 
         return view;
     }

@@ -3,8 +3,6 @@ package com.example.mybookvibez;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -15,11 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -98,7 +94,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return initMarkers();
             }
         };
-//        ServerApi.getInstance().getAllBooksToList(bookList, func);
+        ServerApi.getInstance().getBooksListForMap(bookList, func);
 
 
         return view;
@@ -113,7 +109,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMapView = (MapView) view.findViewById(R.id.map);
         mSearchText = (AutoCompleteTextView) view.findViewById(R.id.input_search);
         mProfilePic = (ImageView) view.findViewById(R.id.profile_pic);
-        ServerApi.getInstance().downloadProfilePic(mProfilePic, "BogscfIfRmeRd7Ylzh308AhUC4T2");
+        ServerApi.getInstance().downloadProfilePic(mProfilePic, MainActivity.userId);
         mRecenter = (ImageView) view.findViewById(R.id.myLocationFloatingBottom);
         mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingLayout);
         mDb = FirebaseFirestore.getInstance();
@@ -140,7 +136,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProfileFragment.userToDisplay = MainActivity.userId;
+                ProfileFragment.userIdToDisplay = MainActivity.userId;
                 Log.d("ownerImgListener: ", MainActivity.userId);
                 ProfileFragment.displayMyProfile = true;
                 loadProfileFragment();
