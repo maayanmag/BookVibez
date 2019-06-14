@@ -102,42 +102,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    private void registerUser(){
-        String email = mEmailField.getText().toString().trim();
-        String password = mPasswordField.getText().toString().trim();
-
-        if (TextUtils.isEmpty(email)){
-            Toast.makeText(this, "Please enter Email", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        if (TextUtils.isEmpty(password)){
-            Toast.makeText(this, "Please enter password (at least 6 digits)", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // if everything OK:
-        progressDialog.setMessage("Registering user...");
-        progressDialog.show();
-        signUp(email, password, this);
-//        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this,
-//                new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        if (task.isSuccessful()){
-//                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//                            finish();
-//                        }
-//                        else {
-//                            Toast.makeText(LoginActivity.this, "Could not register, please try " +
-//                                            "again",
-//                                    Toast.LENGTH_SHORT).show();
-//
-//                        }
-//                    }
-//                });
-    }
-
     private void userLogin(){
         String email = mEmailField.getText().toString().trim();
         String password = mPasswordField.getText().toString().trim();
@@ -177,7 +141,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (v == btnRegister){
-            registerUser();
+            Log.i(TAG, "register button pressed");
+            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+            finish();
         }
 
         if (v == btnLogIn){
@@ -233,35 +199,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 });
     }
 
-
-    public void signUp(String email, String pass, final Activity act){
-        firebaseAuth.createUserWithEmailAndPassword(email, pass)
-                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d("AuthUI", "createUserWithEmail:success");
-                            MainActivity.user = firebaseAuth.getCurrentUser();
-                            MainActivity.userId = MainActivity.user.getUid();
-                            User user = new User ( "", 0, "");
-                            ServerApi.getInstance().addUser(user, MainActivity.userId);
-                            Intent main = new Intent(act.getApplicationContext(), MainActivity.class);
-                            act.startActivity(main);
-                            act.finish();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.w("AuthUI", "createUserWithEmail:failure", task.getException());
-                            Toast.makeText(LoginActivity.this, "Could not register, please try again",
-                                    Toast.LENGTH_SHORT).show();
-
-                        }
-
-
-                    }
-                });
-
-    }
     @Override
     protected void onStart() {
         super.onStart();
