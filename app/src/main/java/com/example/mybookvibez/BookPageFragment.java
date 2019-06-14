@@ -1,5 +1,9 @@
 package com.example.mybookvibez;
 
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -36,7 +40,7 @@ public class BookPageFragment extends Fragment {
     private TextView name, author, genre, ownerName;
     private ArrayList<Comment> comments;
     private Button gotBookButton;
-    private ImageButton sendCommentButton;
+    private ImageButton sendCommentButton, gmailButton, whatsappButtom, fbButton;
     private EditText editText;
     private User user;
     private CommentAdapter commentAdapter;
@@ -95,6 +99,9 @@ public class BookPageFragment extends Fragment {
         collapsingToolbar = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         gotBookButton = (Button) view.findViewById(R.id.got_the_book_button);
         sendCommentButton = (ImageButton) view.findViewById(R.id.sent_btn);
+        fbButton = (ImageButton) view.findViewById(R.id.fb_messenger_icon);
+        gmailButton = (ImageButton) view.findViewById(R.id.gmail_icon);
+        whatsappButtom = (ImageButton) view.findViewById(R.id.whatsapp_icon);
         commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
         bookmarkImg = (ImageView) view.findViewById(R.id.bookmark);
     }
@@ -136,6 +143,37 @@ public class BookPageFragment extends Fragment {
                 Toast.makeText(getContext(), "Comment was added successfully", Toast.LENGTH_SHORT).show();
             }
         });
+
+        whatsappButtom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               onClickWhatsApp(v);
+
+            }
+        });
+    }
+
+
+    public void onClickWhatsApp(View view) {
+
+        PackageManager pm = getActivity().getPackageManager();
+        try {
+
+            Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+            whatsappIntent.setType("text/plain");
+            String text = "YOUR TEXT HERE";
+
+            PackageInfo info = pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
+            //Check if package exists or not. If not then code in catch block will be called
+            whatsappIntent.setPackage("com.whatsapp");
+
+            whatsappIntent.putExtra(Intent.EXTRA_TEXT, text);
+            startActivity(Intent.createChooser(whatsappIntent, "Connect owner by What'sapp"));
+
+        } catch (PackageManager.NameNotFoundException e) {
+            Toast.makeText(getContext(), "WhatsApp not Installed", Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     private void handleAttribute() {
