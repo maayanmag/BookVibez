@@ -124,6 +124,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="20dp"
+                android:scaleType="fitXY"
+                android:background="@color/white"
                 android:src="@mipmap/ic_whatsapp" />
 
             <ImageButton
@@ -131,6 +133,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="30dp"
+                android:scaleType="fitXY"
+                android:background="@color/white"
                 android:src="@mipmap/ic_facebook_messenger" />
 
             <ImageButton
@@ -138,6 +142,8 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="30dp"
+                android:scaleType="fitXY"
+                android:background="@color/white"
                 android:src="@mipmap/ic_gmail" />
 
         </LinearLayout>

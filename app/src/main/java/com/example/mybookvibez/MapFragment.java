@@ -3,8 +3,6 @@ package com.example.mybookvibez;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -15,11 +13,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,6 +57,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 9003;
     public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     public static final int DEFAULT_ZOOM = 16;
+    public static final String API_KEY = "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ";
 
     private TextView mSearchText;
     public GoogleMap mGoogleMap;
@@ -82,7 +79,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.map_fragment_sliding_up, container, false);
         if (!Places.isInitialized()) {
-            Places.initialize(getContext(), "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ"); //todo: change to tha value from strings after it works
+            Places.initialize(getContext(), API_KEY); //todo: change to tha value from strings after it works
         }
         setAttributes(view);
         initGoogleMap(savedInstanceState);
@@ -98,7 +95,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return initMarkers();
             }
         };
-//        ServerApi.getInstance().getAllBooksToList(bookList, func);
+        ServerApi.getInstance().getBooksListForMap(bookList, func);
 
 
         return view;
@@ -113,7 +110,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMapView = (MapView) view.findViewById(R.id.map);
         mSearchText = (AutoCompleteTextView) view.findViewById(R.id.input_search);
         mProfilePic = (ImageView) view.findViewById(R.id.profile_pic);
-        ServerApi.getInstance().downloadProfilePic(mProfilePic, "BogscfIfRmeRd7Ylzh308AhUC4T2");
+        ServerApi.getInstance().downloadProfilePic(mProfilePic, MainActivity.userId);
         mRecenter = (ImageView) view.findViewById(R.id.myLocationFloatingBottom);
         mLayout = (SlidingUpPanelLayout) view.findViewById(R.id.slidingLayout);
         mDb = FirebaseFirestore.getInstance();

@@ -14,10 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.mybookvibez.AddBook.NewBookFragment;
 import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
@@ -33,7 +31,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class Register extends Fragment {
 
-    private EditText mEmailField, mPasswordField, mConfirmPasswordField, mNameField, mVibeField;
+    private EditText mEmailField, mPasswordField, mPhoneNumber, mNameField, mVibeField;
     private Button btnRegister, addProfilePicture;
     private Uri image = null;
     public static ProgressDialog progressDialog;
@@ -62,10 +60,11 @@ public class Register extends Fragment {
     private void getAttributes(View view){
         mEmailField = (EditText) view.findViewById(R.id.register_email_box);
         mPasswordField = (EditText) view.findViewById(R.id.register_password_box);
-        mConfirmPasswordField = (EditText) view.findViewById(R.id.register_confirm_password);
+        mPhoneNumber = (EditText) view.findViewById(R.id.phone_number);
         mNameField = (EditText) view.findViewById(R.id.register_name);
         mVibeField = (EditText) view.findViewById(R.id.register_vibe);
 
+        // get a user profile picture
         addProfilePicture = (Button) view.findViewById(R.id.addProfilePicture);
         addProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +75,7 @@ public class Register extends Fragment {
             }
         });
 
+        // click on REGISTER
         btnRegister = (Button) view.findViewById(R.id.main_register_button);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +100,7 @@ public class Register extends Fragment {
     }
 
 
-    private boolean validation(String email, String password, String confirm, String name){
+    private boolean validation(String email, String password, String phone, String name){
         if (TextUtils.isEmpty(email)){
             Toast.makeText(getContext(), "Please enter Email", Toast.LENGTH_SHORT).show();
             return false;
@@ -111,8 +111,8 @@ public class Register extends Fragment {
             return false;
         }
 
-        if (!password.equals(confirm)){
-            Toast.makeText(getContext(), "Please make sure you confirm your password", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(phone)){
+            Toast.makeText(getContext(), "Please enter valid phone number", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -127,11 +127,11 @@ public class Register extends Fragment {
     private void registerUser(){
         String email = mEmailField.getText().toString().trim();
         String password = mPasswordField.getText().toString();
-        String confirmPassword = mConfirmPasswordField.getText().toString();
+        final String phoneNumber = mPhoneNumber.getText().toString().substring(1); // takes of 0
         final String name = mNameField.getText().toString();
         final String vibe = mVibeField.getText().toString();
 
-        if(!validation(email, password, confirmPassword, name)) {
+        if(!validation(email, password, phoneNumber, name)) {
             return; //TODO
         }
 
@@ -159,7 +159,7 @@ public class Register extends Fragment {
                                     return null;
                                 }
                             };
-                            ServerApi.getInstance().addUser(new User(name, vibe), firebaseAuth.getCurrentUser().getUid(), image, func);
+                            ServerApi.getInstance().addUser(new User(name, vibe, phoneNumber), firebaseAuth.getCurrentUser().getUid(), image, func);
 
                         } else {    // If sign in fails, display a message to the user.
                             Log.w("AuthUI", "createUserWithEmail:failure", task.getException());

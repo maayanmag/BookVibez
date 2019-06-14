@@ -42,10 +42,10 @@ public class BookPageFragment extends Fragment {
     private Button gotBookButton;
     private ImageButton sendCommentButton, gmailButton, whatsappButtom, fbButton;
     private EditText editText;
-    private User user;
     private CommentAdapter commentAdapter;
     private RecyclerView commentsRecycler;
     private boolean isGotTheBookPressed = false;
+    private String userPhoneNum;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -65,6 +65,8 @@ public class BookPageFragment extends Fragment {
             User[] temp = new User[1];
             ServerApi.getInstance().getUser(bookToDisplay.getOwnerId(), temp, ownerName);
             ServerApi.getInstance().downloadProfilePic(ownerImg, bookToDisplay.getOwnerId());
+
+            if (temp[0] != null) userPhoneNum = temp[0].getPhoneNumber();
         }
         comments = bookToDisplay.getComments();
         handleCommentsRecycle(view);
@@ -157,14 +159,18 @@ public class BookPageFragment extends Fragment {
     public void onClickWhatsApp(View view) {
 
         PackageManager pm = getActivity().getPackageManager();
+        userPhoneNum = "548325053"; //todo: change this! default lior's number
         try {
-
-            Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+            // todo change the country!
+            String contactNumber = "972" + userPhoneNum; //without '+'
+            Intent whatsappIntent = new Intent("android.intent.action.MAIN");
+            whatsappIntent.setAction(Intent.ACTION_SEND);
             whatsappIntent.setType("text/plain");
-            String text = "YOUR TEXT HERE";
+            String text = "Hi! I want to swap books";
 
             PackageInfo info = pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
             //Check if package exists or not. If not then code in catch block will be called
+            whatsappIntent.putExtra("jid", contactNumber + "@s.whatsapp.net");
             whatsappIntent.setPackage("com.whatsapp");
 
             whatsappIntent.putExtra(Intent.EXTRA_TEXT, text);
@@ -175,6 +181,8 @@ public class BookPageFragment extends Fragment {
                     .show();
         }
     }
+
+
 
     private void handleAttribute() {
         name.setText(bookToDisplay.getTitle());
