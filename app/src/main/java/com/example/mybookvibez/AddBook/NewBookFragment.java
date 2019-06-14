@@ -51,7 +51,7 @@ public class NewBookFragment extends Fragment {
     private RadioGroup radioGrp;
     private RadioButton checked;
     private ImageView genreImg;
-    private EditText editName, editAuthor, editLocation; //take location off! netta
+    private EditText editName, editAuthor, editLocation;
     private int selectedRB = 0;
     private static Uri uri = null;
     private final String TAG = "add location";
@@ -174,7 +174,6 @@ public class NewBookFragment extends Fragment {
             public void onClick(View v) {
                 BookItem book = createNewBook();
                 book.setLatLng(new GeoPoint(newLatLng.latitude, newLatLng.longitude)); //todo: check this works
-//              ListOfBooks.booksList.add(book);
                 ServerApi.getInstance().addNewBook(book, uri);
                 Toast.makeText(getContext(), "Book was added successfully", Toast.LENGTH_SHORT).show();
                 loadMapFragment();

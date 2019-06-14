@@ -1,6 +1,7 @@
 package com.example.mybookvibez;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -24,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mybookvibez.AddBook.AddBookPopup;
-import com.example.mybookvibez.Leaderboard.LeaderboardTabBooks;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -34,14 +35,23 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteActivity;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Callable;
+
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+import static com.example.mybookvibez.AddBook.NewBookFragment.PLACE_AUTOCOMPLETE_REQUEST_CODE;
 
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
@@ -58,9 +68,11 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private ImageView mRecenter, mProfilePic;
     private static final String TAG = "MapFragment";
     private SlidingUpPanelLayout mLayout;
-    private static ArrayList<BookItem> bookList = new ArrayList<>();
+    private static ArrayList<BookItem> bookList;
     private static HashMap<Marker, BookItem> markerMap = new HashMap<>();
     private FirebaseFirestore mDb;
+    private LatLng newLatLng;
+
 
 
 
@@ -69,7 +81,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.map_fragment_sliding_up, container, false);
-
+        if (!Places.isInitialized()) {
+            Places.initialize(getContext(), "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ"); //todo: change to tha value from strings after it works
+        }
         setAttributes(view);
         initGoogleMap(savedInstanceState);
         /* handling click on "addBook" button */
@@ -77,13 +91,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         /* handling click on "centerMapToMyLocation" button */
         handlingRecenterFAB(view);
 
+        bookList = new ArrayList<>();
         Callable<Void> func = new Callable<Void>() {
             @Override
             public Void call() throws Exception {
                 return initMarkers();
             }
         };
-        ServerApi.getInstance().getBooksListForMap(bookList, func);
+//        ServerApi.getInstance().getAllBooksToList(bookList, func);
 
 
         return view;
@@ -131,25 +146,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 loadProfileFragment();
             }
         });
+        mSearchText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Place.Field> fields = Arrays.asList(Place.Field.ID, Place.Field.NAME,
+                        Place.Field.LAT_LNG);
+                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
+                        fields).build(getContext());
+                startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
+            }});
     }
 
     private void init(){
         Log.d(TAG, "init: initializing");
-
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-             //overrides the return key, so it will execute the search
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent keyEvent) {
-                if(actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER){
-                    //execute method for searching
-                    geoLocate();
-                }
-                return false;
-            }
-        });
         mRecenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,28 +170,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    private void geoLocate(){
-        Log.d(TAG, "geoLocate: geolocating");
-
-        String searchString = mSearchText.getText().toString();
-        Geocoder geocoder = new Geocoder(getActivity());
-        List<Address> list = new ArrayList<>();
-
-        try{
-            list = geocoder.getFromLocationName(searchString,1);
-        } catch (IOException e){
-            Log.d(TAG, "geoLocate: IOException:" + e.getMessage());
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                newLatLng = place.getLatLng();
+                mSearchText.setText(place.getName());
+                Log.i(TAG, "latlng: " + newLatLng);
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                moveCamera(newLatLng, DEFAULT_ZOOM, place.getName());
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Log.i(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
         }
-        if(list.size() > 0){
-            Address address = list.get(0);
-
-            Log.d(TAG, "geoLocate: found a location: " + address.toString());
-            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-            //todo: change the title! now is set to address line
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
-                    address.getAddressLine(0));
-        }
-
     }
 
     public void moveCamera(LatLng latLng, float zoom, String title){
