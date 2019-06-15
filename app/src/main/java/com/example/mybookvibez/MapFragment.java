@@ -80,7 +80,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.map_fragment_sliding_up, container, false);
         if (!Places.isInitialized()) {
-            Places.initialize(getContext(), "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ"); //todo: change to tha value from strings after it works
+            Places.initialize(getContext(), API_KEY); //todo: change to tha value from strings after it works
         }
         setAttributes(view);
         initGoogleMap(savedInstanceState);

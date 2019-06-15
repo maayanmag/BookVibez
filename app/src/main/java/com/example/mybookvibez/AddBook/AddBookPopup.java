@@ -67,5 +67,4 @@ public class AddBookPopup extends DialogFragment {
         }
         return false;
     }
-
 }

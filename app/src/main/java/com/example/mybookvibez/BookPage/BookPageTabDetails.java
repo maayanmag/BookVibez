@@ -6,22 +6,19 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mybookvibez.MainActivity;
+import com.example.mybookvibez.Exchange.ExchangeBookPopup;
 import com.example.mybookvibez.ProfileFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
@@ -81,18 +78,20 @@ public class BookPageTabDetails extends Fragment {
             @Override
             public void onClick(View v) {
                 isGotTheBookPressed = !isGotTheBookPressed;     // change state
-                String text;
+                String text = "I Got This Book!";
+                gotBookButton.setText(text);
                 if(isGotTheBookPressed) {
-                    text = "I don't own it";
+//                    text = "I Got This Book!";
                     gotBookButton.setBackgroundResource(R.drawable.buttonshape);
+                    Fragment exchangePopup = new ExchangeBookPopup();
+                    loadFragment(exchangePopup);
                     //TODO - change current owner to this user
                 }
-                else {
-                    text = "I Got This Book!";
-                    gotBookButton.setBackgroundResource(R.drawable.button_filled_shape);
+//                else {
+//                    text = "I Got This Book!";
+//                    gotBookButton.setBackgroundResource(R.drawable.button_filled_shape);
                 }
-                gotBookButton.setText(text);
-            }
+//            }
         });
 
         ownerImg.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +99,8 @@ public class BookPageTabDetails extends Fragment {
             public void onClick(View v) {
                 ProfileFragment.userIdToDisplay = BookPageFragment.bookToDisplay.getOwnerId();
                 ProfileFragment.displayMyProfile = false;
-                loadProfilePageFragment();
+                Fragment profile = new ProfileFragment();
+                loadFragment(profile);
             }
         });
 
@@ -147,13 +147,14 @@ public class BookPageTabDetails extends Fragment {
         }
     }
 
-    private void loadProfilePageFragment() {
-        FragmentManager manager = getFragmentManager();
+    private void loadFragment(Fragment fragment) {
+        FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.addToBackStack("ListView");  // enables to press "return" and go back to the list view
-        transaction.replace(R.id.main_fragment_container, new ProfileFragment());
+        transaction.replace(R.id.main_fragment_container, fragment);
         transaction.commit();
     }
+
 
     private void setBookmarkImg() {
         // adjust bookmark image to the amount of points

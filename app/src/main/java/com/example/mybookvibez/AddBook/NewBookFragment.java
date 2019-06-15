@@ -64,7 +64,7 @@ public class NewBookFragment extends Fragment {
         setAttributes(view);
         initElements(inflater);
         if (!Places.isInitialized()) {
-        Places.initialize(getContext(), "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ"); //todo: change to tha value from strings after it works
+        Places.initialize(getContext(), MapFragment.API_KEY); //todo: change to tha value from strings after it works
         }
 
         editLocation.setOnClickListener(new View.OnClickListener() {
