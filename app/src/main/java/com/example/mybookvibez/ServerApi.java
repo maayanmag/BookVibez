@@ -72,7 +72,9 @@ public class ServerApi {
                         if (task.isSuccessful()) {
                             ListOfBooks.clearBooksList();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                books.add(document.toObject(BookItem.class));
+                                BookItem book = document.toObject(BookItem.class);
+                                if(book.getOffered())
+                                    books.add(book);
                                 Log.d("getBooksList", document.getId() + " => " + document.getData());
                             }
                             try {
@@ -253,6 +255,11 @@ public class ServerApi {
         });
     }
 
+    public void changeBookState(String id, boolean state){
+        DocumentReference reference = db.collection(BOOKS_DB).document(id);
+        reference.update("offered", state);
+
+    }
 
     public void addComment(String bookId, Comment comment){
         DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
