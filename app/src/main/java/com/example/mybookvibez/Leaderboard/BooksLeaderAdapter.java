@@ -10,7 +10,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mybookvibez.BookItem;
-import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
 
@@ -37,7 +36,7 @@ public class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.
     @Override
     public BooksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.single_item_leaderboard2, parent, false);
+                .inflate(R.layout.single_book_leaderboard, parent, false);
 
         return new BooksViewHolder(itemView);
     }

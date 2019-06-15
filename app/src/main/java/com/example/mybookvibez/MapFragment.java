@@ -194,7 +194,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         MarkerOptions options = new MarkerOptions().position(latLng).title(title);
         mGoogleMap.addMarker(options);
-        mGoogleMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(getContext()));
+        mGoogleMap.setInfoWindowAdapter(new MapInfoWindowAdapter(getContext()));
         //todo: when searching, destory marker after first search.
     }
 

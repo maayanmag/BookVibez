@@ -104,7 +104,7 @@
             android:layout_height="fill_parent">
             <!--android:layout_weight="0.35">-->
 
-            <include layout="@layout/fragment_book_page" />
+            <include layout="@layout/book_page_fragment" />
 
             <View
                 android:id="@+id/transparentView"

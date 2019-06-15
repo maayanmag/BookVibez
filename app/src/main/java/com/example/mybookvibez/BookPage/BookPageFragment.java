@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.R;
-import com.example.mybookvibez.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class BookPageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_book_page, container, false);
+        View view = inflater.inflate(R.layout.book_page_fragment, container, false);
 
         collapsingToolbar = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         bookmarkImg = (ImageView) view.findViewById(R.id.bookmark);

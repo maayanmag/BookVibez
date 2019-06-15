@@ -5,14 +5,15 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
-import com.example.mybookvibez.AddBook.ChooseFromMyBooks;
-import com.example.mybookvibez.AddBook.NewBookFragment;
+import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 
@@ -32,7 +33,7 @@ public class ExchangeBookPopup extends DialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
-                Fragment f = new MapFragment(); //todo: maybe change this!
+                Fragment f = new BookPageFragment(); //todo: maybe change this!
                 loadFragment(f);
             }
         });
@@ -40,9 +41,9 @@ public class ExchangeBookPopup extends DialogFragment {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Fragment newBookFrag = new NewBookFragment();
-//                loadFragment(newBookFrag);
-//                dismiss();
+                Fragment commentPopup = new AddCommentAfterExchange();
+                loadFragment(commentPopup);
+                dismiss();
 
 
             }
@@ -56,21 +57,11 @@ public class ExchangeBookPopup extends DialogFragment {
         return v;
     }
 
-
-    /**
-     * this method is switching fragments.
-     * @param fragment - a Fragment typed object
-     * @return true if switched successfully.
-     */
-    public boolean loadFragment(Fragment fragment) {
-        //switching fragment
-        if (fragment != null) {
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.main_fragment_container, fragment)
-                    .commit();
-            return true;
-        }
-        return false;
+    private void loadFragment(Fragment fragment) {
+        FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.addToBackStack("exchange book popup");  // enables to press "return" and go back to the list view
+        transaction.replace(R.id.main_fragment_container, fragment);
+        transaction.commit();
     }
 }
