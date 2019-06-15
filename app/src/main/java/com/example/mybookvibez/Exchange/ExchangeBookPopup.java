@@ -1,4 +1,4 @@
-package com.example.mybookvibez.AddBook;
+package com.example.mybookvibez.Exchange;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
+import com.example.mybookvibez.AddBook.ChooseFromMyBooks;
+import com.example.mybookvibez.AddBook.NewBookFragment;
+import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 
+public class ExchangeBookPopup extends DialogFragment {
 
-public class AddBookPopup extends DialogFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,24 +25,26 @@ public class AddBookPopup extends DialogFragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.add_book_popup, container, false);
-        Button newBookButton = (Button) v.findViewById(R.id.add_new_book_btn);
-        Button existingBookButton = (Button) v.findViewById(R.id.add_existing_book_btn);
-        newBookButton.setOnClickListener(new View.OnClickListener() {
+        View v = inflater.inflate(R.layout.exchange_book_popup, container, false);
+        Button rejectButton = (Button) v.findViewById(R.id.reject_exchange_btn);
+        Button confirmButton = (Button) v.findViewById(R.id.confirm_exchange_btn);
+        rejectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment newBookFrag = new NewBookFragment();
-                loadFragment(newBookFrag);
                 dismiss();
+                Fragment f = new MapFragment(); //todo: maybe change this!
+                loadFragment(f);
             }
         });
 
-        existingBookButton.setOnClickListener(new View.OnClickListener() {
+        confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
-                Fragment f = new ChooseFromMyBooks();
-                loadFragment(f);
+//                Fragment newBookFrag = new NewBookFragment();
+//                loadFragment(newBookFrag);
+//                dismiss();
+
+
             }
         });
 
@@ -50,6 +55,7 @@ public class AddBookPopup extends DialogFragment {
 
         return v;
     }
+
 
     /**
      * this method is switching fragments.

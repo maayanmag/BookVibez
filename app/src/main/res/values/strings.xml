@@ -52,6 +52,16 @@
     <string name="new_book_btn">New Book</string>
     <string name="existing_book_btn">From My Books</string>
 
+    <string name="exchange_book_title">Want to Confirm book exchange?</string>
+    <string name="reject_exchange_btn">No</string>
+    <string name="confirm_exchange_btn">Yes - off to a new journey...</string>
+
+    <string name="after_exchange_add_comment_title">Be a part of the journey</string>
+    <string name="after_exchange_add_comment_content">Share your experience with the book!</string>
+    <string name="maybe_later_btn">No</string>
+    <string name="go_to_comments_btn">Take me there</string>
+
+
     <string-array name="book_types">
         <item>For never-ending rides</item>
         <item>Kills some time </item>
