@@ -132,29 +132,5 @@ public class BookItem {
         this.offered = offered;
     }
 
-    // Constructor to convert JSON object into a Java class instance
-    public BookItem(JSONObject object){
-        try {
-            this.title = object.getString("title");
-            this.author = object.getString("author");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Factory method to convert an array of JSON objects into a list of objects
-    // User.fromJson(jsonArray);
-    public static ArrayList<BookItem> fromJson(JSONArray jsonObjects) {
-        ArrayList<BookItem> users = new ArrayList<>();
-        for (int i = 0; i < jsonObjects.length(); i++) {
-            try {
-                users.add(new BookItem(jsonObjects.getJSONObject(i)));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return users;
-    }
-
-
+   
 }
