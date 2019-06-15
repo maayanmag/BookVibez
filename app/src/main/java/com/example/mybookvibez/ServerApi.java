@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -27,7 +28,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.Callable;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -72,7 +75,9 @@ public class ServerApi {
                         if (task.isSuccessful()) {
                             ListOfBooks.clearBooksList();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                books.add(document.toObject(BookItem.class));
+                                BookItem book = document.toObject(BookItem.class);
+                                if(book.getOffered())
+                                    books.add(book);
                                 Log.d("getBooksList", document.getId() + " => " + document.getData());
                             }
                             try {
@@ -261,7 +266,10 @@ public class ServerApi {
 
     public void addComment(String bookId, Comment comment){
         DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
-        //comment.setTime(FieldValue.serverTimestamp());
+        Date date = new Date();
+        String [] temp = date.toString().split(" ");
+        String timeToSave = temp[1]+" "+temp[2]+", "+temp[5];
+        comment.setTime(timeToSave);
         docRef.update("comments", FieldValue.arrayUnion(comment)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void v) {

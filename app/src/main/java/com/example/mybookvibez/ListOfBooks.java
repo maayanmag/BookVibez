@@ -42,7 +42,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class ListOfBooks extends Fragment {
 
-    public static ArrayList<BookItem> booksList = MapFragment.getListOfBooks();
+    public static final ArrayList<BookItem> booksList = MapFragment.getListOfBooks();
     private ArrayList<BookItem> booksResult = new ArrayList<>();
     private RecyclerView recyclerView;
     private static BooksRecyclerAdapter adapter;

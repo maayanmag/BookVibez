@@ -15,12 +15,12 @@ import android.widget.Button;
 
 import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.BookPage.BookPageFragment;
+import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
 
 public class ExchangeBookPopup extends DialogFragment {
-    private BookItem bookItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,7 @@ public class ExchangeBookPopup extends DialogFragment {
         rejectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
-                Fragment f = new BookPageFragment(); //todo: maybe change this!
-                loadFragment(f);
+              getActivity().onBackPressed();
             }
         });
 
@@ -59,6 +57,8 @@ public class ExchangeBookPopup extends DialogFragment {
 
         return v;
     }
+
+
 
     private void loadFragment(Fragment fragment) {
         FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
