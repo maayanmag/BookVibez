@@ -103,13 +103,13 @@ public class ListOfBooks extends Fragment {
 
     private void getResultsList(LatLng latLng) {
         booksResult.clear();
-        int radius = 10000;        // 10km (in meters) from the given latlng
         for (BookItem book : booksList){
             float [] distanceFromLatLng = new float[1];
             Location.distanceBetween(latLng.latitude, latLng.longitude, book.getLatLng().getLatitude(),
                     book.getLatLng().getLongitude(), distanceFromLatLng);
-            if(distanceFromLatLng[0] <= radius){
+            if(distanceFromLatLng[0] <= 10000){
                 booksResult.add(book);
+                Log.i("getResultsList", "added: " + book.getTitle());
             }
         }
         Log.i("getResultsList", "found " + booksResult.size() + " results");

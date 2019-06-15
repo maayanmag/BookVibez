@@ -17,6 +17,7 @@ import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
+import com.example.mybookvibez.ServerApi;
 
 public class ExchangeBookPopup extends DialogFragment {
     private BookItem bookItem;
@@ -44,11 +45,10 @@ public class ExchangeBookPopup extends DialogFragment {
             @Override
             public void onClick(View v) {
                 BookPageFragment.bookToDisplay.setOffered(false); // takes the book off the list of books to display
+                ServerApi.getInstance().changeBookState(BookPageFragment.bookToDisplay.getId(), false);
                 Fragment commentPopup = new AddCommentAfterExchange();
                 loadFragment(commentPopup);
                 dismiss();
-
-
             }
         });
 

@@ -253,6 +253,11 @@ public class ServerApi {
         });
     }
 
+    public void changeBookState(String id, boolean state){
+        DocumentReference reference = db.collection(BOOKS_DB).document(id);
+        reference.update("offered", state);
+
+    }
 
     public void addComment(String bookId, Comment comment){
         DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
