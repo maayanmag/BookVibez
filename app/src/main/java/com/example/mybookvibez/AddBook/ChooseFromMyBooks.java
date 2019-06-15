@@ -22,7 +22,7 @@ public class ChooseFromMyBooks extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_choose_from_my_books, null);
+        View view = inflater.inflate(R.layout.add_book_from_my_books, null);
         Button finishBtn = view.findViewById(R.id.finish_my_books_btn);
         ImageView img = (ImageView) view.findViewById(R.id.choose_book_set);
         final ImageView hiddenImg = (ImageView) view.findViewById(R.id.choose_book_set_checked);

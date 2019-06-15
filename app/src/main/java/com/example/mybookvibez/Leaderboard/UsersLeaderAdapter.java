@@ -36,7 +36,7 @@ public class UsersLeaderAdapter extends RecyclerView.Adapter<UsersLeaderAdapter.
     @Override
     public UserViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.single_item_leaderboard, parent, false);
+                .inflate(R.layout.single_user_leaderboard, parent, false);
 
         return new UserViewHolder(itemView);
     }

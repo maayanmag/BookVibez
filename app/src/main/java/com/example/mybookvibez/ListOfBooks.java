@@ -49,10 +49,10 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_list_layout, container, false);
+        View view = inflater.inflate(R.layout.list_fragment_layout, container, false);
 
         if (!Places.isInitialized()) {
-            Places.initialize(getContext(), "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ"); //todo: change to tha value from strings after it works
+            Places.initialize(getContext(), MapFragment.API_KEY);
         }
         searchAutoComplete = (AutoCompleteTextView) view.findViewById(R.id.search_bar);
 
@@ -67,7 +67,6 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
             }});
         handlingRecycleViewer(view);
         handlingAddBookButton(view);
-//        handlingSearchView(view);
 
         return view;
     }
@@ -92,9 +91,9 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
 
 
     /**
-     * the function handles the RecycleView object in content_scrolling_list.
+     * the function handles the RecycleView object in list_content_scrolling.
      * it defines the viewer and set a manager and an adapter to it.
-     * @param view - current view (content_scrolling_list)
+     * @param view - current view (list_content_scrolling)
      */
     private void handlingRecycleViewer(View view){
         recyclerView = (RecyclerView) view.findViewById(R.id.list);
@@ -112,9 +111,9 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
     }
 
     /**
-     * the function handles the Add floating button object in content_scrolling_list.
+     * the function handles the Add floating button object in list_content_scrolling.
      * it defines a listener.
-     * @param view - current view (content_scrolling_list)
+     * @param view - current view (list_content_scrolling)
      */
     private void handlingAddBookButton(View view){
         FloatingActionButton fabAdd = (FloatingActionButton) view.findViewById(R.id.addBookFloatingBottom);
@@ -133,13 +132,6 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         });
     }
 
-
-//    private void handlingSearchView(View view) {
-////        searchAutoComplete = (SearchView) view.findViewById(R.id.search_bar);
-////        CharSequence query = searchAutoComplete.getQuery(); // get the query string currently in the text field
-////        searchAutoComplete.setQueryHint("Search View");
-////        searchAutoComplete.setOnQueryTextListener(this);
-////    }
 
     /**
      * this function replaces the layout to a book page layout in case some book was clicked in the list
