@@ -12,8 +12,11 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.example.mybookvibez.BookPage.BookPageFragment;
+import com.example.mybookvibez.BookPage.Comment;
+import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
+import com.example.mybookvibez.ServerApi;
 
 public class AddCommentAfterExchange  extends DialogFragment {
 
@@ -31,7 +34,8 @@ public class AddCommentAfterExchange  extends DialogFragment {
             @Override
             public void onClick(View v) {
                 dismiss();
-                Fragment f = new MapFragment(); //todo: maybe change this!
+                Fragment f = new MapFragment(); // return to map if user don't want to add comment
+                addEmptyCommentToTimeline();
                 loadFragment(f);
             }
         });
@@ -53,7 +57,12 @@ public class AddCommentAfterExchange  extends DialogFragment {
         return v;
     }
 
-/**
+    private void addEmptyCommentToTimeline() {
+        Comment comment = new Comment("", MainActivity.userId);
+        ServerApi.getInstance().addComment(BookPageFragment.bookToDisplay.getId(), comment);
+    }
+
+    /**
  * this method is switching fragments.
  * @param fragment - a Fragment typed object
  * @return true if switched successfully.

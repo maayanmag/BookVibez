@@ -1,28 +1,24 @@
 package com.example.mybookvibez.BookPage;
 
-import com.google.firebase.firestore.ServerTimestamp;
-
-import java.util.Date;
 
 
 public class Comment {
-    @ServerTimestamp
-    private Date time;
+    private String time;
     private String comment;
     private String publisherId;
 
     public Comment() {}
 
     public Comment(String comment, String publisherId){
-        this.comment =comment;
+        this.comment = comment;
         this.publisherId = publisherId;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -41,4 +37,6 @@ public class Comment {
     public void setComment(String comment) {
         this.comment = comment;
     }
+
+
 }
