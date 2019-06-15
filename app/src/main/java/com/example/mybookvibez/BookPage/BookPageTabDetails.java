@@ -30,7 +30,7 @@ import com.example.mybookvibez.User;
 public class BookPageTabDetails extends Fragment {
 
     private ImageView ownerImg;
-    private TextView name, author, genre, ownerName;
+    private TextView name, author, genre, ownerName, curLocation;
     private Button gotBookButton;
     private ImageButton gmailButton, whatsappButtom, fbButton;
     private boolean isGotTheBookPressed = false;
@@ -67,6 +67,7 @@ public class BookPageTabDetails extends Fragment {
         name = (TextView) view.findViewById(R.id.book_name_content);
         author = (TextView) view.findViewById(R.id.book_author_content);
         genre = (TextView) view.findViewById(R.id.book_genre_content);
+        curLocation = (TextView) view.findViewById(R.id.cur_location);
         ownerName = (TextView) view.findViewById(R.id.current_owner_name);
         gotBookButton = (Button) view.findViewById(R.id.got_the_book_button);
         fbButton = (ImageButton) view.findViewById(R.id.fb_messenger_icon);
@@ -117,6 +118,7 @@ public class BookPageTabDetails extends Fragment {
         BookPageFragment.collapsingToolbar.setTitle(BookPageFragment.bookToDisplay.getTitle());
         author.setText(BookPageFragment.bookToDisplay.getAuthor());
         genre.setText(BookPageFragment.bookToDisplay.getGenre());
+        curLocation.setText(BookPageFragment.bookToDisplay.getLocation());
         ServerApi.getInstance().downloadBookImage(BookPageFragment.bookImg, BookPageFragment.bookToDisplay.getId());
     }
 

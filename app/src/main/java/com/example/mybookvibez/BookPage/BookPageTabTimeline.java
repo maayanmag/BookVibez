@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.mybookvibez.MainActivity;
@@ -24,6 +25,7 @@ public class BookPageTabTimeline extends Fragment {
 
     private ArrayList<Comment> comments;
     private EditText editText;
+    private TextView vibePoints, pastOwners;
     private ImageButton sendCommentButton;
     private CommentAdapter commentAdapter;
     private RecyclerView commentsRecycler;
@@ -39,6 +41,8 @@ public class BookPageTabTimeline extends Fragment {
         if(BookPageFragment.bookToDisplay != null) {
             comments = BookPageFragment.bookToDisplay.getComments();
             handleCommentsRecycle(view);
+            vibePoints.setText((BookPageFragment.bookToDisplay.getPoints()+""));
+            pastOwners.setText((BookPageFragment.bookToDisplay.getOwnedBy()+""));
         }
 
         return view;
@@ -46,6 +50,8 @@ public class BookPageTabTimeline extends Fragment {
 
     private void getAttributesIds(View view) {
         editText = (EditText) view.findViewById(R.id.edittext_comment);
+        vibePoints = (TextView) view.findViewById(R.id.vibe_points);
+        pastOwners = (TextView) view.findViewById(R.id.owners_num);
         sendCommentButton = (ImageButton) view.findViewById(R.id.sent_btn);
         commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
     }
