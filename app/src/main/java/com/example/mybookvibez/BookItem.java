@@ -14,6 +14,7 @@ public class BookItem {
 
     private String id, title, author, genre, ownerId, location;
     private int points, giveaway, ownedBy;
+    private boolean offered;
     private GeoPoint latLng;
     private ArrayList<Comment> comments;
 
@@ -32,6 +33,7 @@ public class BookItem {
         latLng = null;
         comments = new ArrayList<>();
         this.ownedBy = 0;
+        this.offered = true;
     }
 
     public String getTitle() {
@@ -122,6 +124,13 @@ public class BookItem {
         this.ownedBy = ownedBy;
     }
 
+    public boolean getOffered() {
+        return offered;
+    }
+
+    public void setOffered(boolean offered) {
+        this.offered = offered;
+    }
 
     // Constructor to convert JSON object into a Java class instance
     public BookItem(JSONObject object){
