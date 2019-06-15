@@ -18,7 +18,7 @@
             android:layout_height="match_parent"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            tools:listitem="@layout/single_item_leaderboard2" />
+            tools:listitem="@layout/single_book_leaderboard" />
 
     </android.support.v4.widget.NestedScrollView>
 

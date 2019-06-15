@@ -19,7 +19,7 @@ public class AddCommentAfterExchange  extends DialogFragment {
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.add_comment_after_exchange, container, false);
+        View v = inflater.inflate(R.layout.exchange_add_comment_popup, container, false);
         Button addCommentBtn = (Button) v.findViewById(R.id.go_to_comments_btn);
         Button maybeLaterBtn = (Button) v.findViewById(R.id.maybe_later_btn);
         maybeLaterBtn.setOnClickListener(new View.OnClickListener() {

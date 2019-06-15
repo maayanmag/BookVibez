@@ -48,9 +48,9 @@ public class LeaderboardTabBooks extends Fragment {
 
 
     /**
-     * the function handles the RecycleView object in content_scrolling_list.
+     * the function handles the RecycleView object in list_content_scrolling.
      * it defines the viewer and set a manager and an adapter to it.
-     * @param view - current view (content_scrolling_list)
+     * @param view - current view (list_content_scrolling)
      */
     private void handlingRecycleViewer(View view){
         recyclerView = (RecyclerView) view.findViewById(R.id.recycle_books);

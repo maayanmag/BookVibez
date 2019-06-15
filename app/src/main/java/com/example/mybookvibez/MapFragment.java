@@ -58,6 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 9003;
     public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     public static final int DEFAULT_ZOOM = 16;
+    public static final String API_KEY = "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ";
 
     private TextView mSearchText;
     public GoogleMap mGoogleMap;
@@ -193,7 +194,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         MarkerOptions options = new MarkerOptions().position(latLng).title(title);
         mGoogleMap.addMarker(options);
-        mGoogleMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(getContext()));
+        mGoogleMap.setInfoWindowAdapter(new MapInfoWindowAdapter(getContext()));
         //todo: when searching, destory marker after first search.
     }
 
