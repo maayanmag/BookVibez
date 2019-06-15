@@ -34,6 +34,7 @@ public class BookPageTabDetails extends Fragment {
     private Button gotBookButton;
     private ImageButton gmailButton, whatsappButtom, fbButton;
     private boolean isGotTheBookPressed = false;
+    private String userPhoneNum;
 
     private final static int LEVEL_ONE_TRESH = 30;
     private final static int LEVEL_TWO_TRESH = 70;
@@ -54,6 +55,8 @@ public class BookPageTabDetails extends Fragment {
             User[] temp = new User[1];
             ServerApi.getInstance().getUser(BookPageFragment.bookToDisplay.getOwnerId(), temp, ownerName);
             ServerApi.getInstance().downloadProfilePic(ownerImg, BookPageFragment.bookToDisplay.getOwnerId());
+
+            if (temp[0] != null) userPhoneNum = temp[0].getPhoneNumber();
         }
 
         return view;
@@ -120,22 +123,25 @@ public class BookPageTabDetails extends Fragment {
     public void onClickWhatsApp(View view) {
 
         PackageManager pm = getActivity().getPackageManager();
+        userPhoneNum = "548325053"; //todo: change this! default lior's number
         try {
-
-            Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+            // todo change the country!
+            String contactNumber = "972" + userPhoneNum; //without '+'
+            Intent whatsappIntent = new Intent("android.intent.action.MAIN");
+            whatsappIntent.setAction(Intent.ACTION_SEND);
             whatsappIntent.setType("text/plain");
-            String text = "YOUR TEXT HERE";
+            String text = "Hi! I want to swap books";
 
             PackageInfo info = pm.getPackageInfo("com.whatsapp", PackageManager.GET_META_DATA);
             //Check if package exists or not. If not then code in catch block will be called
+            whatsappIntent.putExtra("jid", contactNumber + "@s.whatsapp.net");
             whatsappIntent.setPackage("com.whatsapp");
 
             whatsappIntent.putExtra(Intent.EXTRA_TEXT, text);
             startActivity(Intent.createChooser(whatsappIntent, "Connect owner by What'sapp"));
 
         } catch (PackageManager.NameNotFoundException e) {
-            Toast.makeText(getContext(), "WhatsApp not Installed", Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(getContext(), "WhatsApp not Installed", Toast.LENGTH_SHORT).show();
         }
     }
 
