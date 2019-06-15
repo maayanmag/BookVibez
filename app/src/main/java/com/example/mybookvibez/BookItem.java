@@ -3,10 +3,6 @@ package com.example.mybookvibez;
 
 import com.example.mybookvibez.BookPage.Comment;
 import com.google.firebase.firestore.GeoPoint;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
 
 
