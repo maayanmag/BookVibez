@@ -5,7 +5,6 @@ import com.example.mybookvibez.BookPage.Comment;
 import com.google.firebase.firestore.GeoPoint;
 import java.util.ArrayList;
 
-
 public class BookItem {
 
     private String id, title, author, genre, ownerId, location;
@@ -13,7 +12,6 @@ public class BookItem {
     private boolean offered;
     private GeoPoint latLng;
     private ArrayList<Comment> comments;
-
 
     public BookItem() {}
 
@@ -126,5 +124,4 @@ public class BookItem {
     public void setOffered(boolean offered) {
         this.offered = offered;
     }
-
 }
