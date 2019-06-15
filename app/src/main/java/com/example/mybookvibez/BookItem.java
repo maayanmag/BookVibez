@@ -21,10 +21,10 @@ public class BookItem {
         this.author = author;
         this.giveaway = giveaway;
         this.location = location;
-        this.genre = bookGenre;
-        this.points = 0;
-        this.latLng = null;
-        this.comments = new ArrayList<>();
+        genre = bookGenre;
+        points = 0;
+        latLng = null;
+        comments = new ArrayList<>();
         this.ownedBy = 0;
         this.offered = true;
     }

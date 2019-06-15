@@ -78,6 +78,3 @@ public class BooksRecyclerAdapter extends RecyclerView.Adapter<BooksRecyclerAdap
 
     }
 }
-
-
-
