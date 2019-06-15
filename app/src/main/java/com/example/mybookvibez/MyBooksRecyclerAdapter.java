@@ -62,8 +62,7 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
 
 
         public void bind(final BookItem book, final OnItemClickListener listener) {
-            image.setImageResource(R.mipmap.as_few_days);
-            //ServerApi.getInstance().downloadBookImage(image, book.getId());      //TODO change
+            ServerApi.getInstance().downloadBookImage(image, book.getId());
             image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

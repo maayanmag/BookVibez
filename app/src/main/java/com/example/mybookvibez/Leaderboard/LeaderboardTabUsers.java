@@ -2,22 +2,16 @@ package com.example.mybookvibez.Leaderboard;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
+
 import com.example.mybookvibez.ProfileFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
@@ -25,7 +19,6 @@ import com.example.mybookvibez.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 
 public class LeaderboardTabUsers extends Fragment {
@@ -70,7 +63,7 @@ public class LeaderboardTabUsers extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new UsersLeaderAdapter(userList, new UsersLeaderAdapter.OnItemClickListener() {
             @Override public void onItemClick(User user) {
-                ProfileFragment.userToDisplay = user.getId();
+                ProfileFragment.userIdToDisplay = user.getId();
                 ProfileFragment.displayMyProfile = false;
                 loadProfilePageFragment();
             }
@@ -81,17 +74,12 @@ public class LeaderboardTabUsers extends Fragment {
     }
 
 
-
     private void loadProfilePageFragment() {
         FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
-
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.addToBackStack("profile");  // enables to press "return" and go back to the list view
         transaction.replace(R.id.main_fragment_container, new ProfileFragment());
         transaction.commit();
-
-
-
     }
 
 

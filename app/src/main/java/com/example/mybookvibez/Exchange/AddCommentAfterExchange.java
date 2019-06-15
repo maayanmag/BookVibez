@@ -1,17 +1,12 @@
 package com.example.mybookvibez.Exchange;
 
-import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import com.example.mybookvibez.BookPageFragment;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 
@@ -39,7 +34,7 @@ public class AddCommentAfterExchange  extends DialogFragment {
         addCommentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment newBookPage = new BookPageFragment();
+//                Fragment newBookPage = new BookPageFragment();
 //                loadFragment(newBookFrag);
 //                dismiss();
             }
@@ -65,4 +60,4 @@ public class AddCommentAfterExchange  extends DialogFragment {
             return false;
         }
     }
-}
+

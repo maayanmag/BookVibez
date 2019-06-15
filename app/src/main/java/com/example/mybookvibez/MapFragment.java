@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mybookvibez.AddBook.AddBookPopup;
+import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -137,7 +138,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProfileFragment.userToDisplay = MainActivity.userId;
+                ProfileFragment.userIdToDisplay = MainActivity.userId;
                 Log.d("ownerImgListener: ", MainActivity.userId);
                 ProfileFragment.displayMyProfile = true;
                 loadProfileFragment();

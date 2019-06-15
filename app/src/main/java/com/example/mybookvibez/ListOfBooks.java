@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.mybookvibez.AddBook.AddBookPopup;
 import com.example.mybookvibez.AddBook.NewBookFragment;
+import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -49,6 +50,7 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_list_layout, container, false);
+
         if (!Places.isInitialized()) {
             Places.initialize(getContext(), MapFragment.API_KEY); //todo: change to tha value from strings after it works
         }
@@ -162,10 +164,6 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         Toast.makeText(getContext(), "Query filtering", Toast.LENGTH_SHORT).show();
         adapter.filter(place);
         return true;
-    }
-
-    public static List<BookItem> getBooksList() {
-        return booksList;
     }
 
     public static void clearBooksList(){

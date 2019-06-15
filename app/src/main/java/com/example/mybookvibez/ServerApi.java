@@ -8,9 +8,9 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.mybookvibez.AddBook.AddBookImagePopup;
+import com.example.mybookvibez.BookPage.Comment;
 import com.example.mybookvibez.Leaderboard.LeaderboardTabUsers;
 import com.example.mybookvibez.Leaderboard.UsersLeaderAdapter;
-import com.example.mybookvibez.Login.Register;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -131,12 +131,11 @@ public class ServerApi {
      * @param name - the user name to display
      * @param vibe - the vibe string to display
      * @param points - vibe points of the user
-     * @param myBooks - list of books the user have
-     * @param read - list of books the user already read
+     * @param func - a function to call when finished
      */
     public void getUserForProfileFragment(final String userId, final User[] user, final CircleImageView image,
                                           final TextView name, final TextView vibe, final TextView points,
-                                          final ArrayList<String> myBooks, final ArrayList<String> read) {         // books[0]=mybooks, books[1]=booksIRead
+                                          final Callable<Void> func) {
         DocumentReference docRef = db.collection(USERS_DB).document(userId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -146,24 +145,12 @@ public class ServerApi {
                     if(document != null && document.exists()) {
                         User got =  document.toObject(User.class);
                         user[0] = got;
-                        Log.d("getUserForProfileFrag", "adding user name: "+got.getName());
                         name.setText(got.getName());
                         vibe.setText(got.getVibeString());
                         points.setText(got.getVibePoints() + " Vibe Points");
-                        try {
-                            myBooks.addAll(got.getMyBooks());
-                            Log.d("getUserForProfileFrag", "myBooks added: "+myBooks.toString());
-                        } catch (Exception e) {
-                            Log.d("getUserForProfileFrag", "cought IndexOutOfBoundsException - getMyBooks");
-                        }
-                        try {
-                            read.addAll(got.getBooksIRead());
-                        } catch (Exception e) {
-                            Log.d("getUserForProfileFrag", "cought IndexOutOfBoundsException - getBooksIRead");
-                        }
+
                         try {
                             StorageReference ref = storage.child(USERS_PROFILES + userId);
-
                             final File localFile = File.createTempFile("Images", "bmp");
 
                             ref.getFile(localFile).addOnSuccessListener(new OnSuccessListener < FileDownloadTask.TaskSnapshot >() {
@@ -178,12 +165,10 @@ public class ServerApi {
                                     Log.d("Downloading photo: ", "Error downloading Image");
                                 }
                             });
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        } catch (IOException e) { e.printStackTrace(); }
 
-                    }
-                    else {
+                        try { func.call(); }  catch (Exception e) { e.printStackTrace(); }
+                    } else {
                         System.out.println("getUserForProfileFragment: something went wrong");
                     }
                 }
@@ -247,6 +232,7 @@ public class ServerApi {
      * @param name - the user name
      */
     public void getUser(final String userId, final User[] user, final TextView name){
+        if (user == null || userId == null) return;
         DocumentReference docRef = db.collection(USERS_DB).document(userId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

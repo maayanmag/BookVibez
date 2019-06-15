@@ -64,7 +64,6 @@ public class Register extends Fragment {
         mNameField = (EditText) view.findViewById(R.id.register_name);
         mVibeField = (EditText) view.findViewById(R.id.register_vibe);
 
-        // get a user profile picture
         addProfilePicture = (Button) view.findViewById(R.id.addProfilePicture);
         addProfilePicture.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +74,6 @@ public class Register extends Fragment {
             }
         });
 
-        // click on REGISTER
         btnRegister = (Button) view.findViewById(R.id.main_register_button);
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +110,7 @@ public class Register extends Fragment {
         }
 
         if (TextUtils.isEmpty(phone)){
-            Toast.makeText(getContext(), "Please enter valid phone number", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please enter phone number", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -127,7 +125,7 @@ public class Register extends Fragment {
     private void registerUser(){
         String email = mEmailField.getText().toString().trim();
         String password = mPasswordField.getText().toString();
-        final String phoneNumber = mPhoneNumber.getText().toString().substring(1); // takes of 0
+        final String phoneNumber = mPhoneNumber.getText().toString();
         final String name = mNameField.getText().toString();
         final String vibe = mVibeField.getText().toString();
 

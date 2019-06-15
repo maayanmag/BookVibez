@@ -61,7 +61,6 @@
     <string name="maybe_later_btn">No</string>
     <string name="go_to_comments_btn">Take me there</string>
 
-
     <string-array name="book_types">
         <item>For never-ending rides</item>
         <item>Kills some time </item>
@@ -102,5 +101,7 @@
     <string name="email">Email</string>
     <string name="or">OR</string>
     <string name="don_t_have_an_account">Don\'t have an account?</string>
+
+
 
 </resources>

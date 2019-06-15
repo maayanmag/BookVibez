@@ -47,9 +47,11 @@ public class MainActivity extends AppCompatActivity {
 
         loadFragment(new MapFragment());
         handlingBottomNavigationView();
+
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         userId = user.getUid();
+
 
     }
 
