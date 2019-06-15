@@ -10,7 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.mybookvibez.BookItem;
+import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.example.mybookvibez.R;
+import com.example.mybookvibez.ServerApi;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +79,7 @@ public class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.
             params.width = newWidth;
             frame.setLayoutParams(params);
 
-            img.setImageResource(R.mipmap.as_few_days);         //TODO
+            ServerApi.getInstance().downloadBookImage(img, book.getId());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View view) {
                     listener.onItemClick(book);

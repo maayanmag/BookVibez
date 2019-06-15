@@ -60,7 +60,6 @@ public class BookPageTabDetails extends Fragment {
     }
 
     private void getAttributesIds(View view) {
-
         ownerImg = (ImageView) view.findViewById(R.id.current_owner_profile_pic);
         name = (TextView) view.findViewById(R.id.book_name_content);
         author = (TextView) view.findViewById(R.id.book_author_content);
