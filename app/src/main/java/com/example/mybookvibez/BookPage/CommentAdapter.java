@@ -1,8 +1,6 @@
 package com.example.mybookvibez.BookPage;
 
-import android.provider.ContactsContract;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,13 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.mybookvibez.ProfileFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
 import com.example.mybookvibez.User;
 import java.util.List;
-
 
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHolder> {

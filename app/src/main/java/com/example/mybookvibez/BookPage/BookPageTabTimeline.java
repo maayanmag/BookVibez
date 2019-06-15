@@ -64,7 +64,6 @@ public class BookPageTabTimeline extends Fragment {
 
     private void handleCommentsRecycle(View view) {
         commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
-
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         commentsRecycler.setLayoutManager(mLayoutManager);
         commentAdapter = new CommentAdapter(comments);
