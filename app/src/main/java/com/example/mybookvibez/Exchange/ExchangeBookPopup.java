@@ -13,11 +13,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 
+import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 
 public class ExchangeBookPopup extends DialogFragment {
+    private BookItem bookItem;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,7 @@ public class ExchangeBookPopup extends DialogFragment {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                BookPageFragment.bookToDisplay.setOffered(false); // takes the book off the list of books to display
                 Fragment commentPopup = new AddCommentAfterExchange();
                 loadFragment(commentPopup);
                 dismiss();
