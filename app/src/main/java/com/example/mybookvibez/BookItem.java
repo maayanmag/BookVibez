@@ -3,12 +3,7 @@ package com.example.mybookvibez;
 
 import com.example.mybookvibez.BookPage.Comment;
 import com.google.firebase.firestore.GeoPoint;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 import java.util.ArrayList;
-
 
 public class BookItem {
 
@@ -18,8 +13,6 @@ public class BookItem {
     private GeoPoint latLng;
     private ArrayList<Comment> comments;
 
-    public enum GIVE_BOOK {EXCHANGE, LEAVE}
-
     public BookItem() {}
 
     public BookItem(String title, String author, String bookGenre, String location, int giveaway) {
@@ -28,10 +21,10 @@ public class BookItem {
         this.author = author;
         this.giveaway = giveaway;
         this.location = location;
-        genre = bookGenre;
-        points = 0;
-        latLng = null;
-        comments = new ArrayList<>();
+        this.genre = bookGenre;
+        this.points = 0;
+        this.latLng = null;
+        this.comments = new ArrayList<>();
         this.ownedBy = 0;
         this.offered = true;
     }
@@ -131,30 +124,5 @@ public class BookItem {
     public void setOffered(boolean offered) {
         this.offered = offered;
     }
-
-    // Constructor to convert JSON object into a Java class instance
-    public BookItem(JSONObject object){
-        try {
-            this.title = object.getString("title");
-            this.author = object.getString("author");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // Factory method to convert an array of JSON objects into a list of objects
-    // User.fromJson(jsonArray);
-    public static ArrayList<BookItem> fromJson(JSONArray jsonObjects) {
-        ArrayList<BookItem> users = new ArrayList<>();
-        for (int i = 0; i < jsonObjects.length(); i++) {
-            try {
-                users.add(new BookItem(jsonObjects.getJSONObject(i)));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return users;
-    }
-
 
 }
