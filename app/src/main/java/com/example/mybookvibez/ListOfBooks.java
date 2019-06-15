@@ -2,6 +2,7 @@ package com.example.mybookvibez;
 
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +25,7 @@ import com.example.mybookvibez.AddBook.AddBookPopup;
 import com.example.mybookvibez.AddBook.NewBookFragment;
 import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
@@ -38,9 +40,10 @@ import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 
-public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListener {
+public class ListOfBooks extends Fragment {
 
     public static ArrayList<BookItem> booksList = MapFragment.getListOfBooks();
+    private ArrayList<BookItem> booksResult = new ArrayList<>();
     private RecyclerView recyclerView;
     private static BooksRecyclerAdapter adapter;
     private AutoCompleteTextView searchAutoComplete;
@@ -79,6 +82,15 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
                 Place place = Autocomplete.getPlaceFromIntent(data);
                 searchAutoComplete.setText(place.getName());
                 Log.i("location search", "Place: " + place.getName() + ", " + place.getId());
+
+                getResultsList(place.getLatLng());
+
+                if (booksResult.size() == 0){
+                    Toast.makeText(getContext(), "No Results Found", Toast.LENGTH_LONG).show();
+                }
+
+                adapter.filter(booksResult);
+
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
                 // TODO: Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
@@ -87,6 +99,20 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
                 // The user canceled the operation.
             }
         }
+    }
+
+    private void getResultsList(LatLng latLng) {
+        booksResult.clear();
+        int radius = 10000;        // 10km (in meters) from the given latlng
+        for (BookItem book : booksList){
+            float [] distanceFromLatLng = new float[1];
+            Location.distanceBetween(latLng.latitude, latLng.longitude, book.getLatLng().getLatitude(),
+                    book.getLatLng().getLongitude(), distanceFromLatLng);
+            if(distanceFromLatLng[0] <= radius){
+                booksResult.add(book);
+            }
+        }
+        Log.i("getResultsList", "found " + booksResult.size() + " results");
     }
 
 
@@ -144,19 +170,6 @@ public class ListOfBooks extends Fragment implements SearchView.OnQueryTextListe
         transaction.commit();
     }
 
-
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        Toast.makeText(getContext(), "Query submitted", Toast.LENGTH_SHORT).show();
-        return true;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String place) {
-        Toast.makeText(getContext(), "Query filtering", Toast.LENGTH_SHORT).show();
-        adapter.filter(place);
-        return true;
-    }
 
     public static void clearBooksList(){
         booksList.clear();

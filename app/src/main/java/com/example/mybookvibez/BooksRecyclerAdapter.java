@@ -18,15 +18,13 @@ public class BooksRecyclerAdapter extends RecyclerView.Adapter<BooksRecyclerAdap
         void onItemClick(BookItem book);
     }
 
-    private List<BookItem> bookslist, copyList;
+    private List<BookItem> bookslist;
     private OnItemClickListener mListener;
 
 
     public BooksRecyclerAdapter(List<BookItem> list, OnItemClickListener listener) {
         this.bookslist = list;
         this.mListener = listener;
-        this.copyList = new ArrayList<>();
-        copyList.addAll(list);
     }
 
 
@@ -49,33 +47,19 @@ public class BooksRecyclerAdapter extends RecyclerView.Adapter<BooksRecyclerAdap
     }
 
 
-    public void filter(String queryText)
-    {
-        bookslist.clear();
-
-        if(queryText.isEmpty()) {
-            bookslist.addAll(copyList);
-            return;
-        }
-        for(BookItem book: copyList) {
-            if(book.getTitle().toLowerCase().contains(queryText.toLowerCase())) {
-               bookslist.add(book);
-            }
-        }
+    public void filter(ArrayList<BookItem> results) {
+        bookslist = results;
         notifyDataSetChanged();
     }
 
     //--------------------------------------
 
-
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView title, author;
         private ImageView img;
-        private View mView;
 
         public MyViewHolder(View view) {
             super(view);
-            mView = view;
             title = (TextView) view.findViewById(R.id.book_name);
             author = (TextView) view.findViewById(R.id.book_author);
             img = (ImageView) view.findViewById(R.id.book_img);
