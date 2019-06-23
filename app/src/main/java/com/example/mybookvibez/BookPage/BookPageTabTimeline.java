@@ -50,8 +50,8 @@ public class BookPageTabTimeline extends Fragment {
 
     private void getAttributesIds(View view) {
         editText = (EditText) view.findViewById(R.id.edittext_comment);
-        vibePoints = (TextView) view.findViewById(R.id.vibe_points);
-        pastOwners = (TextView) view.findViewById(R.id.owners_num);
+        vibePoints = (TextView) view.findViewById(R.id.vibe_points_list);
+        pastOwners = (TextView) view.findViewById(R.id.owners_num_in_list);
         sendCommentButton = (ImageButton) view.findViewById(R.id.sent_btn);
         commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
     }
