@@ -23,11 +23,11 @@ import java.util.ArrayList;
 
 public class BookPageTabTimeline extends Fragment {
 
-    private ArrayList<Comment> comments;
+    public static ArrayList<Comment> comments;
     private EditText editText;
     private TextView vibePoints, pastOwners;
     private ImageButton sendCommentButton;
-    private CommentAdapter commentAdapter;
+    public static CommentAdapter commentAdapter;
     private RecyclerView commentsRecycler;
 
 
@@ -62,7 +62,7 @@ public class BookPageTabTimeline extends Fragment {
             public void onClick(View v) {
                 String text = editText.getText().toString();
                 Comment comment = new Comment(text, MainActivity.userId);
-                ServerApi.getInstance().addComment(BookPageFragment.bookToDisplay.getId(), comment);
+                ServerApi.getInstance().addComment(BookPageFragment.bookToDisplay.getId(), comment, comments, commentAdapter);
                 Toast.makeText(getContext(), "Comment was added successfully", Toast.LENGTH_SHORT).show();
             }
         });
@@ -77,6 +77,5 @@ public class BookPageTabTimeline extends Fragment {
         commentsRecycler.setItemAnimator(new DefaultItemAnimator());
         commentAdapter.notifyDataSetChanged();
     }
-
 
 }

@@ -26,7 +26,9 @@ public class BookPageFragment extends Fragment {
     public static BookItem bookToDisplay = null;
 
     public static CollapsingToolbarLayout collapsingToolbar;
-    public static ImageView bookmarkImg, bookImg;
+    public static ImageView bookImg;
+    private  TabLayout tabs;
+    private  ViewPager viewPager;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -37,20 +39,18 @@ public class BookPageFragment extends Fragment {
         View view = inflater.inflate(R.layout.book_page_fragment, container, false);
 
         collapsingToolbar = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-        bookmarkImg = (ImageView) view.findViewById(R.id.bookmark);
         bookImg = (ImageView) view.findViewById(R.id.toolbar_image);
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.pager_book_page);
+        viewPager = (ViewPager) view.findViewById(R.id.pager_book_page);
         setupViewPager(viewPager);
 
-        TabLayout tabs = (TabLayout) view.findViewById(R.id.tab_layout_book_page);
+        tabs = (TabLayout) view.findViewById(R.id.tab_layout_book_page);
         tabs.setupWithViewPager(viewPager);
 
 
        return view;
     }
 
-    // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         BookPageFragment.Adapter adapter = new BookPageFragment.Adapter(getChildFragmentManager());
 

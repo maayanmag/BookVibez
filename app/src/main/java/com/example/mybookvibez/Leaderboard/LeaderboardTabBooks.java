@@ -16,6 +16,7 @@ import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -38,10 +39,11 @@ public class LeaderboardTabBooks extends Fragment {
         Comparator<BookItem> cmp = new Comparator<BookItem>() {
             @Override
             public int compare(BookItem b1, BookItem b2) {
-                return Integer.compare(b1.getPoints(), b2.getPoints());
+                return Integer.compare(b2.getPoints(), b1.getPoints());
             }
         };
         Collections.sort(booksList, cmp);
+        booksList = booksList.subList(0, Math.min(booksList.size()-1, 12));
 
         return view;
     }

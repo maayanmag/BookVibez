@@ -12,6 +12,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.example.mybookvibez.BookPage.BookPageFragment;
+import com.example.mybookvibez.BookPage.BookPageTabTimeline;
 import com.example.mybookvibez.BookPage.Comment;
 import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.MapFragment;
@@ -43,7 +44,7 @@ public class AddCommentAfterExchange  extends DialogFragment {
         addCommentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment commentTap = new BookPageFragment(); // todo check how to open the commnets
+                Fragment commentTap = new BookPageFragment();
                 loadFragment(commentTap);
                 dismiss();
             }
@@ -59,7 +60,7 @@ public class AddCommentAfterExchange  extends DialogFragment {
 
     private void addEmptyCommentToTimeline() {
         Comment comment = new Comment("", MainActivity.userId);
-        ServerApi.getInstance().addComment(BookPageFragment.bookToDisplay.getId(), comment);
+        ServerApi.getInstance().addComment(BookPageFragment.bookToDisplay.getId(), comment, BookPageTabTimeline.comments, BookPageTabTimeline.commentAdapter);
     }
 
     /**

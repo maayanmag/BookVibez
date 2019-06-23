@@ -17,7 +17,6 @@ import com.example.mybookvibez.User;
 import java.util.List;
 
 public class UsersLeaderAdapter extends RecyclerView.Adapter<UsersLeaderAdapter.UserViewHolder> {
-    private static ServerApi server = ServerApi.getInstance();
 
     public interface OnItemClickListener {
         void onItemClick(User user);
@@ -56,11 +55,9 @@ public class UsersLeaderAdapter extends RecyclerView.Adapter<UsersLeaderAdapter.
         private TextView title, info;
         private ImageView img;
         private FrameLayout frame;
-        private View mView;
 
         public UserViewHolder(View view) {
             super(view);
-            mView = view;
             title = (TextView) view.findViewById(R.id.user_name1);
             info = (TextView) view.findViewById(R.id.user_info);
             img = (ImageView) view.findViewById(R.id.user_image);
@@ -78,7 +75,7 @@ public class UsersLeaderAdapter extends RecyclerView.Adapter<UsersLeaderAdapter.
             params.width = newWidth;
             frame.setLayoutParams(params);
 
-            server.downloadProfilePic(img, user.getId());
+            ServerApi.getInstance().downloadProfilePic(img, user.getId());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View view) {
                     listener.onItemClick(user);
