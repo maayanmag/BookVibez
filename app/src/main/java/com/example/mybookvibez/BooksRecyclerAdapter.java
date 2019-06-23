@@ -55,19 +55,23 @@ public class BooksRecyclerAdapter extends RecyclerView.Adapter<BooksRecyclerAdap
     //--------------------------------------
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
-        private final TextView title, author;
+        private final TextView title, location, pastOwners, points;
         private ImageView img;
 
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.book_name);
-            author = (TextView) view.findViewById(R.id.book_author);
+            location = (TextView) view.findViewById(R.id.book_location);
+            points = (TextView) view.findViewById(R.id.vibe_points_list);
+            pastOwners = (TextView) view.findViewById(R.id.owners_num_in_list);
             img = (ImageView) view.findViewById(R.id.book_img);
         }
 
         public void bind(final BookItem book, final OnItemClickListener listener) {
             title.setText(book.getTitle());
-            author.setText(book.getGenre());
+            location.setText(book.getLocation());
+            points.setText(book.getPoints()+"");
+            pastOwners.setText(book.getOwnedBy()+"");
             ServerApi.getInstance().downloadBookImage(img, book.getId());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override public void onClick(View view) {

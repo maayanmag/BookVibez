@@ -51,12 +51,10 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView image;
-        private View mView;
 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            mView = itemView;
             image = itemView.findViewById(R.id.single_book_image);
         }
 
