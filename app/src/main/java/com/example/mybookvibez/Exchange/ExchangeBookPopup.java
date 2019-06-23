@@ -43,7 +43,8 @@ public class ExchangeBookPopup extends DialogFragment {
             @Override
             public void onClick(View v) {
                 BookPageFragment.bookToDisplay.setOffered(false); // takes the book off the list of books to display
-                ServerApi.getInstance().changeBookState(BookPageFragment.bookToDisplay.getId(), false);
+                ServerApi.getInstance().changeBookState(BookPageFragment.bookToDisplay.getId(),
+                        false, MainActivity.userId, BookPageFragment.bookToDisplay.getOwnerId());
                 Fragment commentPopup = new AddCommentAfterExchange();
                 loadFragment(commentPopup);
                 dismiss();
@@ -54,16 +55,13 @@ public class ExchangeBookPopup extends DialogFragment {
             getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
-
         return v;
     }
-
 
 
     private void loadFragment(Fragment fragment) {
         FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.addToBackStack("exchange book popup");  // enables to press "return" and go back to the list view
         transaction.replace(R.id.main_fragment_container, fragment);
         transaction.commit();
     }

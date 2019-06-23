@@ -68,19 +68,26 @@
 
     </GridLayout>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/comments_list"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/grid"
-        android:layout_marginTop="20dp"
-        tools:listitem="@layout/single_comment" />
+        android:layout_above="@+id/comments_linear_layout"
+        android:layout_marginTop="20dp" >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/comments_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/single_comment" />
+
+    </android.support.v4.widget.NestedScrollView>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/comments_linear_layout"
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:orientation="horizontal">

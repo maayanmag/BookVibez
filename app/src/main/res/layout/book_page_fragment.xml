@@ -60,7 +60,7 @@
         android:layout_below="@+id/app_bar"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-
+<!--
     <ImageView
         android:id="@+id/bookmark"
         android:layout_width="81dp"
@@ -69,5 +69,6 @@
         android:src="@drawable/star_bookmark"
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
+-->
 
 </android.support.design.widget.CoordinatorLayout>

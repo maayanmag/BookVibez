@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.mybookvibez.AddBook.AddBookImagePopup;
 import com.example.mybookvibez.BookPage.Comment;
+import com.example.mybookvibez.BookPage.CommentAdapter;
 import com.example.mybookvibez.Leaderboard.LeaderboardTabUsers;
 import com.example.mybookvibez.Leaderboard.UsersLeaderAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -100,7 +101,7 @@ public class ServerApi {
     }
 
 
-    public void getUsersList(final ArrayList<User> users, final UsersLeaderAdapter adapt) {
+    public void getUsersList(final ArrayList<User> users, final UsersLeaderAdapter adapt, final Callable<Void> func) {
         db.collection(USERS_DB)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -113,6 +114,7 @@ public class ServerApi {
                                 users.add(document.toObject(User.class));
                                 Log.d("getUsers", document.getId() + " => " + document.getData());
                             }
+                            try { func.call(); } catch (Exception e) { e.printStackTrace(); }
                             adapt.notifyDataSetChanged();
                         } else {
                             Log.d("getUsers", "Error getting documents: ", task.getException());
@@ -258,13 +260,22 @@ public class ServerApi {
         });
     }
 
-    public void changeBookState(String id, boolean state){
-        DocumentReference reference = db.collection(BOOKS_DB).document(id);
+    public void changeBookState(String bookId, boolean state, final String newOwnerId, final String pastOwnerId){
+        DocumentReference reference = db.collection(BOOKS_DB).document(bookId);
         reference.update("offered", state);
+        reference.update("ownerId", newOwnerId);
 
+        /* add this book to the past owner's list of booksIREAD and remove it from his MYbooks */
+        DocumentReference pastOwner = db.collection(USERS_DB).document(pastOwnerId);
+        pastOwner.update("booksIRead", FieldValue.arrayUnion(bookId));
+        pastOwner.update("myBooks", FieldValue.arrayRemove(bookId));
+
+        /* add this book to the new owner's list of MYbooks */
+        DocumentReference newOwner = db.collection(USERS_DB).document(newOwnerId);
+        newOwner.update("myBooks", FieldValue.arrayUnion(bookId));
     }
 
-    public void addComment(String bookId, Comment comment){
+    public void addComment(final String bookId, final Comment comment, final ArrayList<Comment> commentsList, final CommentAdapter commentAdapter){
         DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
         Date date = new Date();
         String [] temp = date.toString().split(" ");
@@ -273,13 +284,15 @@ public class ServerApi {
         docRef.update("comments", FieldValue.arrayUnion(comment)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void v) {
-                System.out.println("BOOK_ADDED_SUCCESSFULLY");
+                commentsList.add(comment);
+                commentAdapter.notifyDataSetChanged();
+                System.out.println("COMMENT_ADDED_SUCCESSFULLY");
             }
         })
         .addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                System.out.println("BOOK_ADDING_FAILED");
+                System.out.println("COMMENT_ADDING_FAILED");
             }
         });
     }

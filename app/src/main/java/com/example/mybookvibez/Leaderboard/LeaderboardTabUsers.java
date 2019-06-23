@@ -19,11 +19,13 @@ import com.example.mybookvibez.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.concurrent.Callable;
 
 
 public class LeaderboardTabUsers extends Fragment {
 
     private static ArrayList<User> userList = new ArrayList<>();
+    private RecyclerView recyclerView;
     public static UsersLeaderAdapter adapter;
 
 
@@ -36,9 +38,21 @@ public class LeaderboardTabUsers extends Fragment {
         View view = inflater.inflate(R.layout.leaderboard_tab_users, container, false);
 
         handlingRecycleViewer(view);
-        ServerApi.getInstance().getUsersList(userList, adapter);
 
-        /* sort */
+        Callable<Void> func = new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                return sortUsers();
+            }
+        };
+        ServerApi.getInstance().getUsersList(userList, adapter, func);
+
+
+        return view;
+    }
+
+
+    private Void sortUsers(){
         Comparator<User> cmp = new Comparator<User>() {
             @Override
             public int compare(User u1, User u2) {
@@ -46,10 +60,9 @@ public class LeaderboardTabUsers extends Fragment {
             }
         };
         Collections.sort(userList, cmp);
-
-        return view;
+        userList = (ArrayList<User>) userList.subList(0, Math.min(userList.size()-1, 12));
+        return null;
     }
-
 
     /**
      * the function handles the RecycleView object in list_content_scrolling.
@@ -57,7 +70,7 @@ public class LeaderboardTabUsers extends Fragment {
      * @param view - current view (list_content_scrolling)
      */
     private void handlingRecycleViewer(View view){
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycle_users);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recycle_users);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);

@@ -33,10 +33,6 @@ public class BookPageTabDetails extends Fragment {
     private boolean isGotTheBookPressed = false;
     private String userPhoneNum;
 
-    private final static int LEVEL_ONE_TRESH = 30;
-    private final static int LEVEL_TWO_TRESH = 70;
-    private final static int LEVEL_THREE_TRESH = 100;
-
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,7 +43,6 @@ public class BookPageTabDetails extends Fragment {
 
         if(BookPageFragment.bookToDisplay != null) {
             handleAttribute();
-            setBookmarkImg();
 
             User[] temp = new User[1];
             ServerApi.getInstance().getUser(BookPageFragment.bookToDisplay.getOwnerId(), temp, ownerName);
@@ -70,7 +65,6 @@ public class BookPageTabDetails extends Fragment {
         fbButton = (ImageButton) view.findViewById(R.id.fb_messenger_icon);
         gmailButton = (ImageButton) view.findViewById(R.id.gmail_icon);
         whatsappButtom = (ImageButton) view.findViewById(R.id.whatsapp_icon);
-
     }
 
     private void handleButtons(){
@@ -81,15 +75,10 @@ public class BookPageTabDetails extends Fragment {
                 String text = "I Got This Book!";
                 gotBookButton.setText(text);
                 if(isGotTheBookPressed) {
-//                    text = "I Got This Book!";
                     gotBookButton.setBackgroundResource(R.drawable.buttonshape);
                     Fragment exchangePopup = new ExchangeBookPopup();
                     loadFragment(exchangePopup);
-                    //TODO - change current owner to this user
                 }
-//                else {
-//                    text = "I Got This Book!";
-//                    gotBookButton.setBackgroundResource(R.drawable.button_filled_shape);
                 }
 //            }
         });
@@ -156,19 +145,4 @@ public class BookPageTabDetails extends Fragment {
     }
 
 
-    private void setBookmarkImg() {
-        // adjust bookmark image to the amount of points
-        int points = BookPageFragment.bookToDisplay.getPoints();
-        if (points < LEVEL_ONE_TRESH) {
-            BookPageFragment.bookmarkImg.setVisibility(View.INVISIBLE);
-        } else if (BookPageFragment.bookToDisplay.getPoints() >= LEVEL_ONE_TRESH &&
-                points < LEVEL_TWO_TRESH) {
-            BookPageFragment.bookmarkImg.setImageResource(R.drawable.star_bookmark);
-        } else if (points >= LEVEL_TWO_TRESH &&
-                points < LEVEL_THREE_TRESH) {
-            BookPageFragment.bookmarkImg.setImageResource(R.drawable.diamond_bookmark);
-        } else if (points >= LEVEL_THREE_TRESH) {
-            BookPageFragment.bookmarkImg.setImageResource(R.drawable.crown_bookmark);
-        }
-    }
 }

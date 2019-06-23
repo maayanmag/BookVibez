@@ -1,5 +1,6 @@
 package com.example.mybookvibez.Leaderboard;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,17 +23,16 @@ public class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.
         void onItemClick(BookItem book);
     }
 
-    private final List<BookItem> bookslist, copyList;
+    private final List<BookItem> bookslist;
     private final OnItemClickListener mListener;
 
 
     public BooksLeaderAdapter(List<BookItem> list, OnItemClickListener listener) {
         this.bookslist = list;
         this.mListener = listener;
-        this.copyList = new ArrayList<>();
-        copyList.addAll(list);
     }
 
+    @NonNull
     @Override
     public BooksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -56,11 +56,9 @@ public class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.
         private final TextView title, info;
         private FrameLayout frame;
         private ImageView img;
-        private View mView;
 
         public BooksViewHolder(View view) {
             super(view);
-            mView = view;
             title = (TextView) view.findViewById(R.id.title_name);
             info = (TextView) view.findViewById(R.id.info);
             img = (ImageView) view.findViewById(R.id.image);
@@ -71,7 +69,7 @@ public class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.
             title.setText(book.getTitle());
             info.setText(book.getPoints()+"");
 
-            int newWidth = 100; // Leaderboard.screenWidth);
+            int newWidth = 10*book.getPoints(); // Leaderboard.screenWidth);
             if (newWidth <= 0)
                 newWidth = 100;
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(frame.getLayoutParams());
