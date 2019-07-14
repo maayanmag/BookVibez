@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.mybookvibez.AddBook.AddBookImagePopup;
+import com.example.mybookvibez.BookPage.BookPageFragment;
+import com.example.mybookvibez.BookPage.BookPageTabDetails;
 import com.example.mybookvibez.BookPage.Comment;
 import com.example.mybookvibez.BookPage.CommentAdapter;
 import com.example.mybookvibez.Leaderboard.LeaderboardTabUsers;
@@ -16,7 +18,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -260,19 +264,36 @@ public class ServerApi {
         });
     }
 
-    public void changeBookState(String bookId, boolean state, final String newOwnerId, final String pastOwnerId){
+    public void changeBookState(String bookId, boolean state, final String newOwnerId, final
+                                                    String pastOwnerId){
         DocumentReference reference = db.collection(BOOKS_DB).document(bookId);
         reference.update("offered", state);
         reference.update("ownerId", newOwnerId);
+        reference.update("points", FieldValue.increment(2));
+        reference.update("ownedBy", FieldValue.increment(1));
 
         /* add this book to the past owner's list of booksIREAD and remove it from his MYbooks */
         DocumentReference pastOwner = db.collection(USERS_DB).document(pastOwnerId);
         pastOwner.update("booksIRead", FieldValue.arrayUnion(bookId));
         pastOwner.update("myBooks", FieldValue.arrayRemove(bookId));
+        reference.update("vibePoints", FieldValue.increment(2));
 
         /* add this book to the new owner's list of MYbooks */
         DocumentReference newOwner = db.collection(USERS_DB).document(newOwnerId);
         newOwner.update("myBooks", FieldValue.arrayUnion(bookId));
+        newOwner.update("vibePoints", FieldValue.increment(2));
+
+    }
+
+    public void addPoints(final String bookId, final String userId){
+        /* add points to user */
+        DocumentReference userRef = db.collection(USERS_DB).document(userId);
+        userRef.update("vibePoints", FieldValue.increment(2));
+
+        /* add points to book */
+        DocumentReference bookRef = db.collection(BOOKS_DB).document(bookId);
+        bookRef.update("points", FieldValue.increment(2));
+
     }
 
     public void addComment(final String bookId, final Comment comment, final ArrayList<Comment> commentsList, final CommentAdapter commentAdapter){

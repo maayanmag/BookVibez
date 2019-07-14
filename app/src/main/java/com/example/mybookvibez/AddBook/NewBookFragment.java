@@ -22,6 +22,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 import com.example.mybookvibez.BookItem;
+import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
@@ -175,6 +176,8 @@ public class NewBookFragment extends Fragment {
                 book.setLatLng(new GeoPoint(newLatLng.latitude, newLatLng.longitude)); //todo: check this works
                 ServerApi.getInstance().addNewBook(book, uri);
                 Toast.makeText(getContext(), "Book was added successfully", Toast.LENGTH_SHORT).show();
+                ServerApi.getInstance().addPoints(book.getId(), MainActivity.userId);
+                Toast.makeText(getContext(), "you earned new points!", Toast.LENGTH_SHORT).show();
                 loadMapFragment();
 
             }

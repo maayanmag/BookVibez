@@ -64,6 +64,7 @@ public class BookPageTabTimeline extends Fragment {
                 Comment comment = new Comment(text, MainActivity.userId);
                 ServerApi.getInstance().addComment(BookPageFragment.bookToDisplay.getId(), comment, comments, commentAdapter);
                 Toast.makeText(getContext(), "Comment was added successfully", Toast.LENGTH_SHORT).show();
+                ServerApi.getInstance().addPoints(BookPageFragment.bookToDisplay.getId(), MainActivity.userId);
             }
         });
     }
