@@ -17,13 +17,21 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
     private Context mContext;
     private HashMap<Marker,BookItem> markerMap = MapFragment.getMarkerMap();
 
-
+    /**
+     * constructor
+     * @param context - activity context
+     */
     public MapInfoWindowAdapter(Context context) {
         mContext = context;
         mWindow = LayoutInflater.from(context).inflate(R.layout.map_info_window, null);
 
     }
 
+    /**
+     * this func sets the text and details in the small window which open when a marker is pressed in the map
+     * @param marker - the marker which was pressed
+     * @param view - the view of the details
+     */
     private void renderWindowText(Marker marker, View view) {
         String title = marker.getTitle();
         TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);

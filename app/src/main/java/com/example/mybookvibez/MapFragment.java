@@ -72,8 +72,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     private LatLng newLatLng;
 
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
@@ -82,6 +80,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         if (!Places.isInitialized()) {
             Places.initialize(getContext(), API_KEY); //todo: change to tha value from strings after it works
         }
+
         setAttributes(view);
         initGoogleMap(savedInstanceState);
         /* handling click on "addBook" button */
@@ -97,7 +96,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             }
         };
         ServerApi.getInstance().getBooksListForMap(bookList, func);
-
 
         return view;
     }
@@ -163,7 +161,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Log.d(TAG, "onClick: clicked gps icon");
                 //((MainActivity)getActivity()).getDeviceLocation();
                 LatLng manaliCottage = new LatLng(32.249929, 77.183620);
-                moveCamera(manaliCottage, DEFAULT_ZOOM, "my location");            }
+                moveCamera(manaliCottage, DEFAULT_ZOOM, "my location");
+            }
         });
     }
 
@@ -348,6 +347,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         mMapView.onLowMemory();
     }
 
+    /**
+     * the func goes over the books in bookList and places them on the map by their location
+     */
     private Void initMarkers(){
         for (BookItem book: bookList){
             if(book.getLatLng() != null) {
@@ -364,11 +366,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 marker.setTag(book.getId());
                 markerMap.put(marker, book);
 //                markersList.add(marker);
-            }}
+            }
+        }
         return null;
     }
 
-
+    /**
+     * this func matches the relevant icon for each genre available
+     * @param genre - the genre of the book
+     * @return int image
+     */
     public static int matchIcon(String genre){
         if (genre.equals("For never-ending rides")){
             return R.mipmap.ic_bus;

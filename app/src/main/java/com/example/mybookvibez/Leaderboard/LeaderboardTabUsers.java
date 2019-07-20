@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.mybookvibez.ProfileFragment;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
@@ -47,11 +46,14 @@ public class LeaderboardTabUsers extends Fragment {
         };
         ServerApi.getInstance().getUsersList(userList, adapter, func);
 
-
         return view;
     }
 
 
+    /**
+     * this func fills the displayed userList to be the top 12 users (or all users if there are less
+     * then 12 users) and sort them by their vibePoints.
+     */
     private Void sortUsers(){
         Comparator<User> cmp = new Comparator<User>() {
             @Override
@@ -86,7 +88,9 @@ public class LeaderboardTabUsers extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
-
+    /**
+     * this function os called whenever a user in list is pressed and set up the selected profile.
+     */
     private void loadProfilePageFragment() {
         FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

@@ -19,8 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.mybookvibez.AddBook.AddBookImagePopup;
-import com.example.mybookvibez.Exchange.AddCommentAfterExchange;
 import com.example.mybookvibez.Exchange.ExchangeBookPopup;
 import com.example.mybookvibez.ProfileFragment;
 import com.example.mybookvibez.R;
@@ -32,8 +30,7 @@ public class BookPageTabDetails extends Fragment {
     private ImageView ownerImg;
     private TextView name, author, genre, ownerName, curLocation;
     private Button gotBookButton;
-    private ImageButton gmailButton, whatsappButtom, fbButton;
-    private boolean isGotTheBookPressed = false;
+    private ImageButton whatsappButtom;
     private String userPhoneNum;
 
 
@@ -44,7 +41,7 @@ public class BookPageTabDetails extends Fragment {
         getAttributesIds(view);
         handleButtons();
 
-        if(BookPageFragment.bookToDisplay != null) {
+        if(BookPageFragment.bookToDisplay != null) {        // display book's details
             handleAttribute();
 
             User[] temp = new User[1];
@@ -57,6 +54,10 @@ public class BookPageTabDetails extends Fragment {
         return view;
     }
 
+    /**
+     * this func get the attributes needed for this screen by their id as assigned in XML
+     * @param view - View to get the objects from
+     */
     private void getAttributesIds(View view) {
         ownerImg = (ImageView) view.findViewById(R.id.current_owner_profile_pic);
         name = (TextView) view.findViewById(R.id.book_name_content);
@@ -68,6 +69,9 @@ public class BookPageTabDetails extends Fragment {
         whatsappButtom = (ImageButton) view.findViewById(R.id.whatsapp_icon);
     }
 
+    /**
+     * this func handles OnClick events of the buttons in this fragment
+     */
     private void handleButtons(){
         gotBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,13 +98,15 @@ public class BookPageTabDetails extends Fragment {
 
         whatsappButtom.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                onClickWhatsApp(v);
-
+            public void onClick(View view) {
+                onClickWhatsApp();
             }
         });
     }
 
+    /**
+     * this func assign relevant data to the objects in this fragment
+     */
     private void handleAttribute() {
         name.setText(BookPageFragment.bookToDisplay.getTitle());
         BookPageFragment.collapsingToolbar.setTitle(BookPageFragment.bookToDisplay.getTitle());
@@ -110,12 +116,15 @@ public class BookPageTabDetails extends Fragment {
         ServerApi.getInstance().downloadBookImage(BookPageFragment.bookImg, BookPageFragment.bookToDisplay.getId());
     }
 
-    public void onClickWhatsApp(View view) {
-
+    public void onClickWhatsApp() {
         PackageManager pm = getActivity().getPackageManager();
-        userPhoneNum = "548325053"; //todo: change this! default lior's number
+        userPhoneNum = "509536600"; //todo: change this! default netta's number
         try {
-            // todo change the country!
+            /* NOTE: as default, the phone numbers are registered in Israel, we need to change it
+              according to the number's prefix.
+              to keep it simple, yet working and keeps this course's standards - we will leave it
+              as is because of the assumption that this will be checked and tested in Israel */
+
             String contactNumber = "972" + userPhoneNum; //without '+'
             Intent whatsappIntent = new Intent("android.intent.action.MAIN");
             whatsappIntent.setAction(Intent.ACTION_SEND);
@@ -135,6 +144,10 @@ public class BookPageTabDetails extends Fragment {
         }
     }
 
+    /**
+     * this function replaces the current fragment to a new given fragment
+     * @param fragment - the fragment to switch to
+     */
     private void loadFragment(Fragment fragment) {
         FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

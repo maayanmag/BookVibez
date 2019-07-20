@@ -10,13 +10,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.BookPage.BookPageFragment;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -35,7 +32,6 @@ public class LeaderboardTabBooks extends Fragment {
 
         handlingRecycleViewer(view);
 
-        /* sort */
         Comparator<BookItem> cmp = new Comparator<BookItem>() {
             @Override
             public int compare(BookItem b1, BookItem b2) {
@@ -74,7 +70,6 @@ public class LeaderboardTabBooks extends Fragment {
     /**
      * this function replaces the layout to a book page layout in case some book was clicked in the list
      */
-
     private void loadBookPageFragment() {
         FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

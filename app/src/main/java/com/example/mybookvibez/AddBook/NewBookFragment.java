@@ -64,8 +64,9 @@ public class NewBookFragment extends Fragment {
         View view = inflater.inflate(R.layout.add_book_layout, null);
         setAttributes(view);
         initElements(inflater);
+
         if (!Places.isInitialized()) {
-        Places.initialize(getContext(), MapFragment.API_KEY); //todo: change to tha value from strings after it works
+            Places.initialize(getContext(), MapFragment.API_KEY);
         }
 
         editLocation.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +77,8 @@ public class NewBookFragment extends Fragment {
                 Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY,
                         fields).build(getContext());
                 startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
-            }});
+            }
+        });
     return view;
     }
 
@@ -104,7 +106,9 @@ public class NewBookFragment extends Fragment {
         uri = newuri;
     }
 
-
+    /**
+     * this func loads a new MapFragment as current fragment
+     */
     private void loadMapFragment() {
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
@@ -113,6 +117,11 @@ public class NewBookFragment extends Fragment {
         transaction.commit();
     }
 
+
+    /**
+     * this func gets the objects bu their ID in XML
+     * @param view - the view where all objects are located
+     */
     private void setAttributes(View view){
         spinner = view.findViewById(R.id.book_type_spinner);
         addFrontImageBtn = view.findViewById(R.id.addBookFrontImgBtn);
@@ -127,12 +136,17 @@ public class NewBookFragment extends Fragment {
         checked.setChecked(true);
     }
 
+    /**
+     * this func initialize the elements in this fragment and add listeners to it's buttons.
+     * @param inflater - the LayoutInflater
+     */
     private void initElements(LayoutInflater inflater){
         /* handling array adapter */
         adapter = ArrayAdapter.createFromResource(inflater.getContext(),                // Create an ArrayAdapter using the string array and a default spinner layout
                 R.array.book_types, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);         // Specify the layout to use when the list of choices appears
         spinner.setAdapter(adapter);
+
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -145,7 +159,7 @@ public class NewBookFragment extends Fragment {
             }
             });
 
-            /* handling add front image button */
+        /* handling add front image button */
         addFrontImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,7 +198,10 @@ public class NewBookFragment extends Fragment {
         });
     }
 
-
+    /**
+     * this func get the details of new book as inserted by the user and creates a new Book object.
+     * @return the book created.
+     */
     private BookItem createNewBook(){
         String name = editName.getText().toString();
         String author = editAuthor.getText().toString();

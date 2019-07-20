@@ -28,24 +28,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/phone_number" />
 
-        <!--<Button-->
-            <!--android:id="@+id/addProfilePicture"-->
-            <!--android:layout_width="150dp"-->
-            <!--android:layout_height="150dp"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:layout_marginTop="21dp"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:background="@drawable/rectanglez"-->
-            <!--android:gravity="center"-->
-            <!--android:text="Add \nProfile Picture"-->
-            <!--android:textAllCaps="false"-->
-            <!--android:textSize="18sp"-->
-            <!--android:visibility="visible"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintHorizontal_bias="0.497"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/register_vibe"-->
-            <!--app:srcCompat="@drawable/book1" />-->
 
         <EditText
             android:id="@+id/phone_number"
@@ -56,7 +38,7 @@
             android:layout_marginEnd="8dp"
             android:ems="10"
             android:hint="Phone number"
-            android:inputType="textPassword"
+            android:inputType="number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.496"
             app:layout_constraintStart_toStartOf="parent"

@@ -12,10 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-
-import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.BookPage.BookPageFragment;
-import com.example.mybookvibez.BookPage.BookPageTabDetails;
+import com.example.mybookvibez.BookPage.BookPageTabTimeline;
+import com.example.mybookvibez.BookPage.Comment;
 import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
@@ -48,8 +47,9 @@ public class ExchangeBookPopup extends DialogFragment {
                 ServerApi.getInstance().changeBookState(BookPageFragment.bookToDisplay.getId(),
                         false, MainActivity.userId, BookPageFragment.bookToDisplay.getOwnerId());
                 dismiss();
-                BookPageFragment parent = (BookPageFragment) getParentFragment();
-                parent.showSecondPopup();
+
+                Fragment mapFragment = new MapFragment();
+                loadFragment(mapFragment);
             }
         });
 
@@ -60,7 +60,10 @@ public class ExchangeBookPopup extends DialogFragment {
         return v;
     }
 
-
+    /**
+     * this function replaces the current fragment to a new given fragment
+     * @param fragment - the fragment to switch to
+     */
     private void loadFragment(Fragment fragment) {
         FragmentManager manager = getParentFragment() != null ? getParentFragment().getFragmentManager() : getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();

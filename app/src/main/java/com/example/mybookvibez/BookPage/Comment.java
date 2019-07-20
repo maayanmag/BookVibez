@@ -1,7 +1,6 @@
 package com.example.mybookvibez.BookPage;
 
 
-
 public class Comment {
     private String time;
     private String comment;

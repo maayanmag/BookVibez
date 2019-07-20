@@ -69,6 +69,11 @@ public class ServerApi {
     }
 
 
+    /**
+     * get all the book from server which are currently available for exchange/giveaway
+     * @param books - the list to be filled with books
+     * @param AddMarkers - the function which should be called whenever the list is filled with books.
+     */
     public void getBooksListForMap(final ArrayList<BookItem> books, final Callable<Void> AddMarkers) {
 
         db.collection(BOOKS_DB)
@@ -105,6 +110,12 @@ public class ServerApi {
     }
 
 
+    /**
+     * this func returns a list of users which will be shown in the LeaderBoard
+     * @param users - the list to fill
+     * @param adapt - the adapter to notify when the list changes
+     * @param func - the function to call whenever the process is finished
+     */
     public void getUsersList(final ArrayList<User> users, final UsersLeaderAdapter adapt, final Callable<Void> func) {
         db.collection(USERS_DB)
                 .get()
@@ -188,7 +199,14 @@ public class ServerApi {
     }
 
 
-    public void getBooksByIdsList(final ArrayList<BookItem> books, final ArrayList<String> booksIds, final Callable<Void> func) {
+    /**
+     * this func is used when there's a need to get books list by their IDs (used in profiles)
+     * @param books - the list to fill with books
+     * @param booksIds - the IDs to search for
+     * @param func - the function to call whenever the process is finished
+     */
+    public void getBooksByIdsList(final ArrayList<BookItem> books, final ArrayList<String> booksIds,
+                                  final Callable<Void> func) {
         for(String id : booksIds){
             final DocumentReference docRef = db.collection(BOOKS_DB).document(id);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -217,7 +235,7 @@ public class ServerApi {
 
 
 
-    public void getBook(final String bookId, final BookItem[] book){
+/*    public void getBook(final String bookId, final BookItem[] book){
         DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -234,7 +252,7 @@ public class ServerApi {
                 }
             }
         });
-    }
+    }*/
 
     /**
      * the method returm a User object and assign it's name in a given textView. used in bookPage.
@@ -264,6 +282,15 @@ public class ServerApi {
         });
     }
 
+
+    /**
+     * this func updates a given book and users whenever a swap has occurred. the func updates their
+     * vibePoints and changes ownership details
+     * @param bookId - the book which had swap
+     * @param state - a boolean flag which indicates whether the book is available for exchange or not
+     * @param newOwnerId - new owner's id
+     * @param pastOwnerId - past owner's id
+     */
     public void changeBookState(String bookId, boolean state, final String newOwnerId, final
                                                     String pastOwnerId){
         DocumentReference reference = db.collection(BOOKS_DB).document(bookId);
@@ -285,6 +312,12 @@ public class ServerApi {
 
     }
 
+
+    /**
+     * the func add points to user and book whenever they deserves it
+     * @param bookId - the book to update
+     * @param userId - the user to update
+     */
     public void addPoints(final String bookId, final String userId){
         /* add points to user */
         DocumentReference userRef = db.collection(USERS_DB).document(userId);
@@ -296,7 +329,16 @@ public class ServerApi {
 
     }
 
-    public void addComment(final String bookId, final Comment comment, final ArrayList<Comment> commentsList, final CommentAdapter commentAdapter){
+
+    /**
+     * the func adds a new comment to a given book
+     * @param bookId - the book to update
+     * @param comment - the Comment object
+     * @param commentsList - the book's comments so far
+     * @param commentAdapter - commentsList' adapter
+     */
+    public void addComment(final String bookId, final Comment comment, final ArrayList<Comment>
+            commentsList, final CommentAdapter commentAdapter){
         DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
         Date date = new Date();
         String [] temp = date.toString().split(" ");
@@ -439,9 +481,6 @@ public class ServerApi {
             e.printStackTrace();
         }
     }
-
-
-
 
 
 }

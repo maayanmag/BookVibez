@@ -9,12 +9,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.BooksViewHolder> {
@@ -26,7 +23,11 @@ public class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.
     private final List<BookItem> bookslist;
     private final OnItemClickListener mListener;
 
-
+    /**
+     * constructor
+     * @param list - the books list to display
+     * @param listener - the listener which enable to press and choose a book from the list
+     */
     public BooksLeaderAdapter(List<BookItem> list, OnItemClickListener listener) {
         this.bookslist = list;
         this.mListener = listener;
@@ -51,12 +52,18 @@ public class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.
         return bookslist.size();
     }
 
-
+    /**
+     * a local static class which uses as a ViewHolder for the books RecyclerViewer
+     */
     static class BooksViewHolder extends RecyclerView.ViewHolder {
         private final TextView title, info;
         private FrameLayout frame;
         private ImageView img;
 
+        /**
+         * constructor.
+         * @param view - the view in where all objects are located
+         */
         public BooksViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.title_name);
@@ -65,6 +72,12 @@ public class BooksLeaderAdapter extends RecyclerView.Adapter<BooksLeaderAdapter.
             frame = (FrameLayout) view.findViewById(R.id.frameLayout_books);
         }
 
+        /**
+         * this function binds the listener to each book and set it's background's length according
+         * to the book's vibePoints.
+         * @param book - the book to bind
+         * @param listener - the listener to bind
+         */
         public void bind(final BookItem book, final OnItemClickListener listener) {
             title.setText(book.getTitle());
             info.setText(book.getPoints()+"");
