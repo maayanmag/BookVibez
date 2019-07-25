@@ -64,6 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
+            android:layout_marginTop="21dp"
             android:text="@string/location_title"
             android:textColor="#000000"
             android:textSize="18sp"
