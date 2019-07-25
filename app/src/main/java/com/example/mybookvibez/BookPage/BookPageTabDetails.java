@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mybookvibez.AddBook.AddBookImagePopup;
+import com.example.mybookvibez.Exchange.AddCommentAfterExchange;
 import com.example.mybookvibez.Exchange.ExchangeBookPopup;
 import com.example.mybookvibez.ProfileFragment;
 import com.example.mybookvibez.R;
@@ -71,16 +74,14 @@ public class BookPageTabDetails extends Fragment {
         gotBookButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isGotTheBookPressed = !isGotTheBookPressed;     // change state
-                String text = "I Got This Book!";
-                gotBookButton.setText(text);
-                if(isGotTheBookPressed) {
-                    gotBookButton.setBackgroundResource(R.drawable.buttonshape);
-                    Fragment exchangePopup = new ExchangeBookPopup();
-                    loadFragment(exchangePopup);
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+                if (prev != null) {
+                    ft.remove(prev);
                 }
+                DialogFragment exchangePopup = new ExchangeBookPopup();
+                exchangePopup.show(ft, "dialog");
                 }
-//            }
         });
 
         ownerImg.setOnClickListener(new View.OnClickListener() {

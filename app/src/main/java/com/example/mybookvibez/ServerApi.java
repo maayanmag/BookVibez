@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
@@ -131,7 +132,7 @@ public class ServerApi {
     }
 
     /**
-     * the function uses to get and display data of particular user in ProfileFragment.
+     * this method is used to get and display data of particular user in ProfileFragment.
      * @param userId - string id of the user to display
      * @param user - User array to insert User object at index 0
      * @param image - CircleImageView to assign the profile picture of the user
@@ -234,8 +235,8 @@ public class ServerApi {
 
     /**
      * the method returm a User object and assign it's name in a given textView. used in bookPage.
-     * @param userId - the user id to display
-     * @param user - the user object to assign
+     * @param userId - string id of the user to display
+     * @param user - User array to insert User object at index 0
      * @param name - the user name
      */
     public void getUser(final String userId, final User[] user, final TextView name){
@@ -260,6 +261,31 @@ public class ServerApi {
         });
     }
 
+    /**
+     * this method is used to get and display data of user and his books in ChooseFromMyBooks.
+     * @param userId the user's id
+     * @param user an array to
+     * @param func - a function to call when finished
+     */
+    public void getUserForChooseFromMyBooks(final String userId, final User[] user, final Callable<Void> func) {
+        DocumentReference docRef = db.collection(USERS_DB).document(userId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if(document != null && document.exists()) {
+                        User got =  document.toObject(User.class);
+                        user[0] = got;
+                        try { func.call(); }  catch (Exception e) { e.printStackTrace(); }
+                    } else {
+                        System.out.println("getUserForProfileFragment: something went wrong");
+                    }
+                }
+            }
+        });
+    }
+
     public void changeBookState(String bookId, boolean state, final String newOwnerId, final String pastOwnerId){
         DocumentReference reference = db.collection(BOOKS_DB).document(bookId);
         reference.update("offered", state);
@@ -273,6 +299,15 @@ public class ServerApi {
         /* add this book to the new owner's list of MYbooks */
         DocumentReference newOwner = db.collection(USERS_DB).document(newOwnerId);
         newOwner.update("myBooks", FieldValue.arrayUnion(bookId));
+    }
+
+    public void offerExistingBook (String bookId, String newLocation, GeoPoint newGeo, int giveaway) {
+        DocumentReference reference = db.collection(BOOKS_DB).document(bookId);
+        reference.update("location", newLocation);
+        reference.update("latLng", newGeo);
+        reference.update("giveaway", giveaway);
+        reference.update("offered", true);
+
     }
 
     public void addComment(final String bookId, final Comment comment, final ArrayList<Comment> commentsList, final CommentAdapter commentAdapter){

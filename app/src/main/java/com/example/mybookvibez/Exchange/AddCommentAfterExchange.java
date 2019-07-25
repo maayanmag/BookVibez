@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,27 +32,28 @@ public class AddCommentAfterExchange  extends DialogFragment {
         View v = inflater.inflate(R.layout.exchange_add_comment_popup, container, false);
         Button addCommentBtn = (Button) v.findViewById(R.id.go_to_comments_btn);
         Button maybeLaterBtn = (Button) v.findViewById(R.id.maybe_later_btn);
+
         maybeLaterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dismiss();
-                Fragment f = new MapFragment(); // return to map if user don't want to add comment
                 addEmptyCommentToTimeline();
-                loadFragment(f);
+                Fragment mapFragment = new MapFragment();
+                loadFragment(mapFragment);
             }
         });
 
         addCommentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dismiss();
                 Fragment commentTap = new BookPageFragment();
                 loadFragment(commentTap);
-                dismiss();
             }
         });
 
         if (getDialog() != null && getDialog().getWindow() != null) {
-            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.DKGRAY));
+            getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         }
 
@@ -64,10 +66,10 @@ public class AddCommentAfterExchange  extends DialogFragment {
     }
 
     /**
- * this method is switching fragments.
- * @param fragment - a Fragment typed object
- * @return true if switched successfully.
- */
+     * this method is switching fragments.
+     * @param fragment - a Fragment typed object
+     * @return true if switched successfully.
+     */
         public boolean loadFragment(Fragment fragment) {
             //switching fragment
             if (fragment != null) {
@@ -80,4 +82,3 @@ public class AddCommentAfterExchange  extends DialogFragment {
             return false;
         }
     }
-

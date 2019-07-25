@@ -15,6 +15,7 @@ import android.widget.Button;
 
 import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.BookPage.BookPageFragment;
+import com.example.mybookvibez.BookPage.BookPageTabDetails;
 import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.MapFragment;
 import com.example.mybookvibez.R;
@@ -32,10 +33,11 @@ public class ExchangeBookPopup extends DialogFragment {
         View v = inflater.inflate(R.layout.exchange_book_popup, container, false);
         Button rejectButton = (Button) v.findViewById(R.id.reject_exchange_btn);
         Button confirmButton = (Button) v.findViewById(R.id.confirm_exchange_btn);
+
         rejectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              getActivity().onBackPressed();
+              dismiss();
             }
         });
 
@@ -45,9 +47,9 @@ public class ExchangeBookPopup extends DialogFragment {
                 BookPageFragment.bookToDisplay.setOffered(false); // takes the book off the list of books to display
                 ServerApi.getInstance().changeBookState(BookPageFragment.bookToDisplay.getId(),
                         false, MainActivity.userId, BookPageFragment.bookToDisplay.getOwnerId());
-                Fragment commentPopup = new AddCommentAfterExchange();
-                loadFragment(commentPopup);
                 dismiss();
+                BookPageFragment parent = (BookPageFragment) getParentFragment();
+                parent.showSecondPopup();
             }
         });
 

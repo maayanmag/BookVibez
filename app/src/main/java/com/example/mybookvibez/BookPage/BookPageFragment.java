@@ -7,15 +7,18 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.mybookvibez.BookItem;
+import com.example.mybookvibez.Exchange.AddCommentAfterExchange;
 import com.example.mybookvibez.R;
 
 import java.util.ArrayList;
@@ -89,5 +92,18 @@ public class BookPageFragment extends Fragment {
             return mFragmentTitleList.get(position);
         }
     }
+
+    public void showSecondPopup() {
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        if (prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+        DialogFragment secondPopup = new AddCommentAfterExchange();
+        secondPopup.show(ft, "dialog");
+
+    }
+
 
 }
