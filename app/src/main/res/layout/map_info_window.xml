@@ -28,7 +28,7 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:id="@+id/book_Image"
+            android:id="@+id/book_Image_in_map"
             android:layout_width="98dp"
             android:layout_height="131dp"
             android:layout_below="@+id/tv_title"
@@ -44,8 +44,8 @@
             android:layout_below="@+id/tv_title"
             android:layout_marginStart="35dp"
             android:layout_marginTop="12dp"
-            android:layout_toEndOf="@+id/book_Image"
-            android:layout_toRightOf="@id/book_Image"
+            android:layout_toEndOf="@+id/book_Image_in_map"
+            android:layout_toRightOf="@id/book_Image_in_map"
             android:ellipsize="end"
             android:maxLines="2"
             android:text="book_ganre"
@@ -84,7 +84,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/book_Image"
+            android:layout_toRightOf="@id/book_Image_in_map"
             app:srcCompat="@mipmap/tag" />
 
 
@@ -96,7 +96,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/book_Image"
+            android:layout_toRightOf="@id/book_Image_in_map"
             app:srcCompat="@mipmap/reading" />
 
         <ImageView
@@ -107,7 +107,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/book_Image"
+            android:layout_toRightOf="@id/book_Image_in_map"
             app:srcCompat="@mipmap/star" />
 
     </RelativeLayout>

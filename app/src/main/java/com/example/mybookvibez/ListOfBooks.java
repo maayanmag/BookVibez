@@ -92,7 +92,7 @@ public class ListOfBooks extends Fragment {
                 adapter.filter(booksResult);
 
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
+                // Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Log.i("location search", status.getStatusMessage());
             } else if (resultCode == RESULT_CANCELED) {

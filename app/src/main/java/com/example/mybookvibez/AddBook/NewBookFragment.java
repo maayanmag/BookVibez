@@ -64,7 +64,7 @@ public class NewBookFragment extends Fragment {
         setAttributes(view);
         initElements(inflater);
         if (!Places.isInitialized()) {
-        Places.initialize(getContext(), MapFragment.API_KEY); //todo: change to tha value from strings after it works
+        Places.initialize(getContext(), MapFragment.API_KEY);
         }
 
         editLocation.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +89,7 @@ public class NewBookFragment extends Fragment {
                 Log.i(TAG, "latlng: " + newLatLng);
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
+                // Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Log.i(TAG, status.getStatusMessage());
             } else if (resultCode == RESULT_CANCELED) {
@@ -172,7 +172,7 @@ public class NewBookFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 BookItem book = createNewBook();
-                book.setLatLng(new GeoPoint(newLatLng.latitude, newLatLng.longitude)); //todo: check this works
+                book.setLatLng(new GeoPoint(newLatLng.latitude, newLatLng.longitude));
                 ServerApi.getInstance().addNewBook(book, uri);
                 Toast.makeText(getContext(), "Book was added successfully", Toast.LENGTH_SHORT).show();
                 loadMapFragment();

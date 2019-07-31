@@ -117,7 +117,7 @@ public class BookPageTabDetails extends Fragment {
         PackageManager pm = getActivity().getPackageManager();
         userPhoneNum = "548325053"; //todo: change this! default lior's number
         try {
-            // todo change the country!
+            // for now - default as Israeli area code
             String contactNumber = "972" + userPhoneNum; //without '+'
             Intent whatsappIntent = new Intent("android.intent.action.MAIN");
             whatsappIntent.setAction(Intent.ACTION_SEND);

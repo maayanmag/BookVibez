@@ -134,7 +134,7 @@ public class ChooseFromMyBooks extends Fragment {
                 Log.i(TAG, "latlng: " + newLatLng);
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
+                // Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Log.i(TAG, status.getStatusMessage());
             } else if (resultCode == RESULT_CANCELED) {

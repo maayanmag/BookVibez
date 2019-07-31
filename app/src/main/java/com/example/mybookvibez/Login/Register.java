@@ -129,7 +129,7 @@ public class Register extends Fragment {
         final String vibe = mVibeField.getText().toString();
 
         if(!validation(email, password, phoneNumber, name)) {
-            return; //TODO
+            return;
         }
 
         // if everything OK:
