@@ -23,9 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
 import java.util.concurrent.Callable;
-
 import static android.app.Activity.RESULT_OK;
 
 public class Register extends Fragment {
@@ -35,9 +33,7 @@ public class Register extends Fragment {
     private Uri image = null;
     public static ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
-    private static final int RC_SIGN_IN = 1;
     private final static int GALLERY_INTENT = 2;
-    private FirebaseAuth.AuthStateListener mAuthListener;
 
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,16 +42,14 @@ public class Register extends Fragment {
         progressDialog = new ProgressDialog(getContext());
         firebaseAuth = FirebaseAuth.getInstance();
 
-//        if (firebaseAuth.getCurrentUser() != null){
-//            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-//            finish();
-//        }
-
         getAttributes(view);
         return view;
     }
 
-
+    /**
+     * this func get the attributes needed for this screen by their id as assigned in XML
+     * @param view - View to get the objects from
+     */
     private void getAttributes(View view){
         mEmailField = (EditText) view.findViewById(R.id.register_email_box);
         mPasswordField = (EditText) view.findViewById(R.id.register_password_box);
@@ -96,7 +90,14 @@ public class Register extends Fragment {
         }
     }
 
-
+    /**
+     * this func makes a validation check to registration arguments
+     * @param email - the text inserted by the user for mail address
+     * @param password - the text inserted by the user for password
+     * @param phone - the text inserted by the user for phone number
+     * @param name - the text inserted by the user for his name
+     * @return true if all fields aren't empty
+     */
     private boolean validation(String email, String password, String phone, String name){
         if (TextUtils.isEmpty(email)){
             Toast.makeText(getContext(), "Please enter Email", Toast.LENGTH_SHORT).show();
@@ -120,7 +121,9 @@ public class Register extends Fragment {
         return true;
     }
 
-
+    /**
+     * this func checks the user's input and, if OK, create a new user object for it and saves it.
+     */
     private void registerUser(){
         String email = mEmailField.getText().toString().trim();
         String password = mPasswordField.getText().toString();
@@ -129,6 +132,7 @@ public class Register extends Fragment {
         final String vibe = mVibeField.getText().toString();
 
         if(!validation(email, password, phoneNumber, name)) {
+        Toast.makeText(getContext(), "registration failed, plead check again your input", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -164,7 +168,5 @@ public class Register extends Fragment {
                         }
                     }
                 });
-
     }
-
 }

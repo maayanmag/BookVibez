@@ -25,7 +25,11 @@ public class UsersLeaderAdapter extends RecyclerView.Adapter<UsersLeaderAdapter.
     private final List<User> users;
     private final OnItemClickListener mListener;
 
-
+    /**
+     * constructor
+     * @param list - the users list to display
+     * @param listener - the listener which enable to press and choose a user from the list
+     */
     public UsersLeaderAdapter(List<User> list, OnItemClickListener listener) {
         this.users = list;
         this.mListener = listener;
@@ -50,12 +54,18 @@ public class UsersLeaderAdapter extends RecyclerView.Adapter<UsersLeaderAdapter.
         return users.size();
     }
 
-
+    /**
+     * a local static class which uses as a ViewHolder for the users RecyclerViewer
+     */
     static class UserViewHolder extends RecyclerView.ViewHolder {
         private TextView title, info;
         private ImageView img;
         private FrameLayout frame;
 
+        /**
+         * constructor.
+         * @param view - the view in where all objects are located
+         */
         public UserViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.user_name1);
@@ -64,11 +74,17 @@ public class UsersLeaderAdapter extends RecyclerView.Adapter<UsersLeaderAdapter.
             frame = (FrameLayout) view.findViewById(R.id.frameLayout_points);
         }
 
+        /**
+         * this function binds the listener to each user and set it's background's length according
+         * to the user's vibePoints.
+         * @param user - the user to bind
+         * @param listener - the listener to bind
+         */
         public void bind(final User user, final OnItemClickListener listener) {
             title.setText(user.getName());
             info.setText(user.getVibePoints()+"");
 
-            int newWidth = 10*user.getVibePoints(); // Leaderboard.screenWidth);
+            int newWidth = 10*user.getVibePoints();
             if (newWidth <= 0)
                 newWidth = 100;
             RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(frame.getLayoutParams());

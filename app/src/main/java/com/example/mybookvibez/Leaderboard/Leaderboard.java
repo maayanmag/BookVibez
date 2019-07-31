@@ -1,6 +1,6 @@
 package com.example.mybookvibez.Leaderboard;
 
-import android.content.res.Resources;
+
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,15 +12,11 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.mybookvibez.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Leaderboard extends Fragment {
-
-    public static float screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +39,10 @@ public class Leaderboard extends Fragment {
         return view;
     }
 
-    // Add Fragments to Tabs
+    /**
+     * this func add "Books" and "Users" fragments to tabs
+     * @param viewPager - the viewer to set frames into
+     */
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getChildFragmentManager());
 
@@ -53,6 +52,9 @@ public class Leaderboard extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
+    /**
+     * local static class which uses as adapter to the ViewPager.
+     */
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -71,6 +73,11 @@ public class Leaderboard extends Fragment {
             return mFragmentList.size();
         }
 
+        /**
+         * the method add the given fragment to the fragments list in the ViewPager
+         * @param fragment - the fragment to add
+         * @param title - the fragment's title
+         */
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
@@ -81,8 +88,5 @@ public class Leaderboard extends Fragment {
             return mFragmentTitleList.get(position);
         }
     }
-
-
-
 
 }

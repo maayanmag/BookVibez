@@ -12,12 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.example.mybookvibez.R;
-
 import static android.app.Activity.RESULT_OK;
 
-@SuppressWarnings("deprecation")
+//@SuppressWarnings("deprecation")
 public class AddBookImagePopup extends DialogFragment {
 
     public static ProgressDialog mProgress;
@@ -33,26 +31,24 @@ public class AddBookImagePopup extends DialogFragment {
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.add_book_image_popup, container, false);
-        Button cameraBtn = (Button) v.findViewById(R.id.camera_btn);
-        Button galleryBtn = (Button) v.findViewById(R.id.gallery_btn);
-        //mImageView = (ImageView) v.findViewById(R.id.bookImage);
         mProgress = new ProgressDialog(getContext());
+
+        Button cameraBtn = (Button) v.findViewById(R.id.camera_btn);
         cameraBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, CAMERA_REQUEST_CODE);
-                //dismiss();
             }
         });
 
+        Button galleryBtn = (Button) v.findViewById(R.id.gallery_btn);
         galleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType("image/*");
                 startActivityForResult(intent, GALLERY_INTENT);
-                //dismiss();
             }
         });
         return v;

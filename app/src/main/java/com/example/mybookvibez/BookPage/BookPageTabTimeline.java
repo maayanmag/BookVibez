@@ -14,11 +14,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.mybookvibez.MainActivity;
 import com.example.mybookvibez.R;
 import com.example.mybookvibez.ServerApi;
-
 import java.util.ArrayList;
 
 public class BookPageTabTimeline extends Fragment {
@@ -36,7 +34,7 @@ public class BookPageTabTimeline extends Fragment {
         View view = inflater.inflate(R.layout.book_page_tab_timeline, container, false);
 
         getAttributesIds(view);
-        handleButtons();
+        handleNewCommentButton();
 
         if(BookPageFragment.bookToDisplay != null) {
             comments = BookPageFragment.bookToDisplay.getComments();
@@ -48,15 +46,22 @@ public class BookPageTabTimeline extends Fragment {
         return view;
     }
 
+    /**
+     * this func get the attributes needed for this screen by their id as assigned in XML
+     * @param view - View to get the objects from
+     */
     private void getAttributesIds(View view) {
         editText = (EditText) view.findViewById(R.id.edittext_comment);
         vibePoints = (TextView) view.findViewById(R.id.vibe_points_list);
         pastOwners = (TextView) view.findViewById(R.id.owners_num_in_list);
-        sendCommentButton = (ImageButton) view.findViewById(R.id.sent_btn);
         commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
+        sendCommentButton = (ImageButton) view.findViewById(R.id.sent_btn);
     }
 
-    private void handleButtons(){
+    /**
+     * this func handles OnClick event of adding new comment
+     */
+    private void handleNewCommentButton(){
         sendCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,10 +69,15 @@ public class BookPageTabTimeline extends Fragment {
                 Comment comment = new Comment(text, MainActivity.userId);
                 ServerApi.getInstance().addComment(BookPageFragment.bookToDisplay.getId(), comment, comments, commentAdapter);
                 Toast.makeText(getContext(), "Comment was added successfully", Toast.LENGTH_SHORT).show();
+                ServerApi.getInstance().addPoints(BookPageFragment.bookToDisplay.getId(), MainActivity.userId);
             }
         });
     }
 
+    /**
+     * this func handles the recycle viewer which displays the comments (timeline)
+     * @param view - the view where the RecyclerView is in
+     */
     private void handleCommentsRecycle(View view) {
         commentsRecycler = (RecyclerView) view.findViewById(R.id.comments_list);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());

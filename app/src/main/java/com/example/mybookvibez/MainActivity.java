@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean mLocationPermissionGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private FirebaseAuth firebaseAuth;
-
     public static FirebaseUser user;
     public static String userId;
 
@@ -51,8 +50,6 @@ public class MainActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         userId = user.getUid();
-
-
     }
 
     public void getDeviceLocation() {
@@ -85,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * this func sets and initialize the bottom navigation view
+     */
     private void handlingBottomNavigationView(){
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         BottomNavigationView navView = findViewById(R.id.navigation);
@@ -93,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
-//------------------------------------------------
-    /* implementation of the listener to the bottom navigation menu */
+
+    /** implementation of the listener to the bottom navigation menu */
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -109,7 +108,6 @@ public class MainActivity extends AppCompatActivity {
                     fragment = new ListOfBooks();
                     break;
                 case R.id.navigation_leaderboard:
-//                    fragment = new ProfileFragment();
                     fragment = new Leaderboard();
                     break;
             }

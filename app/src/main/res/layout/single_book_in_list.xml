@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/book_name"
                 android:layout_marginTop="5dp"
+                android:singleLine="true"
                 android:layout_toRightOf="@+id/book_img"
                 android:text="location" />
 

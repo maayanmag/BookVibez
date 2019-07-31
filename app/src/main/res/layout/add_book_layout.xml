@@ -178,8 +178,9 @@
 
         <Button
             android:id="@+id/finish_adding_book_btn"
-            android:layout_width="110dp"
+            android:layout_width="120dp"
             android:layout_height="44dp"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="24dp"
@@ -187,6 +188,7 @@
             android:text="@string/add_book_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/radio_grp"
             app:layout_constraintVertical_bias="1.0" />
 

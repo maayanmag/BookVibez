@@ -49,8 +49,8 @@ public class ProfileFragment extends Fragment {
             id = userIdToDisplay;
         }
 
-
         final User[] userArr = new User[1];
+        /* get data from server to display in fragment's attributes */
         ServerApi.getInstance().getUserForProfileFragment(id, userArr, ownerImg, firstName,
                 vibezString, vibez, new Callable<Void>() {
                     @Override
@@ -80,6 +80,10 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    /**
+     * this func get the attributes needed for this screen by their id as assigned in XML
+     * @param view - View to get the objects from
+     */
     private void getAttributes(View view) {
         firstName = view.findViewById(R.id.user_first_name);
         vibez = view.findViewById(R.id.vibePointsNum);
@@ -89,6 +93,11 @@ public class ProfileFragment extends Fragment {
         ownerImg = (CircleImageView) view.findViewById(R.id.circ_image);
     }
 
+    /**
+     * this func handles the recycler view of the books which the user owns
+     * @param recyclerView - the object to "fill" with books
+     * @param booksList - the books to put in display
+     */
     private Void setBooksRecyclerView(RecyclerView recyclerView, List<BookItem> booksList) {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this.getContext(),
                 LinearLayoutManager.HORIZONTAL, false);

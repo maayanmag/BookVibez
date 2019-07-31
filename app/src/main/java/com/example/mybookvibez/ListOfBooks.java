@@ -68,6 +68,7 @@ public class ListOfBooks extends Fragment {
                         fields).build(getContext());
                 startActivityForResult(intent, NewBookFragment.PLACE_AUTOCOMPLETE_REQUEST_CODE);
             }});
+
         handlingRecycleViewer(view);
         handlingAddBookButton(view);
 
@@ -101,6 +102,11 @@ public class ListOfBooks extends Fragment {
         }
     }
 
+    /**
+     * this func filters all the books in booksList by their distance from the place that was
+     * typed by the user
+     * @param latLng - the place to look around
+     */
     private void getResultsList(LatLng latLng) {
         booksResult.clear();
         for (BookItem book : booksList){

@@ -8,6 +8,8 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.mybookvibez.AddBook.AddBookImagePopup;
+import com.example.mybookvibez.BookPage.BookPageFragment;
+import com.example.mybookvibez.BookPage.BookPageTabDetails;
 import com.example.mybookvibez.BookPage.Comment;
 import com.example.mybookvibez.BookPage.CommentAdapter;
 import com.example.mybookvibez.Leaderboard.LeaderboardTabUsers;
@@ -16,7 +18,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
@@ -66,6 +70,11 @@ public class ServerApi {
     }
 
 
+    /**
+     * get all the book from server which are currently available for exchange/giveaway
+     * @param books - the list to be filled with books
+     * @param AddMarkers - the function which should be called whenever the list is filled with books.
+     */
     public void getBooksListForMap(final ArrayList<BookItem> books, final Callable<Void> AddMarkers) {
 
         db.collection(BOOKS_DB)
@@ -102,6 +111,12 @@ public class ServerApi {
     }
 
 
+    /**
+     * this func returns a list of users which will be shown in the LeaderBoard
+     * @param users - the list to fill
+     * @param adapt - the adapter to notify when the list changes
+     * @param func - the function to call whenever the process is finished
+     */
     public void getUsersList(final ArrayList<User> users, final UsersLeaderAdapter adapt, final Callable<Void> func) {
         db.collection(USERS_DB)
                 .get()
@@ -185,7 +200,14 @@ public class ServerApi {
     }
 
 
-    public void getBooksByIdsList(final ArrayList<BookItem> books, final ArrayList<String> booksIds, final Callable<Void> func) {
+    /**
+     * this func is used when there's a need to get books list by their IDs (used in profiles)
+     * @param books - the list to fill with books
+     * @param booksIds - the IDs to search for
+     * @param func - the function to call whenever the process is finished
+     */
+    public void getBooksByIdsList(final ArrayList<BookItem> books, final ArrayList<String> booksIds,
+                                  final Callable<Void> func) {
         for(String id : booksIds){
             final DocumentReference docRef = db.collection(BOOKS_DB).document(id);
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -210,27 +232,6 @@ public class ServerApi {
                 }
             });
         }
-    }
-
-
-
-    public void getBook(final String bookId, final BookItem[] book){
-        DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    DocumentSnapshot document = task.getResult();
-                    if(document != null && document.exists()) {
-                        book[0] = document.toObject(BookItem.class);
-                    }
-                    else {
-                        System.out.println("no book found");
-                    }
-                }
-            }
-        });
     }
 
     /**
@@ -261,56 +262,86 @@ public class ServerApi {
         });
     }
 
-    /**
-     * this method is used to get and display data of user and his books in ChooseFromMyBooks.
-     * @param userId the user's id
-     * @param user an array to
-     * @param func - a function to call when finished
-     */
-    public void getUserForChooseFromMyBooks(final String userId, final User[] user, final Callable<Void> func) {
-        DocumentReference docRef = db.collection(USERS_DB).document(userId);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if(document != null && document.exists()) {
-                        User got =  document.toObject(User.class);
-                        user[0] = got;
-                        try { func.call(); }  catch (Exception e) { e.printStackTrace(); }
-                    } else {
-                        System.out.println("getUserForProfileFragment: something went wrong");
-                    }
-                }
-            }
-        });
-    }
+// <<<<<<< HEAD
+//     /**
+//      * this method is used to get and display data of user and his books in ChooseFromMyBooks.
+//      * @param userId the user's id
+//      * @param user an array to
+//      * @param func - a function to call when finished
+//      */
+//     public void getUserForChooseFromMyBooks(final String userId, final User[] user, final Callable<Void> func) {
+//         DocumentReference docRef = db.collection(USERS_DB).document(userId);
+//         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//             @Override
+//             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                 if(task.isSuccessful()) {
+//                     DocumentSnapshot document = task.getResult();
+//                     if(document != null && document.exists()) {
+//                         User got =  document.toObject(User.class);
+//                         user[0] = got;
+//                         try { func.call(); }  catch (Exception e) { e.printStackTrace(); }
+//                     } else {
+//                         System.out.println("getUserForProfileFragment: something went wrong");
+//                     }
+//                 }
+//             }
+//         });
+//     }
 
+
+    /**
+     * this func updates a given book and users whenever a swap has occurred. the func updates their
+     * vibePoints and changes ownership details
+     * @param bookId - the book which had swap
+     * @param state - a boolean flag which indicates whether the book is available for exchange or not
+     * @param newOwnerId - new owner's id
+     * @param pastOwnerId - past owner's id
+     */
     public void changeBookState(String bookId, boolean state, final String newOwnerId, final String pastOwnerId){
         DocumentReference reference = db.collection(BOOKS_DB).document(bookId);
         reference.update("offered", state);
         reference.update("ownerId", newOwnerId);
+        reference.update("points", FieldValue.increment(2));
+        reference.update("ownedBy", FieldValue.increment(1));
 
         /* add this book to the past owner's list of booksIREAD and remove it from his MYbooks */
         DocumentReference pastOwner = db.collection(USERS_DB).document(pastOwnerId);
         pastOwner.update("booksIRead", FieldValue.arrayUnion(bookId));
         pastOwner.update("myBooks", FieldValue.arrayRemove(bookId));
+        reference.update("vibePoints", FieldValue.increment(2));
 
         /* add this book to the new owner's list of MYbooks */
         DocumentReference newOwner = db.collection(USERS_DB).document(newOwnerId);
         newOwner.update("myBooks", FieldValue.arrayUnion(bookId));
-    }
-
-    public void offerExistingBook (String bookId, String newLocation, GeoPoint newGeo, int giveaway) {
-        DocumentReference reference = db.collection(BOOKS_DB).document(bookId);
-        reference.update("location", newLocation);
-        reference.update("latLng", newGeo);
-        reference.update("giveaway", giveaway);
-        reference.update("offered", true);
+        newOwner.update("vibePoints", FieldValue.increment(2));
 
     }
 
-    public void addComment(final String bookId, final Comment comment, final ArrayList<Comment> commentsList, final CommentAdapter commentAdapter){
+
+    /**
+     * the func add points to user and book whenever they deserves it
+     * @param bookId - the book to update
+     * @param userId - the user to update
+     */
+    public void addPoints(final String bookId, final String userId){
+        /* add points to user */
+        DocumentReference userRef = db.collection(USERS_DB).document(userId);
+        userRef.update("vibePoints", FieldValue.increment(2));
+
+        /* add points to book */
+        DocumentReference bookRef = db.collection(BOOKS_DB).document(bookId);
+        bookRef.update("points", FieldValue.increment(2));
+    }
+
+    /**
+     * the func adds a new comment to a given book
+     * @param bookId - the book to update
+     * @param comment - the Comment object
+     * @param commentsList - the book's comments so far
+     * @param commentAdapter - commentsList' adapter
+     */
+    public void addComment(final String bookId, final Comment comment, final ArrayList<Comment>
+            commentsList, final CommentAdapter commentAdapter){
         DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
         Date date = new Date();
         String [] temp = date.toString().split(" ");
@@ -453,9 +484,6 @@ public class ServerApi {
             e.printStackTrace();
         }
     }
-
-
-
 
 
 }

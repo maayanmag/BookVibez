@@ -21,7 +21,7 @@ public class BooksRecyclerAdapter extends RecyclerView.Adapter<BooksRecyclerAdap
     private List<BookItem> bookslist;
     private OnItemClickListener mListener;
 
-
+    /** constructor **/
     public BooksRecyclerAdapter(List<BookItem> list, OnItemClickListener listener) {
         this.bookslist = list;
         this.mListener = listener;
@@ -46,18 +46,26 @@ public class BooksRecyclerAdapter extends RecyclerView.Adapter<BooksRecyclerAdap
         return bookslist.size();
     }
 
-
+    /** updates the book's list with the results whenever there was a search in the list
+     * @param results - the books to set instead the old list
+     */
     public void filter(ArrayList<BookItem> results) {
         bookslist = results;
         notifyDataSetChanged();
     }
 
-    //--------------------------------------
 
+    /**
+     * a local static class which uses as a ViewHolder for the books RecyclerViewer
+     */
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private final TextView title, location, pastOwners, points;
         private ImageView img;
 
+        /**
+         * constructor.
+         * @param view - the view in where all objects are located
+         */
         public MyViewHolder(View view) {
             super(view);
             title = (TextView) view.findViewById(R.id.book_name);
@@ -67,6 +75,12 @@ public class BooksRecyclerAdapter extends RecyclerView.Adapter<BooksRecyclerAdap
             img = (ImageView) view.findViewById(R.id.book_img);
         }
 
+        /**
+         * this function binds the listener to each book and set it's background's length according
+         * to the book's vibePoints.
+         * @param book - the book to bind
+         * @param listener - the listener to bind
+         */
         public void bind(final BookItem book, final OnItemClickListener listener) {
             title.setText(book.getTitle());
             location.setText(book.getLocation());

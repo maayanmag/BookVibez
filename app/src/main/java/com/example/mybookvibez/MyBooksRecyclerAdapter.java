@@ -16,9 +16,7 @@ public class MyBooksRecyclerAdapter extends RecyclerView.Adapter<MyBooksRecycler
     }
 
     private Context context;
-
     private List<BookItem> booksList;
-
     private final OnItemClickListener mListener;
 
 

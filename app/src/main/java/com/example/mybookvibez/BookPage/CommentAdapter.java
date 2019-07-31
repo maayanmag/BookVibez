@@ -1,9 +1,7 @@
 package com.example.mybookvibez.BookPage;
 
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +16,9 @@ import java.util.List;
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHolder> {
 
-
     private final List<Comment> commentList;
 
-
+    /** constructor **/
     public CommentAdapter(List<Comment> list) {
         this.commentList = list;
     }
@@ -44,23 +41,26 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
         return commentList.size();
     }
 
-
+    /**
+     * a local static class which uses as a ViewHolder for the comments RecyclerViewer
+     */
     static class MyViewHolder extends RecyclerView.ViewHolder {
         private TextView publisher, text, date;
         private ImageView publisherImg;
-        private View mView;
-        private CardView card;
 
-
+        /** constructor **/
         public MyViewHolder(View view) {
             super(view);
             publisher = (TextView) view.findViewById(R.id.publisher);
             publisherImg = (ImageView) view.findViewById(R.id.past_owner_img);
             text = (TextView) view.findViewById(R.id.comment_text);
             date = (TextView) view.findViewById(R.id.date);
-            card = (CardView) view.findViewById(R.id.comment_card);
         }
 
+        /**
+         * this function binds each comment and set it's content in place.
+         * @param comment - the comment to bind
+         */
         public void bind(final Comment comment) {
             final User[] user = new User[1];
             ServerApi.getInstance().getUser(comment.getPublisherId(), user, publisher);
@@ -72,17 +72,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
                 public void onClick(View v) {
                     ProfileFragment.userIdToDisplay = comment.getPublisherId();
                     ProfileFragment.displayMyProfile = false;
-                    //loadProfilePageFragment(); //TODO fix
                 }
             });
 
             date.setText(comment.getTime());
-
         }
-
-
-
     }
+
 }
 
 

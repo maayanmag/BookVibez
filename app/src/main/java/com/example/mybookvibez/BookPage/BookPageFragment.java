@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import com.example.mybookvibez.BookItem;
 import com.example.mybookvibez.Exchange.AddCommentAfterExchange;
 import com.example.mybookvibez.R;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +29,8 @@ public class BookPageFragment extends Fragment {
 
     public static CollapsingToolbarLayout collapsingToolbar;
     public static ImageView bookImg;
-    private  TabLayout tabs;
-    private  ViewPager viewPager;
+    private TabLayout tabs;
+    private ViewPager viewPager;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -50,12 +49,15 @@ public class BookPageFragment extends Fragment {
         tabs = (TabLayout) view.findViewById(R.id.tab_layout_book_page);
         tabs.setupWithViewPager(viewPager);
 
-
-       return view;
+        return view;
     }
 
+    /**
+     * this func initialize and define the viewPager to the "details" and "timeline" tabs
+     * @param viewPager - the viewPager object
+     */
     private void setupViewPager(ViewPager viewPager) {
-        BookPageFragment.Adapter adapter = new BookPageFragment.Adapter(getChildFragmentManager());
+        Adapter adapter = new Adapter(getChildFragmentManager());
 
         adapter.addFragment(new BookPageTabDetails(), "Details");
         adapter.addFragment(new BookPageTabTimeline(), "Timeline");
@@ -64,6 +66,9 @@ public class BookPageFragment extends Fragment {
     }
 
 
+    /**
+     * a local static class which uses as an adapter for the book's tabs
+     */
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragmentList = new ArrayList<>();
         private final List<String> mFragmentTitleList = new ArrayList<>();
@@ -82,6 +87,11 @@ public class BookPageFragment extends Fragment {
             return mFragmentList.size();
         }
 
+        /**
+         * the method add the given fragment to the fragments list in the ViewPager
+         * @param fragment - the fragment to add
+         * @param title - the fragment's title
+         */
         public void addFragment(Fragment fragment, String title) {
             mFragmentList.add(fragment);
             mFragmentTitleList.add(title);
@@ -92,18 +102,4 @@ public class BookPageFragment extends Fragment {
             return mFragmentTitleList.get(position);
         }
     }
-
-    public void showSecondPopup() {
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
-        if (prev != null) {
-            ft.remove(prev);
-        }
-        ft.addToBackStack(null);
-        DialogFragment secondPopup = new AddCommentAfterExchange();
-        secondPopup.show(ft, "dialog");
-
-    }
-
-
 }
