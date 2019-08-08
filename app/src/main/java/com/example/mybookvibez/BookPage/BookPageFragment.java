@@ -18,7 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.example.mybookvibez.BookItem;
-import com.example.mybookvibez.Exchange.AddCommentAfterExchange;
+//import com.example.mybookvibez.Exchange.AddCommentAfterExchange;
 import com.example.mybookvibez.R;
 import java.util.ArrayList;
 import java.util.List;
