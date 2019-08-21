@@ -411,12 +411,14 @@ public class ServerApi {
                 System.out.println("USER_ADDED_SUCCESSFULLY");
 
                 StorageReference filepath = storage.child(USERS_PROFILES + id);
-                filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        System.out.println("addUser: added photo");
-                    }
-                });
+                if (uri != null) {
+                    filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            System.out.println("addUser: added photo");
+                        }
+                    });
+                }
 
                 try {
                     func.call();
