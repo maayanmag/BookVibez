@@ -87,7 +87,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         /* handling click on "addBook" button */
         handlingAddBookButton(view);
         /* handling click on "centerMapToMyLocation" button */
-        handlingRecenterFAB(view);
 
         bookList = new ArrayList<>();
         Callable<Void> func = new Callable<Void>() {
@@ -262,21 +261,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     }
 
 
-    /**
-     * the function handles the Add floating button object in fragment_map_layout.
-     * it defines a listener.
-     * @param view - current view (fragment_map_layout)
-     */
-    private void handlingRecenterFAB(View view){
-        FloatingActionButton mylocation = (FloatingActionButton) view.findViewById(R.id.myLocationFloatingBottom);
-        mylocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-    }
 
     /**
      * the function handles the Add floating button object in fragment_map_layout.
