@@ -1,0 +1,44 @@
+Bookvibez
+
+By Netta Zohar, Lior Saadon, Jehonathan Spigelman, Maayan Magenheim
+
+Basic description
+Many of us don’t make reading a priority in our hectic day-to-day schedules.
+But when we embark on a long trip, we always take a book in the side pocket
+of our backpacks, hoping that what we read will enrich and broaden the 
+travel experience. But what about when you’ve finished your current book and
+are ready for something new?
+BookVibez Android app is a book exchange platform and social network, 
+originally designed for young Israelis trekking and traveling in India and
+East Asia. The app allows users to explore the books available nearby or in
+current and upcoming destinations, and contact the owners for a meetup and
+book exchange. Then they can share their thoughts and experiences as they 
+read, so each book winds up having a “journey” of its own.
+
+Product features & Instructions
+After the Login/Register screen, the user arrives at the map where he can
+see available nearby, explore books in other locations or add a book to 
+exchange. The user can also view the books in a list format. By clicking 
+on Leaderboard, the user can view the “top scoring” users and highest 
+rated books. The profile page displays what each user is reading now and 
+what he/she has previously read. The book page contains details about the
+book (customized categories, author and contact details of the current owner). 
+
+Known issues
+1. If the "around" button on the navigation bar is pressed after visiting 
+other parts of the app (such as watching the leader-board or uploading a 
+new book), it causes the list-view of the available books to remain empty
+as it was never initialized. If the button is pressed at the before going 
+to other parts of the app, it works fine. We think it is caused due to an
+issue with Firebase's storage services. 
+2. In order to open the autocomplete places provided by GoogleMaps, it's 
+required to double-press the input-line until the google search bar shows
+up (instead of a single press).
+3. The customized popup that is attached to the customized map icons will
+show only if the user is already zoomed (after using the re-center button)
+and not while zooming in from the map by hand. This is a known issue with
+this android extension that we used to create the customized icons. Also,
+it's also required to double-click the icons on the map for the correct 
+book picture to show up in the pop-up.
+
+
