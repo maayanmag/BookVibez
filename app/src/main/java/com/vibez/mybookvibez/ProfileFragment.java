@@ -22,6 +22,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileFragment extends Fragment {
 
+    
     private User thisUser;
     public static String userIdToDisplay = MainActivity.userId;
     public static boolean displayMyProfile = false;
