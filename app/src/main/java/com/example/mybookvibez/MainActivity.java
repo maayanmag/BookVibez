@@ -169,7 +169,6 @@ public class MainActivity extends AppCompatActivity {
      * this method builds a message that guides the user turn on their GPS.
      */
     private void buildAlertMessageNoGps() {
-        //todo: put in an option for no!
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage("This application requires GPS to work properly, do you want to enable it?")
                 .setCancelable(false)
@@ -183,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Log.d(TAG, "don't let access to location services");
             }
-        });
+        }).create();
         final AlertDialog alert = builder.create();
         alert.show();
     }
@@ -215,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
                 == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
             // a function that symbolizes using the application as intended. below - holder for future function.
-            assert true; // todo:need to create a function that retrieves the available books
+            assert true;
             getDeviceLocation();
         } else {
             //asking for permission to access fine location
@@ -282,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
         switch (requestCode) {
             case MapFragment.PERMISSIONS_REQUEST_ENABLE_GPS: {
                 if (mLocationPermissionGranted) {
-                    assert true; // todo:need to create a function that retrieves the available books
+                    assert true; // replace with a function that retrieves the available books
                     getDeviceLocation();
                 } else {
                     getLocationPermission(); // ask user for explicit location permission

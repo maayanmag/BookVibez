@@ -132,8 +132,7 @@ public class Register extends Fragment {
         final String vibe = mVibeField.getText().toString();
 
         if(!validation(email, password, phoneNumber, name)) {
-            Toast.makeText(getContext(), "registration failed, plead check again your input",
-                    Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "registration failed, plead check again your input", Toast.LENGTH_SHORT).show();
             return;
         }
 

@@ -14,7 +14,6 @@ import java.util.HashMap;
 public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
 
     private final View mWindow;
-    private Context mContext;
     private HashMap<Marker,BookItem> markerMap = MapFragment.getMarkerMap();
 
     /**
@@ -22,9 +21,7 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
      * @param context - activity context
      */
     public MapInfoWindowAdapter(Context context) {
-        mContext = context;
         mWindow = LayoutInflater.from(context).inflate(R.layout.map_info_window, null);
-
     }
 
     /**
@@ -58,10 +55,9 @@ public class MapInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
             tvVibePoints.setText(vibePoints);
         }
 
-        ImageView img = (ImageView) view.findViewById(R.id.book_Image);
-        if (marker != null){
-            ServerApi.getInstance().downloadBookImage(img, book.getId());
-        }
+        ImageView img = (ImageView) view.findViewById(R.id.book_Image_in_map);
+        ServerApi.getInstance().downloadBookImage(img, book.getId());
+
 
     }
     @Override

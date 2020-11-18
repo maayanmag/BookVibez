@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import com.example.mybookvibez.BookPage.BookPageFragment;
+import com.example.mybookvibez.BookPage.BookPageTabDetails;
 import com.example.mybookvibez.BookPage.BookPageTabTimeline;
 import com.example.mybookvibez.BookPage.Comment;
 import com.example.mybookvibez.MainActivity;
@@ -47,7 +48,6 @@ public class ExchangeBookPopup extends DialogFragment {
                 ServerApi.getInstance().changeBookState(BookPageFragment.bookToDisplay.getId(),
                         false, MainActivity.userId, BookPageFragment.bookToDisplay.getOwnerId());
                 dismiss();
-
                 Fragment mapFragment = new MapFragment();
                 loadFragment(mapFragment);
             }

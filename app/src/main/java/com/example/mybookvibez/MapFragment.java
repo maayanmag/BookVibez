@@ -58,7 +58,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 9003;
     public static final String MAPVIEW_BUNDLE_KEY = "MapViewBundleKey";
     public static final int DEFAULT_ZOOM = 16;
-    public static final String API_KEY = "AIzaSyAqf9zREJMEZQ-sFcmuKwY3vcEiKb_E_mQ";
+    public static String API_KEY = "";
 
     private TextView mSearchText;
     public GoogleMap mGoogleMap;
@@ -77,8 +77,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.map_fragment_sliding_up, container, false);
+        API_KEY = getActivity().getResources().getString(R.string.google_maps_api_key);
         if (!Places.isInitialized()) {
-            Places.initialize(getContext(), API_KEY); //todo: change to tha value from strings after it works
+            Places.initialize(getContext(), API_KEY);
         }
 
         setAttributes(view);
@@ -178,7 +179,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
                 moveCamera(newLatLng, DEFAULT_ZOOM, place.getName());
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
+                // Handle the error.
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Log.i(TAG, status.getStatusMessage());
             } else if (resultCode == RESULT_CANCELED) {
@@ -365,7 +366,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 Marker marker = mGoogleMap.addMarker(m);
                 marker.setTag(book.getId());
                 markerMap.put(marker, book);
-//                markersList.add(marker);
             }
         }
         return null;
@@ -398,7 +398,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         else if (genre.equals("Spiritual vibes")){
             return R.mipmap.ic_meditate;
         }
-        else { //todo: if going to add categories - add else if
+        else {
             return R.mipmap.ic_summer;
         }
     }

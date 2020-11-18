@@ -25,6 +25,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
@@ -146,7 +147,7 @@ public class ServerApi {
     }
 
     /**
-     * the function uses to get and display data of particular user in ProfileFragment.
+     * this method is used to get and display data of particular user in ProfileFragment.
      * @param userId - string id of the user to display
      * @param user - User array to insert User object at index 0
      * @param image - CircleImageView to assign the profile picture of the user
@@ -233,34 +234,15 @@ public class ServerApi {
         }
     }
 
-
-
-/*    public void getBook(final String bookId, final BookItem[] book){
-        DocumentReference docRef = db.collection(BOOKS_DB).document(bookId);
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful())
-                {
-                    DocumentSnapshot document = task.getResult();
-                    if(document != null && document.exists()) {
-                        book[0] = document.toObject(BookItem.class);
-                    }
-                    else {
-                        System.out.println("no book found");
-                    }
-                }
-            }
-        });
-    }*/
-
     /**
-     * the method returm a User object and assign it's name in a given textView. used in bookPage.
-     * @param userId - the user id to display
-     * @param user - the user object to assign
+     * the method returns a User object and its phone number and assigns its name in a given
+     * textView. Used mainly in bookPage.
+     * @param userId - string id of the user to display
+     * @param user - User array to insert User object at index 0
      * @param name - the user name
      */
-    public void getUser(final String userId, final User[] user, final TextView name){
+    public void getUser(final String userId, final User[] user, final TextView name,
+                        final String[] phoneNumber){
         if (user == null || userId == null) return;
         DocumentReference docRef = db.collection(USERS_DB).document(userId);
         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -273,6 +255,8 @@ public class ServerApi {
                         user[0] = got;
                         if (name != null)
                             name.setText(got.getName());
+                        if (phoneNumber != null)
+                            phoneNumber[0] = got.getPhoneNumber();
                     }
                     else {
                         System.out.println("no user found");
@@ -281,6 +265,31 @@ public class ServerApi {
             }
         });
     }
+
+     /**
+      * this method is used to get and display data of user and his books in ChooseFromMyBooks.
+      * @param userId the user's id
+      * @param user an array to
+      * @param func - a function to call when finished
+      */
+     public void getUserForChooseFromMyBooks(final String userId, final User[] user, final Callable<Void> func) {
+         DocumentReference docRef = db.collection(USERS_DB).document(userId);
+         docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+             @Override
+             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                 if(task.isSuccessful()) {
+                     DocumentSnapshot document = task.getResult();
+                     if(document != null && document.exists()) {
+                         User got =  document.toObject(User.class);
+                         user[0] = got;
+                         try { func.call(); }  catch (Exception e) { e.printStackTrace(); }
+                     } else {
+                         System.out.println("getUserForProfileFragment: something went wrong");
+                     }
+                 }
+             }
+         });
+     }
 
 
     /**
@@ -291,8 +300,7 @@ public class ServerApi {
      * @param newOwnerId - new owner's id
      * @param pastOwnerId - past owner's id
      */
-    public void changeBookState(String bookId, boolean state, final String newOwnerId, final
-                                                    String pastOwnerId){
+    public void changeBookState(String bookId, boolean state, final String newOwnerId, final String pastOwnerId){
         DocumentReference reference = db.collection(BOOKS_DB).document(bookId);
         reference.update("offered", state);
         reference.update("ownerId", newOwnerId);
@@ -326,9 +334,7 @@ public class ServerApi {
         /* add points to book */
         DocumentReference bookRef = db.collection(BOOKS_DB).document(bookId);
         bookRef.update("points", FieldValue.increment(2));
-
     }
-
 
     /**
      * the func adds a new comment to a given book
@@ -405,12 +411,14 @@ public class ServerApi {
                 System.out.println("USER_ADDED_SUCCESSFULLY");
 
                 StorageReference filepath = storage.child(USERS_PROFILES + id);
-                filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        System.out.println("addUser: added photo");
-                    }
-                });
+                if (uri != null) {
+                    filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            System.out.println("addUser: added photo");
+                        }
+                    });
+                }
 
                 try {
                     func.call();
@@ -480,6 +488,22 @@ public class ServerApi {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * This method offers an existing book. Used by ChooseFromMyBooks.
+     * @param bookId id of the book to offer
+     * @param newLocation string of the location to offer the book in
+     * @param newGeo GeoPoint of the new location
+     * @param giveaway is it offered for exchange or just left there (0 for exchange, 1 for leaving)
+     */
+    public void offerExistingBook (String bookId, String newLocation, GeoPoint newGeo, int giveaway) {
+        DocumentReference reference = db.collection(BOOKS_DB).document(bookId);
+        reference.update("location", newLocation);
+        reference.update("latLng", newGeo);
+        reference.update("giveaway", giveaway);
+        reference.update("offered", true);
+
     }
 
 

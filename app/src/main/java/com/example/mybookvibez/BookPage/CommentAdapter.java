@@ -63,7 +63,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.MyViewHo
          */
         public void bind(final Comment comment) {
             final User[] user = new User[1];
-            ServerApi.getInstance().getUser(comment.getPublisherId(), user, publisher);
+            ServerApi.getInstance().getUser(comment.getPublisherId(), user, publisher, null);
             text.setText(comment.getComment());
 
             ServerApi.getInstance().downloadProfilePic(publisherImg, comment.getPublisherId());

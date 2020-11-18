@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mybookvibez.AddBook.AddBookImagePopup;
+//import com.example.mybookvibez.Exchange.AddCommentAfterExchange;
 import com.example.mybookvibez.Exchange.ExchangeBookPopup;
 import com.example.mybookvibez.ProfileFragment;
 import com.example.mybookvibez.R;
@@ -31,7 +33,7 @@ public class BookPageTabDetails extends Fragment {
     private TextView name, author, genre, ownerName, curLocation;
     private Button gotBookButton;
     private ImageButton whatsappButtom;
-    private String userPhoneNum;
+    private String[] userPhoneNum;
 
 
     @Override
@@ -45,10 +47,10 @@ public class BookPageTabDetails extends Fragment {
             handleAttribute();
 
             User[] temp = new User[1];
-            ServerApi.getInstance().getUser(BookPageFragment.bookToDisplay.getOwnerId(), temp, ownerName);
+            userPhoneNum = new String[1];
+            ServerApi.getInstance().getUser(BookPageFragment.bookToDisplay.getOwnerId(), temp, ownerName, userPhoneNum);
             ServerApi.getInstance().downloadProfilePic(ownerImg, BookPageFragment.bookToDisplay.getOwnerId());
 
-            if (temp[0] != null) userPhoneNum = temp[0].getPhoneNumber();
         }
 
         return view;
@@ -118,14 +120,24 @@ public class BookPageTabDetails extends Fragment {
 
     public void onClickWhatsApp() {
         PackageManager pm = getActivity().getPackageManager();
-        userPhoneNum = "509536600"; //todo: change this! default netta's number
         try {
-            /* NOTE: as default, the phone numbers are registered in Israel, we need to change it
+            /* NOTE: as default, the phone numbers are registered in Israel, and we should change it
               according to the number's prefix.
-              to keep it simple, yet working and keeps this course's standards - we will leave it
-              as is because of the assumption that this will be checked and tested in Israel */
+              To keep it simple yet working - for now we will leave it as is because of the
+              assumption that this will be checked and tested in Israel */
 
-            String contactNumber = "972" + userPhoneNum; //without '+'
+            String phoneNumberFromFirebase = userPhoneNum[0];
+            String contactNumber; // phone number without '+'
+
+            if (phoneNumberFromFirebase.startsWith("0")) {
+                contactNumber = "972" + phoneNumberFromFirebase.substring(1);
+            } else if (phoneNumberFromFirebase.startsWith("5")) {
+                contactNumber = "972" + phoneNumberFromFirebase;
+            } else if (phoneNumberFromFirebase.startsWith("+")) {
+                contactNumber = phoneNumberFromFirebase.substring(1);
+            } else {
+                contactNumber = phoneNumberFromFirebase;
+            }
             Intent whatsappIntent = new Intent("android.intent.action.MAIN");
             whatsappIntent.setAction(Intent.ACTION_SEND);
             whatsappIntent.setType("text/plain");
@@ -137,7 +149,7 @@ public class BookPageTabDetails extends Fragment {
             whatsappIntent.setPackage("com.whatsapp");
 
             whatsappIntent.putExtra(Intent.EXTRA_TEXT, text);
-            startActivity(Intent.createChooser(whatsappIntent, "Connect owner by What'sapp"));
+            startActivity(Intent.createChooser(whatsappIntent, "Contact owner by Whatsapp"));
 
         } catch (PackageManager.NameNotFoundException e) {
             Toast.makeText(getContext(), "WhatsApp not Installed", Toast.LENGTH_SHORT).show();
